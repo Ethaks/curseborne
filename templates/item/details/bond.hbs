@@ -1,0 +1,12 @@
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="details">
+    {{curse-formGroup systemFields.uuid formGroupOptions}}
+
+    {{#if (eq system.type "contact") }}
+        {{curse-formGroup systemFields.uuid formGroupOptions}}
+        {{curse-formGroup
+        systemFields.contact.path
+        formGroupOptions
+        choices=pathChoices
+        }}
+    {{/if}}
+</section>

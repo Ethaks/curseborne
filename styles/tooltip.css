@@ -1,0 +1,118 @@
+/* General tooltip styling */
+:is(#tooltip, .locked-tooltip) {
+	--color-border: var(--color-primary);
+	--color-border-dark: var(--color-secondary);
+
+	border: 1px solid var(--color-border);
+	border-radius: 6px;
+	box-shadow: inset 0 0 10px 0 var(--color-accent);
+
+	/* Increase size for document tooltips */
+	&:has(.curseborne.item-tooltip, .curseborne.actor-tooltip) {
+		max-width: 375px;
+		max-height: max-content;
+		padding-bottom: 1rem;
+	}
+
+	&.locked-tooltip {
+		--color-border: var(--color-accent);
+	}
+}
+
+/* Common fieldset styling for embeds */
+:is(#tooltip, .locked-tooltip).curseborne,
+document-embed .curseborne {
+	fieldset {
+		padding: 8px;
+		border-color: var(--color-primary);
+		border-radius: 8px;
+	}
+}
+
+/* Always allow scrolling in embeds, as they are assumed to be interactable */
+document-embed .curseborne,
+.locked-tooltip {
+	:is(.actor-tooltip, .item-tooltip) .description div.enriched {
+		overflow: hidden auto;
+		text-overflow: none;
+		-webkit-line-clamp: unset;
+	}
+}
+
+/* Embed/Tooltip content styling */
+.content.item-tooltip,
+.content.actor-tooltip {
+	gap: 6px;
+	text-align: left;
+	font-size: var(--font-size-14);
+
+	.tooltip-header {
+		.name-stacked {
+			padding-left: 2px;
+			padding-right: 2px;
+			.title {
+				font-size: var(--font-size-20);
+				line-height: var(--font-size-20);
+			}
+			.subtitle {
+				font-size: var(--font-size-18);
+				line-height: var(--font-size-18);
+
+				dots-input {
+					--pip-size: var(--font-size-14);
+				}
+			}
+		}
+
+		.item-image {
+			flex: 0 0 48px;
+			border: 2px solid var(--color-border-dark);
+			box-shadow: 4px 4px 4px var(--color-shadow);
+			border-radius: 100%;
+			border: 2px solid var(--color-border-dark);
+			margin: 4px 4px 4px 0;
+			width: 44px;
+			height: 44px;
+		}
+	}
+
+	fieldset.details {
+		display: flex;
+		flex-direction: column;
+		row-gap: 4px;
+		font-size: var(--font-size-14);
+
+		.detail {
+			.label {
+				flex: 1;
+			}
+			.value {
+				flex: 2;
+
+				i {
+					padding-right: 4px;
+				}
+				dots-input {
+					padding: 0;
+					--pip-size: var(--font-size-12);
+				}
+			}
+		}
+	}
+
+	.description .enriched {
+		max-height: 175px;
+		pointer-events: auto;
+		user-select: text;
+
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		-webkit-line-clamp: 8;
+		text-overflow: ellipsis;
+
+		p:first-child {
+			margin-top: 0;
+		}
+	}
+}

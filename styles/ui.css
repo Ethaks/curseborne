@@ -1,0 +1,38 @@
+#curseborne-momentum {
+	z-index: 60;
+	width: 200px;
+	height: 70px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	row-gap: 5px;
+	column-gap: 0;
+	pointer-events: all;
+	/* transition: opacity var(--fade-delay) var(--fade-duration); */
+
+	label,
+	span {
+		grid-column: span 3;
+		text-align: center;
+	}
+
+	span,
+	input {
+		font-weight: bold;
+	}
+
+	input {
+		text-align: center;
+		border-top: 1px solid var(--color-primary);
+		border-bottom: 1px solid var(--color-primary);
+		border-radius: 0;
+	}
+
+	button[data-action="decrease"] {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	button[data-action="increase"] {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+}

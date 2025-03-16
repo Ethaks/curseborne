@@ -1,0 +1,27 @@
+{
+	"name": "curseborne",
+	"version": "0.0.0",
+	"description": "",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "biome lint --diagnostic-level=warn --no-errors-on-unmatched ./",
+		"lint:fix": "biome check --write ./",
+		"lint:staged": "biome check --error-on-warnings --no-errors-on-unmatched --staged ./",
+		"build": "bun ./tools/build.mjs build",
+		"build:watch": "bun ./tools/build.mjs build --watch"
+	},
+	"author": "Ethaks",
+	"keywords": ["foundryvtt"],
+	"license": "",
+	"private": true,
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/bun": "^1.2.5",
+		"browserslist": "^4.24.4",
+		"lefthook": "^1.11.3",
+		"lightningcss": "^1.29.2",
+		"lightningcss-cli": "^1.29.2",
+		"typescript": "^5.8.2",
+		"yargs": "^17.7.2"
+	}
+}

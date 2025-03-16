@@ -1,0 +1,16 @@
+{{! Spell Details Tab }}
+<section class="tab details standard-form {{tab.cssClass}}"
+         data-group="primary"
+         data-tab="details">
+    {{curse-formGroup systemFields.practice formGroupOptions labelAttr="label"}}
+    {{curse-formGroup systemFields.attunements formGroupOptions}}
+
+    {{curse-formGroup systemFields.advances formGroupOptions}}
+
+    <fieldset class="cost">
+        <legend>{{localize "CURSEBORNE.Item.Spell.FIELDS.cost.type.label"}}</legend>
+        {{curse-formGroup systemFields.cost.fields.type formGroupOptions}}
+        {{curse-formGroup systemFields.cost.fields.value formGroupOptions}}
+    </fieldset>
+
+</section>

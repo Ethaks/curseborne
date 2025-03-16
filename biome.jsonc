@@ -1,0 +1,80 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"formatter": {
+		"lineWidth": 100
+	},
+	"organizeImports": { "enabled": true },
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true,
+		"defaultBranch": "main"
+	},
+	"css": {
+		"formatter": {
+			"enabled": true
+		}
+	},
+	"files": {
+		"include": ["**/*.mjs", "**/*.d.ts", "**/*.json", "**/*.jsonc", "**/*.css"]
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"complexity": {
+				"noStaticOnlyClass": "off",
+				"noThisInStatic": "off"
+			},
+			"performance": {
+				"noDelete": "off"
+			},
+			"correctness": {
+				"noNewSymbol": "error",
+				"noUndeclaredVariables": "error",
+				"noUnreachable": "error",
+				"noUnreachableSuper": "error",
+				"noUnusedVariables": "info",
+				"noUnusedImports": "info"
+			},
+			"style": { "useBlockStatements": "off", "noParameterAssign": "off" },
+			"suspicious": {
+				"noCompareNegZero": "error",
+				"noDebugger": "error",
+				"noFallthroughSwitchClause": "warn",
+				"noFunctionAssign": "error",
+				"noRedeclare": "error"
+			}
+		},
+		"ignore": ["**/*.d.ts"]
+	},
+	"overrides": [
+		{
+			"include": ["tools/**/*.mjs"],
+			"javascript": {
+				"globals": ["Bun"]
+			}
+		},
+		{
+			"include": ["module/**/*.mjs"],
+			"javascript": {
+				"globals": [
+					"Handlebars",
+					"Hooks",
+					"CONFIG",
+					"CONST",
+					"curseborne",
+					"foundry",
+					"Draggable",
+					"$",
+					"ui",
+					"canvas",
+					"game",
+					"Tour",
+					"getDocumentClass",
+					"gsap"
+				]
+			}
+		}
+	]
+}

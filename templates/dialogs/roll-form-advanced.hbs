@@ -1,0 +1,28 @@
+<section class="tab standard-form advanced {{tab.cssClass}}"
+         data-group="primary"
+         data-tab="advanced">
+    {{! Altered Outcome}}
+    {{#if show.alteredOutcome }}
+        {{curse-formGroup fields.alteredOutcome @root.formGroupOptions}}
+    {{/if}}
+
+    {{! Advantage }}
+    {{#if show.advantage }}
+        {{curse-formGroup fields.advantage @root.formGroupOptions}}
+    {{/if}}
+
+    {{! Automatic Hits }}
+    {{#if show.autoHits }}
+        {{curse-formGroup fields.autoHits @root.formGroupOptions}}
+    {{/if}}
+
+    {{! Target number for hits }}
+    {{#if show.target }}
+        {{curse-formGroup fields.target @root.formGroupOptions}}
+    {{/if}}
+
+    {{! Double Target }}
+    {{#if show.double }}
+        {{curse-formGroup fields.double @root.formGroupOptions}}
+    {{/if}}
+</section>

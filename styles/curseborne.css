@@ -1,0 +1,483 @@
+@import "./variables.css" layer(variables);
+@import "./utils.css" layer(system);
+@import "./components.css" layer(system);
+@import "./sheets/index.css" layer(system);
+@import "./applications/index.css" layer(system);
+@import "./ui.css" layer(system);
+@import "./chat.css" layer(system);
+@import "./tooltip.css" layer(system);
+
+@layer system {
+	.theme-dark,
+	.curseborne,
+	.chat-message {
+		/* Derived colors */
+		--color-background-lighter: color-mix(
+			in oklab,
+			var(--color-background),
+			var(--color-accent) 25%
+		);
+		--color-background-90: rgba(from var(--color-background) r g b / 0.9);
+		--color-background-75: rgba(from var(--color-background) r g b / 0.75);
+
+		/* Other colors adapted to the core palette */
+
+		/* Foundry variables */
+		--color-text-emphatic: color-mix(in oklab, var(--color-text), var(--color-accent) 25%);
+		--color-text-primary: var(--color-text);
+		--color-text-secondary: color-mix(in oklab, var(--color-text), var(--color-accent) 25%);
+		--color-text-subtle: color-mix(in oklab, var(--color-text), var(--color-secondary) 50%);
+		--color-text-selection: var(--color-text);
+		--color-text-selection-bg: var(--color-accent);
+
+		--font-header: "Jost", sans-serif;
+		--font-sans: "Jost", sans-serif;
+		--font-h1: var(--font-header);
+		--font-h2: var(--font-header);
+		--font-h3: var(--font-header);
+		--font-h4: var(--font-header);
+
+		/* default to medium weight due to smaller font sizes */
+		font-weight: 500;
+
+		--color-shadow-primary: color-mix(in oklab, var(--color-text), var(--color-accent) 10%);
+
+		* {
+			--color-scrollbar: var(--color-primary);
+		}
+
+		nav.tabs {
+			border-top: 1px solid var(--color-primary);
+			border-bottom: 1px solid var(--color-primary);
+		}
+
+		/* Forms */
+		input,
+		select,
+		code-mirror {
+			--input-background-color: var(--color-background-lighter);
+			--input-border-color: transparent;
+			--input-text-color: var(--color-text);
+			--input-focus-outline-color: var(--color-accent);
+			--input-placeholder-color: var(--color-text-secondary);
+
+			&[readonly],
+			&[disabled] {
+				--input-background-color: var(--color-background);
+				--input-border-color: var(--color-primary);
+				--input-text-color: var(--color-text-primary);
+			}
+		}
+
+		/* Make readonly selects a bit more readonly */
+		select[readonly] {
+			pointer-events: none;
+		}
+		select[readonly] option,
+		select[readonly] optgroup {
+			display: none;
+		}
+
+		input[type="search"]::-webkit-search-cancel-button {
+			background: linear-gradient(
+					45deg,
+					transparent 0%,
+					transparent 43%,
+					var(--color-text-subtle) 45%,
+					var(--color-text-subtle) 55%,
+					transparent 57%,
+					transparent 100%
+				),
+				linear-gradient(
+					135deg,
+					transparent 0%,
+					transparent 43%,
+					var(--color-text-subtle) 45%,
+					var(--color-text-subtle) 55%,
+					transparent 57%,
+					transparent 100%
+				);
+		}
+		input[type="checkbox"],
+		input[type="radio"] {
+			--checkbox-checked-color: var(--color-primary);
+			--checkbox-disabled-color: var(--color-secondary);
+			--checkbox-background-color: var(--color-background-lighter);
+		}
+
+		/* TODO */
+		input,
+		select {
+			&:focus {
+				--input-text-color: var(--color-light-1);
+			}
+		}
+
+		/* Buttons */
+		a.button,
+		button {
+			--button-background-color: var(--color-background-lighter);
+			--button-border-color: var(--color-primary);
+			--button-text-color: var(--color-text-primary);
+			--button-focus-outline-color: var(--color-accent);
+			--button-hover-background-color: var(--color-primary);
+			--button-hover-border-color: var(--color-secondary);
+			--button-hover-text-color: var(--color-background);
+
+			/* Disabled */
+			&:disabled {
+				--button-background-color: var(--color-cool-5);
+				--button-border-color: transparent;
+				--button-text-color: var(--color-text-subtle);
+			}
+
+			&.active {
+				--button-border-color: var(--color-accent);
+				box-shadow: inset 0 0 5px 0 var(--color-accent);
+			}
+		}
+
+		.content-link,
+		.inline-roll {
+			--content-link-background: var(--color-background-lighter);
+			--content-link-border-color: var(--color-primary);
+			--content-link-text-color: var(--color-text-primary);
+			--content-link-icon-color: var(--color-text-secondary);
+			border-radius: 4px;
+		}
+
+		.ui-control {
+			--control-hover-bg-color: var(--color-primary);
+			--control-hover-border-color: var(--color-secondary);
+			--control-hover-icon-color: var(--color-background);
+
+			--control-active-bg-color: var(--color-background);
+			--control-active-border-color: var(--color-primary);
+			--control-active-icon-color: var(--color-text);
+
+			--control-button-border-color: var(--color-primary);
+			--control-button-hover-bg-color: var(--color-background-lighter);
+			--control-button-hover-border-color: var(--color-secondary);
+
+			--toggle-bg-color: rgba(34, 34, 72, 0.75);
+			--toggle-border-color: #5252d7;
+			--toggle-active-bg-color: #5252d7;
+			--toggle-active-border-color: #8484ff;
+
+			&:not(
+					:hover,
+					:focus,
+					:active,
+					.active,
+					.toggle,
+					.disabled,
+					[readonly],
+					[aria-pressed="true"]
+				) {
+				--control-bg-color: var(--color-background-75);
+				--control-border-color: var(--color-background-lighter);
+			}
+		}
+
+		/* Small bars before and after headers e.g. in sidebar */
+		h1.divider::after,
+		h2.divider::after,
+		h3.divider::after,
+		h4.divider::after,
+		h1.divider::before,
+		h2.divider::before,
+		h3.divider::before,
+		h4.divider::before {
+			border-top: 2px ridge var(--color-primary);
+		}
+
+		a.control:hover {
+			color: var(--color-text-emphatic);
+			text-shadow: 0 0 8px var(--color-text);
+		}
+		a.control[disabled] {
+			color: var(--color-text-subtle);
+		}
+
+		/* Applications */
+		.standard-form,
+		.application,
+		&.application {
+			--background: rgb(from var(--color-background) r g b / 90%);
+			--color-header-background: rgb(0 0 0 / 50%);
+			--color-border: var(--color-primary);
+			--color-fieldset-border: var(--color-primary);
+			--color-form-hint: var(--color-text-subtle);
+			--color-form-hint-hover: color-mix(in oklab, var(--color-form-hint), var(--color-accent) 50%);
+			--color-form-label: var(--color-text);
+			--color-form-label-hover: var(--color-text-emphatic);
+			--color-select-option-bg: transparent;
+
+			--color-scrollbar: var(--color-primary);
+			--color-scrollbar-border: var(--color-secondary);
+		}
+
+		fieldset {
+			background: var(--color-background-75);
+			legend {
+				> span {
+					font-variant: small-caps;
+					font-size: var(--font-size-18);
+					white-space: nowrap;
+				}
+				/* Inline buttons e.g. to add elements to a list */
+				> button.unbutton {
+					height: unset;
+				}
+			}
+		}
+		.standard-form .form-fields > button:hover {
+			color: var(--button-hover-text-color);
+		}
+
+		&.application {
+			box-shadow: inset 0 0 15px 0 var(--color-background-lighter);
+		}
+
+		&#context-menu,
+		#context-menu {
+			/* border: 1px solid var(--color-primary); */
+			--background-color: var(--color-background-lighter);
+			--border-color: var(--color-primary);
+			--text-color: var(--color-text);
+			--group-separator: var(--border-color);
+			--hover-text-color: var(--color-background);
+			--hover-entry-border: var(--color-background);
+			--hover-entry-background: var(--color-primary);
+		}
+
+		hr {
+			background-image: linear-gradient(
+				90deg,
+				transparent 0%,
+				var(--color-text-secondary) 50%,
+				transparent 100%
+			);
+		}
+	}
+
+	.curseborne.sheet:not(.active-effect-config) {
+		.window-content {
+			&:not(.minimized &) {
+				position: relative;
+			}
+			padding: 0.5rem 0 1rem 1rem;
+		}
+		section.tab {
+			/** allow scrolling, keep scrollbar in padding */
+			overflow: hidden auto;
+			scrollbar-width: thin;
+			scrollbar-gutter: stable;
+			padding: 0;
+			padding-inline-end: 0.5rem;
+		}
+	}
+
+	.curseborne .sheet .window-content,
+	.curseborne.sheet .tab,
+	.curseborne .tab .editor {
+		height: 100%;
+	}
+	.curseborne.sheet .tab.biography {
+		flex: 1;
+		user-select: text;
+	}
+	.curseborne.sheet .tab.biography .editor {
+		height: 100%;
+	}
+	.curseborne.sheet .items-header {
+		height: 28px;
+		margin: 2px 0;
+		padding: 0;
+		align-items: center;
+		font-weight: bold;
+	}
+	.curseborne.sheet .items-header > * {
+		text-align: center;
+	}
+	.curseborne.sheet .items-header .item-name {
+		/* font-weight: bold; */
+		padding-left: 5px;
+		text-align: left;
+		display: flex;
+	}
+	.curseborne.sheet .items-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		/* overflow-y: auto; */
+		scrollbar-width: thin;
+		color: var(--curseborne-c-tan);
+	}
+	.curseborne.sheet .items-list .item-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.curseborne.sheet .items-list .item-name {
+		font-weight: 500;
+		flex: 2;
+		margin: 0;
+		overflow: hidden;
+		font-size: var(--font-size-14);
+		text-align: left;
+		align-items: center;
+		display: flex;
+	}
+	.curseborne.sheet .items-list .item-name h3,
+	.curseborne.sheet .items-list .item-name h4 {
+		margin: 0;
+		/* white-space: nowrap; */
+		overflow-x: hidden;
+	}
+	.curseborne.sheet .items-list .item-control,
+	.curseborne.sheet .items-list .item-controls {
+		display: flex;
+		flex: 0 0 15px;
+		justify-content: flex-end;
+		color: var(--color-text-subtle);
+	}
+	.curseborne.sheet .items-list .item-control a {
+		font-size: 12px;
+		text-align: center;
+		margin: 0 6px;
+	}
+	.curseborne.sheet .items-list .item {
+		align-items: center;
+		padding: 0 2px;
+		/* border-bottom: 1px solid var(--curseborne-c-faint); */
+	}
+	.curseborne.sheet .items-list .item:last-child {
+		border-bottom: none;
+	}
+	.curseborne.sheet .items-list .item .item-name {
+		overflow: visible;
+	}
+	.curseborne.sheet .items-list .item .item-name .item-image {
+		flex: 0 0 30px;
+		height: 30px;
+		background-size: 30px;
+		border: none;
+		margin-right: 5px;
+	}
+	.curseborne.sheet .items-list .items-header {
+		height: 28px;
+		margin: 2px 0;
+		padding: 0;
+		align-items: center;
+		font-weight: bold;
+	}
+	.curseborne.sheet .items-list .items-header > * {
+		font-size: 12px;
+		text-align: center;
+	}
+	.curseborne.sheet .items-list .items-header .item-name {
+		padding-left: 5px;
+		text-align: left;
+	}
+	.curseborne.sheet .item-formula {
+		flex: 0 0 200px;
+		padding: 0 8px;
+	}
+	.curseborne.sheet .effects-header {
+		height: 28px;
+		margin: 2px 0;
+		padding: 0;
+		align-items: center;
+		border: 2px groove var(--curseborne-c-groove);
+		font-weight: bold;
+	}
+	.curseborne.sheet .effects-header > * {
+		font-size: 14px;
+		text-align: center;
+	}
+	.curseborne.sheet .effects-header .effect-name {
+		font-weight: bold;
+		padding-left: 5px;
+		text-align: left;
+		display: flex;
+	}
+	.curseborne.sheet .effects-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		overflow-y: auto;
+		scrollbar-width: thin;
+		color: var(--curseborne-c-tan);
+	}
+	.curseborne.sheet .effects-list .effect-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.curseborne.sheet .effects-list .effect-name {
+		flex: 2;
+		margin: 0;
+		overflow: hidden;
+		font-size: 13px;
+		text-align: left;
+		align-items: center;
+		display: flex;
+	}
+	.curseborne.sheet .effects-list .effect-name h3,
+	.curseborne.sheet .effects-list .effect-name h4 {
+		margin: 0;
+		white-space: nowrap;
+		overflow-x: hidden;
+	}
+	.curseborne.sheet .effects-list .effect-controls {
+		display: flex;
+		flex: 0 0 100px;
+		justify-content: flex-end;
+	}
+	.curseborne.sheet .effects-list .effect-controls a {
+		font-size: 12px;
+		text-align: center;
+		margin: 0 6px;
+	}
+	.curseborne.sheet .effects-list .effect {
+		align-items: center;
+		padding: 0 2px;
+		border-bottom: 1px solid var(--curseborne-c-faint);
+	}
+	.curseborne.sheet .effects-list .effect:last-child {
+		border-bottom: none;
+	}
+	.curseborne.sheet .effects-list .effect .effect-name {
+		color: var(--curseborne-c-dark);
+	}
+	.curseborne.sheet .effects-list .effects-header {
+		height: 28px;
+		margin: 2px 0;
+		padding: 0;
+		align-items: center;
+		border: 2px groove var(--curseborne-c-groove);
+		font-weight: bold;
+	}
+	.curseborne.sheet .effects-list .effects-header > * {
+		font-size: 12px;
+		text-align: center;
+	}
+	.curseborne.sheet .effects-list .effects-header .effect-name {
+		padding-left: 5px;
+		text-align: left;
+	}
+	.curseborne.sheet .effect-formula {
+		flex: 0 0 200px;
+		padding: 0 8px;
+	}
+	.curseborne.sheet .effects .item .effect-source,
+	.curseborne.sheet .effects .item .effect-duration,
+	.curseborne.sheet .effects .item .effect-controls {
+		text-align: center;
+		font-size: 12px;
+	}
+	.curseborne.sheet .effects .item .effect-controls {
+		border: none;
+	}
+}

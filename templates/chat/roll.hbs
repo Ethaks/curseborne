@@ -1,0 +1,206 @@
+<div class="roll-content flexcol curseborne">
+
+    {{! Core Summary }}
+    {{! Total Hits from rolls/enhancements/advantages }}
+    <div class="result summary box caps center value-box interactive"
+         data-action="expand"
+         data-expand="core">
+        <label class="label">{{localize resultString}}</label>
+        <div class="value">
+            <div class="formula">
+                {{#if summary.autoHits }}
+                    <span class="auto-hits">{{summary.autoHits}} +</span>
+                {{/if}}
+
+                {{! Always show normal dice total }}
+                <span class="normal-dice" data-tooltip="CURSEBORNE.Dice"><i class="fa-light fa-dice-d10"></i>{{summary.normalDice}}</span>
+
+                {{#if summary.curseDice }}
+                    <span class="curse-dice" data-tooltip="CURSEBORNE.CurseDice"><i class="fa-solid fa-dice-d10"></i>{{summary.curseDice}}</span>
+                {{/if}}
+
+                {{#if summary.bonuses }}
+                    <span class="bonuses">+{{summary.bonuses}}</span>
+                {{/if}}
+
+                <span class="operator">⇒</span>
+
+                <span class="total">{{hits}}</span>
+            </div>
+
+            <span class="difficulty {{ifThen difficulties.length "increased" "" }}"
+                  data-tooltip="{{difficultyLabel}}">
+                <i class="fa fa-bullseye"></i>
+                {{difficulty}}
+            </span>
+        </div>
+    </div>
+
+    {{! Core Breakdown/Details}}
+    {{#if (not isPrivate) }}
+        <ul class="box center caps details flexcol roll-parts unlist dice-tooltip"
+            data-expand-id="core">
+            {{#each parts as |part| }}
+                <li class="roll-part
+                           {{#if part.rolls }}
+                               has-dice{{/if }} {{ifThen part.dim "dim" "" }} flexcol">
+                    <div class="flexrow">
+                        <span class="part-formula" {{#if part.hint }}data-tooltip="{{part.hint }}"{{/if }}>
+                            {{part.flavor}}
+                        </span>
+                        <span class="part-total"
+                              {{#if part.originalValue }}
+                              data-tooltip="{{part.originalValue }}"
+                              {{/if }}>
+                            {{#if part.stacking }}
+                                <i class="fa fa-layer-group"
+                                   data-tooltip="{{localize "CURSEBORNE.DICE.MODIFIER.FIELDS.stacking.label"}}"></i>
+                            {{/if}}
+                            {{#if part.reducedBy }}
+                                <i class="fa-solid fa-down-from-dotted-line"
+                                   data-tooltip="{{localize "CURSEBORNE.DICE.ReducedBy" value=part.reducedBy}}"></i>
+                            {{/if}}
+                        {{part.total }}</span>
+                    </div>
+
+                    {{#if part.rolls }}
+                        <ol class="dice-rolls">
+                            {{#each part.rolls as |roll| }}
+                                <li class="roll {{roll.classes}}">{{{roll.result}}}</li>
+                            {{/each}}
+                        </ol>
+                    {{/if}}
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{#if (and (not isPrivate) difficulties.length) }}
+        <ul class="box center caps details flexcol roll-parts unlist" data-expand-id="core">
+            {{#each difficulties }}
+                <li class="roll-part flexcol">
+                    <div class="flexrow" data-tooltip="{{tooltip}}">
+                        <span class="part-formula">
+                            {{#if isBase }}
+                                <i class="fa fa-bullseye"></i>
+                            {{/if}}
+                            {{label}}
+                        </span>
+                        <span class="part-total">{{value}}</span>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{! Available Hits and Buy Momentum Enhancements }}
+    <div class="box center caps value-box surplus summary interactive"
+         data-action="expand"
+         data-expand="extra">
+        <label>{{localize surplusLabel}}</label>
+        <div class="value flexrow">
+            <span class="value total">{{surplusDisplayValue}}</span>
+        </div>
+        <div class="buttons bottom right flexrow">
+            {{#if canBuySuccess }}
+                <button type="button"
+                        class="toggle-success"
+                        data-action="toggleSuccess"
+                        data-tooltip="CURSEBORNE.DICE.BuySuccess">
+                    <i class="fa-solid fa-check"></i>
+                </button>
+            {{/if}}
+
+            {{#if canRemoveSuccess }}
+                <button type="button"
+                        class="remove-success"
+                        data-action="toggleSuccess"
+                        data-tooltip="CURSEBORNE.DICE.RemoveSuccess">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            {{/if}}
+
+            {{#if canRemoveEnhancement }}
+                <button type="button"
+                        class="remove-enhancement"
+                        data-action="addEnhancement"
+                        data-change="-1"
+                        data-tooltip="CURSEBORNE.DICE.RemoveMomentumEnhancement">
+                    <i class="fa-solid fa-minus"></i>
+                </button>
+            {{/if}}
+            {{#if canBuyEnhancement }}
+                <button type="button"
+                        class="add-enhancement"
+                        data-action="addEnhancement"
+                        data-tooltip="CURSEBORNE.DICE.AddMomentumEnhancement">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            {{/if}}
+        </div>
+    </div>
+
+    {{! Complications and Tricks}}
+    {{#if showComplications }}
+        <div class="complications box caps details expanded" data-expand-id="extra">
+            {{#if complications.length }}
+                <ul class="complications unlist">
+                    {{#each complications }}
+                        <li class="complication {{ifThen boughtOff "bought" ""}}"
+                            data-complication-id="{{id}}">
+                            <label>{{label}}</label>
+                            <div class="cost flexrow">
+                                {{#if @root.isGM }}
+                                    <dots-input class="complication-cost" data-action="setComplicationCost" value="{{value}}" max="{{max}}" {{disabled boughtOff}}></dots-input>
+                                {{else}}
+                                    <span>{{value}}</span>
+                                {{/if}}
+                            </div>
+                            <a class="control fa-regular fa-{{ifThen boughtOff "circle-check" "circle"}}"
+                               data-tooltip="CURSEBORNE.DICE.BuyOffComplication"
+                               data-action="toggleComplication"
+                               data-complication-id="{{id}}"
+                               {{disabled (not canToggle) }}>
+                            </a>
+                        </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+            {{#if canBuyComplications }}
+                <button class="add-complications" type="button" data-action="addComplication">
+                    {{localize "CURSEBORNE.DICE.AddComplication"}}
+                </button>
+            {{/if}}
+
+        </div>
+    {{/if}}
+
+    {{#if showTricks }}
+        <div class="tricks box center caps details expanded" data-expand-id="extra">
+            {{#if tricks.length }}
+                <ul class="tricks items-list unlist">
+                    {{#each tricks }}
+                        <li class="trick item flexrow" data-trick-id="{{id}}">
+                            <div class="item-name flexrow" data-tooltip="{{tooltip}}">
+                                <img class="item-image" src="{{img}}">
+                                <span class="item-name">{{name}}</span>
+                            </div>
+                            <dots-input class="align-right flexshrink {{costType}}" data-action="setTrickCost" value="{{value}}" max="3" {{disabled disabled}}></dots-input>
+                            {{#if allowDelete }}
+                                <button class="delete-trick align-center unbutton"
+                                        data-action="deleteTrick"
+                                        data-tooltip="CURSEBORNE.Delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            {{/if}}
+                        </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+            {{#if canBuyTricks }}
+                <button class="buy-tricks" type="button" data-action="buyTrick">{{localize "CURSEBORNE.DICE.PurchaseTrick"}}</button>
+            {{/if}}
+        </div>
+    {{/if}}
+
+</div>

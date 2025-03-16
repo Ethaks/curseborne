@@ -1,0 +1,51 @@
+<section class="tab standard-form {{tab.cssClass}}"
+         data-group="{{tab.group}}"
+         data-tab="{{tab.id}}">
+    {{! Enhancements }}
+    <fieldset class="enhancements-field" data-modifier-field="enhancements">
+        <legend class="flexrow">
+            <span>{{localize "CURSEBORNE.DICE.FIELDS.enhancements.label"}}</span>
+            {{#if editable }}
+                <button type="button"
+                        class="unbutton add-enhancement"
+                        data-action="addModifier"
+                        data-tooltip="CURSEBORNE.DICE.AddEnhancement">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            {{/if}}
+        </legend>
+        {{~> "systems/curseborne/templates/parts/enhancements.hbs"}}
+    </fieldset>
+
+    {{! Complications }}
+    <fieldset class="complications-field" data-modifier-field="complications">
+        <legend class="flexrow">
+            <span>{{localize "CURSEBORNE.DICE.FIELDS.complications.label"}}</span>
+            {{#if editable }}
+                <button type="button"
+                        class="unbutton add-complication"
+                        data-action="addModifier"
+                        data-tooltip="CURSEBORNE.DICE.AddComplication">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            {{/if}}
+        </legend>
+        {{~> "systems/curseborne/templates/parts/complications.hbs"}}
+    </fieldset>
+
+    {{! Difficulty Changes }}
+    <fieldset class="difficulties-field" data-modifier-field="difficulties">
+        <legend class="flexrow">
+            <span>{{localize "CURSEBORNE.DICE.FIELDS.difficulties.label"}}</span>
+            {{#if editable }}
+                <button type="button"
+                        class="unbutton add-difficulty"
+                        data-action="addModifier"
+                        data-tooltip="CURSEBORNE.DICE.AddDifficulty">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            {{/if}}
+        </legend>
+        {{~> "systems/curseborne/templates/parts/difficulties.hbs"}}
+    </fieldset>
+</section>

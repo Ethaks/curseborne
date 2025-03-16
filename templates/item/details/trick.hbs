@@ -1,0 +1,26 @@
+<section class="tab standard-form {{tab.cssClass}}"
+         data-group="primary"
+         data-tab="details">
+    {{! Type Config }}
+    <fieldset class="type">
+        <legend>{{localize "CURSEBORNE.Item.Trick.FIELDS.type.label"}}</legend>
+        {{curse-formGroup systemFields.type formGroupOptions}}
+    </fieldset>
+
+    {{! Cost Config}}
+    <fieldset class="cost">
+        <legend>{{localize "CURSEBORNE.Item.Trick.FIELDS.cost.label"}}</legend>
+        {{curse-formGroup systemFields.cost.fields.type formGroupOptions}}
+
+        {{! Fixed Cost }}
+        {{#if (eq system.cost.type "fixed") }}
+            {{curse-formGroup systemFields.cost.fields.value formGroupOptions}}
+        {{/if}}
+
+        {{! Variable Cost }}
+        {{#if (eq system.cost.type "variable") }}
+            {{curse-formGroup systemFields.cost.fields.min formGroupOptions}}
+            {{curse-formGroup systemFields.cost.fields.max formGroupOptions}}
+        {{/if}}
+    </fieldset>
+</section>

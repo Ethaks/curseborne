@@ -1,0 +1,80 @@
+<section class="tab form standard-form {{tab.cssClass}}"
+         data-group="primary"
+         data-tab="form">
+    {{! Dice Sources }}
+    <fieldset class="form-group-stacked sources">
+        <legend>
+            <span>{{localize "CURSEBORNE.DICE.FIELDS.dieSources.label"}}</span>
+        </legend>
+        {{#each sources }}
+            {{curse-formGroup
+            field
+            @root.formGroupOptions
+            name=name
+            label=label
+            type=type
+            value=value
+            options=choices
+            groups=groups
+            }}
+        {{/each}}
+    </fieldset>
+
+    {{! Curse Dice }}
+    {{#if show.curseDice }}
+        {{curse-formGroup fields.curseDice @root.formGroupOptions max=maxCurseDice}}
+    {{/if}}
+
+    {{! Enhancements }}
+    {{#if show.enhancements }}
+        {{curse-formGroup
+        enhancements.field
+        @root.formGroupOptions
+        name="enhancements"
+        value=enhancements.value
+        input=enhancements.input
+        choices=enhancements.choices
+        }}
+    {{/if}}
+
+    {{! Complications }}
+    {{#if show.complications }}
+        {{curse-formGroup
+        complications.field
+        @root.formGroupOptions
+        value=data.complications
+        input=complications.input
+        choices=complications.choices
+        }}
+    {{/if}}
+
+    {{! Difficulty }}
+    {{#if (or show.difficulty show.difficulties) }}
+        <fieldset class="form-group-stacked">
+            <legend>
+                <span>{{localize "CURSEBORNE.DICE.FIELDS.difficulty.label"}}</span>
+            </legend>
+
+            {{#if show.difficulty }}
+                {{curse-formGroup
+                fields.difficulty
+                @root.formGroupOptions
+                value=source.difficulty
+                blank=" "
+                }}
+            {{/if}}
+
+            {{#if show.difficulties }}
+                {{curse-formGroup
+                difficulties.field
+                @root.formGroupOptions
+                name="difficulties"
+                value=difficulties.value
+                input=difficulties.input
+                choices=difficulties.choices
+                }}
+            {{/if}}
+        </fieldset>
+    {{/if}}
+
+</section>

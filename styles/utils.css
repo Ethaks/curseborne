@@ -1,0 +1,388 @@
+.grid,
+.grid-2col {
+	display: grid;
+	grid-column: span 2 / span 2;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.5rem;
+	margin: 5px 0;
+	padding: 0;
+}
+
+.grid-3col {
+	grid-column: span 3 / span 3;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4col {
+	grid-column: span 4 / span 4;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-5col {
+	grid-column: span 5 / span 5;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-6col {
+	grid-column: span 6 / span 6;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.grid-7col {
+	grid-column: span 7 / span 7;
+	grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-8col {
+	grid-column: span 8 / span 8;
+	grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.grid-9col {
+	grid-column: span 9 / span 9;
+	grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.grid-10col {
+	grid-column: span 10 / span 10;
+	grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.grid-11col {
+	grid-column: span 11 / span 11;
+	grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.grid-12col {
+	grid-column: span 12 / span 12;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.grid-start-2 {
+	grid-column-start: 2;
+}
+
+.grid-start-3 {
+	grid-column-start: 3;
+}
+
+.grid-start-4 {
+	grid-column-start: 4;
+}
+
+.grid-start-5 {
+	grid-column-start: 5;
+}
+
+.grid-start-6 {
+	grid-column-start: 6;
+}
+
+.grid-start-7 {
+	grid-column-start: 7;
+}
+
+.grid-start-8 {
+	grid-column-start: 8;
+}
+
+.grid-start-9 {
+	grid-column-start: 9;
+}
+
+.grid-start-10 {
+	grid-column-start: 10;
+}
+
+.grid-start-11 {
+	grid-column-start: 11;
+}
+
+.grid-start-12 {
+	grid-column-start: 12;
+}
+
+.grid-span-2 {
+	grid-column-end: span 2;
+}
+
+.grid-span-3 {
+	grid-column-end: span 3;
+}
+
+.grid-span-4 {
+	grid-column-end: span 4;
+}
+
+.grid-span-5 {
+	grid-column-end: span 5;
+}
+
+.grid-span-6 {
+	grid-column-end: span 6;
+}
+
+.grid-span-7 {
+	grid-column-end: span 7;
+}
+
+.grid-span-8 {
+	grid-column-end: span 8;
+}
+
+.grid-span-9 {
+	grid-column-end: span 9;
+}
+
+.grid-span-10 {
+	grid-column-end: span 10;
+}
+
+.grid-span-11 {
+	grid-column-end: span 11;
+}
+
+.grid-span-12 {
+	grid-column-end: span 12;
+}
+
+.flex-group-center,
+.flex-group-left,
+.flex-group-right {
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.flex-group-left {
+	justify-content: flex-start;
+	text-align: left;
+}
+
+.flex-group-right {
+	justify-content: flex-end;
+	text-align: right;
+}
+
+.flexshrink {
+	flex: 0;
+}
+
+.flex-between {
+	justify-content: space-between;
+}
+
+.flexlarge {
+	flex: 2;
+}
+
+.align-left {
+	justify-content: flex-start;
+	text-align: left;
+}
+
+.align-right {
+	justify-content: flex-end;
+	text-align: right;
+}
+
+.align-center {
+	justify-content: center;
+	text-align: center;
+}
+
+.curseborne .unlist,
+.chat-message .unlist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+fieldset.grid {
+	padding: 0.5rem;
+}
+
+#curseborne-momentum,
+.chat-message .box,
+.curseborne .box {
+	padding: 4px 8px;
+	background: var(--color-background-90);
+	border: 1px solid var(--color-primary);
+	border-radius: 8px;
+	color: var(--color-text);
+	position: relative;
+	overflow: hidden;
+	font-size: var(--font-size-18);
+
+	&.center {
+		text-align: center;
+	}
+}
+.curseborne.caps,
+.curseborne .caps {
+	font-variant: small-caps;
+}
+
+/*
+ * A box with a border and a separate header for the list's title.
+ * Optionally includes sub-headers with subtle styling.
+ */
+.curseborne .boxed-list {
+	padding: 4px 8px;
+	background: var(--color-background-75);
+	border: 1px solid var(--color-primary);
+	border-radius: 8px;
+	color: var(--color-text);
+	position: relative;
+	overflow: visible;
+
+	.box-header {
+		font-variant: small-caps;
+		border-top-left-radius: inherit;
+		border-top-right-radius: inherit;
+		z-index: 0;
+		position: relative;
+		left: -8px;
+		top: -4px;
+		height: unset;
+		padding: 8px;
+		width: calc(100% + 16px);
+		background: var(--color-background-lighter);
+		border-bottom: 1px solid var(--color-border);
+
+		:is(h2, h3, h4) {
+			font-size: var(--font-size-20);
+			margin: 0;
+		}
+
+		button.unbutton {
+			height: unset;
+		}
+	}
+
+	.sub-header {
+		margin: 0 0 5px 0;
+		color: var(--color-primary);
+		:is(h2, h3, h4) {
+			font-size: var(--font-size-16);
+		}
+	}
+}
+
+#curseborne-momentum,
+.curseborne .value-box {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	transition: all 0.2s;
+
+	--label-color: var(--color-text-emphatic);
+	--value-color: var(--color-text);
+	--border-color: var(--color-primary);
+
+	&::before {
+		content: "";
+		position: absolute;
+		left: 10%;
+		right: 10%;
+		top: 40%;
+		height: 2px;
+		background: var(--border-color);
+		opacity: 0.5;
+	}
+
+	label {
+		font-size: var(--font-size-18);
+		flex: 1;
+		color: var(--label-color);
+		letter-spacing: 1px;
+	}
+
+	.value {
+		font-size: var(--font-size-20);
+		flex: 2;
+		font-weight: bold;
+		color: var(--value-color);
+	}
+
+	&.interactive:hover:not(:has(button:hover)) {
+		cursor: pointer;
+		background: var(--color-primary);
+		--border-color: var(--color-secondary);
+		--label-color: var(--color-background);
+		--value-color: var(--color-background);
+	}
+}
+
+.curseborne .form-group.label-top {
+	--label-height: 10px;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 2px;
+
+	> * {
+		flex: unset;
+	}
+
+	.form-fields {
+		align-self: flex-start;
+	}
+
+	> label {
+		font-family: var(--font-header);
+		text-transform: small-caps;
+		font-size: var(--font-size-12);
+		font-weight: bold;
+		line-height: var(--label-height);
+		height: var(--label-height);
+
+		> p.hint {
+			cursor: help;
+			font-size: var(--font-size-10);
+			display: inline-block;
+			margin: 0 0 0 3px;
+			line-height: var(--label-height);
+			height: var(--label-height);
+
+			&:empty {
+				min-height: unset;
+			}
+			&:hover {
+				text-shadow: 0 0 6px var(--color-shadow-primary);
+			}
+
+			&::before {
+				content: "\f059";
+				font-family: var(--font-awesome);
+				font-weight: bold;
+				color: var(--color-text-subtle);
+			}
+		}
+	}
+}
+
+.curseborne button.unbutton {
+	background: none;
+	cursor: pointer;
+	box-shadow: none;
+	outline: none;
+	width: unset;
+	border: none;
+	background: none;
+	line-height: unset;
+
+	&:hover,
+	&:focus {
+		color: var(--color-text);
+		box-shadow: none;
+		border: var(--border);
+		outline: none;
+		text-shadow: 0 0 8px var(--color-shadow-primary);
+	}
+}
+
+.curseborne .name-stacked {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+}

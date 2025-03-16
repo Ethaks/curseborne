@@ -1,0 +1,138 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "release-*"
+
+env:
+  bun_version: latest
+  PACKAGE_TYPE: system
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.bun_version }}
+
+      - name: install dependencies
+        run: bun install
+
+      - name: lint
+        run: npm run lint
+
+  # TODO: Add reuse once licensing is determined
+  #
+  # licensecheck:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: check licenses
+  #       uses: fsfe/reuse-action@v5
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    permissions:
+      contents: write
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.bun_version }}
+
+      - name: install dependencies
+        run: bun install
+
+      - name: Build JS
+        run: bun run build
+
+      - name: Load system manifest
+        id: manifest
+        uses: ActionsTools/read-json-action@main
+        with:
+          file_path: "./system.json"
+
+      - name: Set up variables
+        id: get_vars
+        run: |
+          TAG=${GITHUB_REF/refs\/tags\//}
+          PACKAGE_ID=${{ steps.manifest.outputs.id }}
+
+          if [[ "$TAG" =~ ^release-([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            VERSION="${BASH_REMATCH[1]}"
+          else
+            echo "Error: Tag format is invalid. Expected 'release-x.y.z' or 'release-x.y.z-suffix'."
+            exit 1
+          fi
+
+          # Export as environment variables
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "TAG_NAME=$TAG" >> $GITHUB_ENV
+          echo "PACKAGE_ID=$PACKAGE_ID" >> $GITHUB_ENV
+          echo "ZIP_NAME=$PACKAGE_ID-$TAG.zip" >> $GITHUB_ENV
+          echo "RELEASE_DOWNLOAD_URL=https://github.com/${{ github.repository }}/releases/download/$TAG/$PACKAGE_ID-$TAG.zip" >> $GITHUB_ENV
+          echo "RELEASE_INSTALL_URL=https://github.com/${{ github.repository }}/releases/download/$TAG/$PACKAGE_TYPE.json" >> $GITHUB_ENV
+
+      - name: Update system.json with release variables
+        run: |
+          jq '.version = "${{ env.VERSION }}" |
+              .url = "https://github.com/${{ github.repository }}" |
+              .manifest = "https://github.com/${{ github.repository }}/releases/latest/download/${{ env.PACKAGE_TYPE }}.json" |
+              .download = "${{ env.RELEASE_DOWNLOAD_URL }}" |
+              .flags.hotReload = false' system.json > system.tmp.json
+          mv system.tmp.json system.json
+
+      # Create a zip file with all files required by the module to add to the release
+      - name: Create zip archive
+        env:
+          ZIP_NAME: ${{ env.ZIP_NAME }}
+        run: |
+          zip -q "$ZIP_NAME" -r \
+            "$PACKAGE_ID".js \
+            "$PACKAGE_ID".js.map \
+            "$PACKAGE_ID".css \
+            "$PACKAGE_ID".css.map \
+            templates/ \
+            lang/ \
+            assets/ \
+            system.json
+
+      - name: Fetch Release Body
+        id: release
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag: ${{ env.TAG_NAME }}
+          doNotFailIfNotFound: true
+
+      # Create a release for this specific version
+      - name: Update Release with Files
+        id: create_version_release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true # Set this to false if you want to prevent updating existing releases
+          name: ${{ env.TAG_NAME }}
+          draft: false
+          omitDraftDuringUpdate: true
+          prerelease: false
+          omitPrereleaseDuringUpdate: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "./${{ env.PACKAGE_TYPE }}.json, ./${{ env.ZIP_NAME }}"
+          tag: ${{ env.TAG_NAME }}
+          body: |
+            ${{ steps.release.outputs.body }}
+
+            **Installation:** To manually install this release, please use the following manifest URL: ${{ env.RELEASE_INSTALL_URL }}

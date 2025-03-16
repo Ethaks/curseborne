@@ -1,0 +1,117 @@
+.curseborne.sheet.item {
+	header.sheet-header {
+		display: flex;
+		flex-direction: row;
+		.profile-img {
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			object-fit: cover;
+			border: 2px solid var(--color-secondary);
+		}
+	}
+
+	section.tab.active {
+		padding-top: 1rem;
+	}
+}
+
+.curseborne.sheet.item,
+.curseborne.sheet.actor {
+	section.effects {
+		gap: 0.5rem;
+		.sub-header {
+			padding: 0 4px;
+			.effect-name {
+				text-indent: 36px;
+			}
+		}
+		.effect {
+			padding: 2px 4px;
+			border-radius: 8px;
+			transition: background 0.3s ease-in-out;
+			&:hover {
+				background: var(--color-background-lighter);
+			}
+		}
+		.effect-name {
+			flex: 1.5;
+
+			.effect-image {
+				flex: 0 0 30px;
+				height: 30px;
+				background-size: 30px;
+				border: none;
+				margin-right: 5px;
+				align-content: center;
+			}
+		}
+		.effect-source,
+		.effect-duration {
+			flex: 1;
+			text-align: center;
+		}
+		.effect-controls {
+			gap: 5px;
+			flex: 0 0 60px;
+		}
+	}
+}
+
+.curseborne.active-effect-config,
+.curseborne.sheet.item {
+	.tab.description {
+		user-select: text;
+	}
+
+	.difficulties,
+	.complications,
+	.enhancements {
+		.enhancement {
+			grid-template-columns: repeat(3, minmax(100px, 1fr)) 30px;
+			.enh-hint {
+				grid-column: span 2;
+				span {
+					margin-top: 4px;
+					padding: 6px 4px;
+					background: var(--color-background-90);
+					border-radius: 4px;
+				}
+			}
+		}
+		.complication {
+			grid-template-columns: repeat(2, minmax(100px, 1fr)) 30px;
+			.comp-hint {
+				grid-column: span 2;
+			}
+		}
+		.difficulty {
+			grid-template-columns: repeat(2, minmax(100px, 1fr)) 30px;
+			.diff-hint {
+				grid-column: span 2;
+			}
+		}
+
+		.difficulty,
+		.enhancement,
+		.complication {
+			display: grid;
+			gap: 0.5rem;
+			align-items: baseline;
+			border-radius: 8px;
+			border: 1px solid var(--color-primary);
+			padding: 0.5rem;
+
+			.enh-stacking .form-fields {
+				align-self: center;
+				justify-content: start;
+			}
+
+			.delete {
+				max-width: 30px;
+				align-self: center;
+				grid-row: span 2;
+			}
+		}
+	}
+}

@@ -1,0 +1,252 @@
+<section class="tab main {{tab.cssClass}} standard-form"
+         data-group="primary"
+         data-tab="main">
+
+    {{! Stats half }}
+    <div class="upper">
+        {{! Combat }}
+        <fieldset class="combat standard-form">
+            <legend>
+                <span>{{localize "CURSEBORNE.Combat"}}</span>
+            </legend>
+
+            <div class="flexrow">
+                <div class="form-group compact">
+                    <label for="{{@root.rootId}}-system.initiative">{{localize "CURSEBORNE.Actor.base.FIELDS.initiative.label"}}</label>
+                    <div class="form-fields">
+                        {{curse-formInput
+                        systemFields.initiative
+                        @root.formGroupOptions
+                        slider=false
+                        }}
+                        <button type="button"
+                                data-action="rollInitiative"
+                                class="roll"
+                                data-tooltip="CURSEBORNE.RollInitiative">
+                            <i class="fa-solid fa-dice-d10"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{! Defense; static value}}
+            {{curse-formGroup systemFields.defense formGroupOptions}}
+
+            {{! TODO: Cover }}
+
+            {{! Armor; raw input when editable, boxes for play mode }}
+            {{#if editable }}
+                <div class="form-group">
+                    <label for="{{@root.rootId}}-system.armor.value">{{localize "CURSEBORNE.Actor.base.FIELDS.armor.value.label"}}</label>
+                    <div class="form-fields">
+                        {{curse-formInput
+                        systemFields.armor.fields.value
+                        @root.formGroupOptions
+                        }}
+                        /
+                        {{curse-formInput
+                        systemFields.armor.fields.max
+                        @root.formGroupOptions
+                        type="number"
+                        }}
+                    </div>
+                </div>
+            {{else}}
+                {{! Armor boxes}}
+                {{#if system.armor.max }}
+                    <div class="track armor flexcol" data-field="system.armor">
+                        <span class="track-label">{{armor.label}}</span>
+                        <div class="track-boxes">
+                            {{#each armor.boxes }}
+                                <div class="track-box {{ifThen filled 'filled' ''}}"
+                                     data-index="{{index}}"
+                                     data-action="setTrack">
+                                    <i class="fa-regular fa-square"></i>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                {{/if}}
+            {{/if}}
+
+            {{! Injuries; raw input when editable, boxes for play mode }}
+            {{#if editable }}
+                <div class="form-group">
+                    <label for="{{@root.rootId}}-system.injuries.value">{{localize "CURSEBORNE.Actor.base.FIELDS.injuries.value.label"}}</label>
+                    <div class="form-fields">
+                        {{curse-formInput
+                        systemFields.injuries.fields.value
+                        @root.formGroupOptions
+                        }}
+                        /
+                        {{curse-formInput
+                        systemFields.injuries.fields.max
+                        @root.formGroupOptions
+                        max=100
+                        type="number"
+                        }}
+                    </div>
+                </div>
+            {{else}}
+                {{! Injuries boxes}}
+                <div class="track injuries flexcol" data-field="system.injuries">
+                    <span class="track-label">{{injuries.label}}</span>
+                    <div class="track-boxes">
+                        {{#each injuries.boxes }}
+                            <div class="track-box {{ifThen filled 'filled' ''}}"
+                                 data-index="{{index}}"
+                                 data-action="setTrack">
+                                <i class="fa-regular fa-square"></i>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/if}}
+
+            {{curse-formGroup systemFields.integrity formGroupOptions}}
+        </fieldset>
+
+        {{! Drive }}
+        <fieldset class="drive">
+            <legend>
+                <span>{{localize
+                    "CURSEBORNE.Actor.Adversary.FIELDS.drive.label"
+                }}</span>
+            </legend>
+
+            {{#if editable }}
+                {{curse-formInput
+                systemFields.drive
+                formGroupOptions
+                enriched=drive
+                compact=true
+                }}
+            {{else}}
+                {{{drive}}}
+            {{/if}}
+        </fieldset>
+
+        {{! Pools }}
+        <fieldset class="pools">
+            <legend>
+                <span>{{localize
+                    "CURSEBORNE.Actor.Adversary.FIELDS.pools.label"
+                }}</span>
+            </legend>
+            {{#each pools }}
+                <div class="pool {{id}} form-group flexrow">
+                    <label for="{{@root.rootId}}-system.pools.{{id}}">
+                        <a data-action="roll" data-pool="{{id}}">
+                            <i class="fa-solid fa-dice-d10"></i>
+                            {{label}}
+                        </a>
+                    </label>
+                    <div class="form-fields">
+                        {{curse-formInput
+                        field
+                        @root.formGroupOptions
+                        value=value
+                        classes="value"
+                        }}
+                        {{curse-formInput
+                        categories.field
+                        @root.formGroupOptions
+                        value=categories.value
+                        classes="categories"
+                        dataset=categories.dataset
+                        span=true
+                        }}
+                    </div>
+                </div>
+            {{/each}}
+        </fieldset>
+    </div>
+
+    {{! Items }}
+    <div class="items standard-form grid grid-2col">
+
+        {{! Qualities }}
+        <fieldset class="qualities">
+            <legend class="flexrow">
+                <span>{{localize "CURSEBORNE.Item.Quality.Qualities"}}</span>
+                {{#if editable }}
+                    <button type="button"
+                            class="unbutton add-item"
+                            data-action="createDoc"
+                            data-type="quality">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                {{/if}}
+            </legend>
+            <ul class="qualities items-list unlist grid grid-2col">
+                {{#each qualities }}
+                    <li class="item quality flexrow" data-item-id="{{id}}">
+                        <div class="item-name" data-tooltip="{{tooltip}}">
+                            <img class="item-image" src="{{img}}" title="{{name}}" />
+                            <h3 class="item-name">{{name}}</h3>
+                        </div>
+                        <div class="item-controls flexrow">
+                            {{#if editable }}
+                                <button type="button" class="item-control unbutton" data-action="editDoc">
+                                    <i class="fa-solid fa-edit"></i>
+                                </button>
+                                <button type="button" class="item-control unbutton" data-action="deleteDoc">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <button type="button"
+                                        class="item-control unbutton"
+                                        data-action="contextMenu"
+                                        data-tooltip="CURSEBORNE.ContextMenu">
+                                    <i class="fa-solid fa-ellipsis-v"></i>
+                                </button>
+                            {{/if}}
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+        </fieldset>
+
+        {{! Dread Powers }}
+        <fieldset class="dread-powers">
+            <legend class="flexrow">
+                <span>{{localize "CURSEBORNE.Item.DreadPower.DreadPowers"}}</span>
+                {{#if editable }}
+                    <button type="button"
+                            class="unbutton add-item"
+                            data-action="createDoc"
+                            data-type="dreadPower">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                {{/if}}
+            </legend>
+
+            <ul class="dread-powers items-list unlist grid grid-2col">
+                {{#each dreadPowers }}
+                    <li class="item dread-power" data-item-id="{{id}}">
+                        <div class="item-name" data-tooltip="{{tooltip}}">
+                            <img class="item-image" src="{{img}}" title="{{name}}" />
+                            <h3 class="item-name">{{name}}</h3>
+                        </div>
+                        <div class="item-controls">
+                            {{#if editable }}
+                                <button type="button" class="item-control unbutton" data-action="editDoc">
+                                    <i class="fa-solid fa-edit"></i>
+                                </button>
+                                <button type="button" class="item-control unbutton" data-action="deleteDoc">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <button type="button"
+                                        class="item-control unbutton"
+                                        data-action="contextMenu"
+                                        data-tooltip="CURSEBORNE.ContextMenu">
+                                    <i class="fa-solid fa-ellipsis-v"></i>
+                                </button>
+                            {{/if}}
+                        </div>
+
+                    </li>
+                {{/each}}
+            </ul>
+        </fieldset>
+    </div>
+</section>

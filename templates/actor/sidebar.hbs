@@ -1,0 +1,151 @@
+{{! Accursed Sidebar containing info pertaining to multiple tabs }}
+<section class="sidebar">
+    {{! Toggle collapsed state }}
+    <button class="sidebar-collapser"
+            data-action="toggleSidebar"
+            aria-label="Toggle Sidebar">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    {{! Actual sidebar contents}}
+    <div class="sidebar-content standard-form">
+
+        {{! Actor Portrait / Token Image }}
+        <div class="actor-image {{ifThen editable 'editable' ''}} ">
+            {{! Toggle between token and actor image }}
+            <button type="button" class="unbutton" data-action="toggleActorImage">
+                <i class="fa-solid fa-toggle-{{ifThen sidebar.showToken 'on' 'off'}}"></i>
+                {{localize sidebar.imageLabel}}
+            </button>
+
+            {{! Actual image }}
+            <img src="{{sidebar.image}}"
+                 alt="{{sidebar.imageName}}"
+                 {{#if editable }}
+                 data-action="onEditImage"
+                 data-edit="img"
+                 {{/if }} />
+        </div>
+
+        <fieldset class="curse">
+            <legend>{{localize "CURSEBORNE.TheCurse"}}</legend>
+            {{! Curse Dice }}
+            <div class="curse-dice">
+                {{curse-formGroup
+                systemFields.curseDice
+                formGroupOptions
+                editable=isEditable
+                classes="label-top"
+                stacked=true
+                }}
+            </div>
+        </fieldset>
+
+        <fieldset class="combat">
+            <legend>{{localize "CURSEBORNE.Combat"}}</legend>
+
+            {{! Initiative }}
+            <div class="initiative flexrow">
+                <div class="form-group">
+                    <label>{{localize "CURSEBORNE.Actor.base.FIELDS.initiative.label"}}</label>
+                    <span class="form-fields value">{{initiative.value}}<i class="fa-solid fa-dice-d10"></i></span>
+                </div>
+                <button type="button"
+                        data-action="rollInitiative"
+                        data-tooltip="CURSEBORNE.RollInitiative">
+                    <i class="fa-solid fa-dice-d10"></i>
+                </button>
+            </div>
+
+            {{! Defense }}
+            <div class="defense flexrow">
+                {{curse-formGroup
+                systemFields.defense
+                formGroupOptions
+                editable=isEditable
+                }}
+                <button type="button" data-action="rollDefense" data-tooltip="CURSEBORNE.RollDefense">
+                    <i class="fa-solid fa-dice-d10"></i>
+                </button>
+            </div>
+
+            {{! Cover }}
+            {{#if cover.enabled }}
+                <div class="cover">
+                    <div class="header flexrow">
+                        <button type="button" class="unbutton cover align-left" data-action="expandCover">
+                            <span class="label flexshrink">{{localize cover.label}}</span>
+                            <i class="fa-solid fa-chevron-{{ifThen cover.expanded 'up' 'down' }}"></i>
+                        </button>
+                    </div>
+                    <div class="cover-details grid grid-4col {{ifThen cover.expanded 'expanded' ''}}">
+                        {{! Input for Cover value}}
+                        {{curse-formInput systemFields.cover formGroupOptions classes="align-left" editable=isEditable}}
+
+                        {{! Reset Cover }}
+                        <button type="button"
+                                class=""
+                                data-action="setCover"
+                                data-cover="reset"
+                                data-tooltip="CURSEBORNE.COVER.None">
+                            <i class="fa-solid fa-shield-slash"></i>
+                        </button>
+                        {{#each cover.buttons }}
+                            <button type="button"
+                                    class="{{cssClass}}"
+                                    data-action="setCover"
+                                    data-cover="{{id}}"
+                                    data-tooltip="{{label}}">
+                                <i class="{{icon}}"></i>
+                            </button>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/if}}
+
+            {{! Armor }}
+            {{#if armor.enabled }}
+                <div class="track armor flexcol" data-field="system.armor">
+                    <span class="track-label">{{armor.label}}</span>
+                    <div class="track-boxes">
+                        {{#each armor.boxes }}
+                            <div class="track-box
+                                        {{#if filled }}
+                                            filled{{/if }}"
+                                 data-index="{{index }}"
+                                 data-action="setTrack">
+                                <i class="fa-regular fa-square"></i>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/if}}
+
+            {{! Injuries }}
+            <div class="track injuries flexcol" data-field="system.injuries">
+                <span class="track-label">{{injuries.label}}</span>
+                <div class="injury-levels">
+                    {{#each injuries.levels }}
+                        <div class="injury-level">
+                            <div class="injury-label {{ifThen active 'active' ''}}"
+                                 data-tooltip="{{label}}"
+                                 data-tooltip-direction="UP">
+                                <i class="{{icon}}"></i>
+                            </div>
+                            <div class="track-boxes">
+                                {{#each boxes }}
+                                    <div class="track-box {{ifThen filled 'filled' ''}}"
+                                         data-index="{{index}}"
+                                         data-action="setTrack">
+                                        <i class="fa-regular fa-square"></i>
+                                    </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        </fieldset>
+
+    </div>
+</section>

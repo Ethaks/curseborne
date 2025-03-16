@@ -1,0 +1,88 @@
+{
+	"id": "curseborne",
+	"title": "Curseborne",
+	"description": "The Curseborne system for FoundryVTT",
+	"authors": [
+		{
+			"name": "Ethaks",
+			"discord": "ethaks"
+		}
+	],
+	"documentTypes": {
+		"Actor": {
+			"accursed": {
+				"htmlFields": ["biography"]
+			},
+			"adversary": {
+				"htmlFields": ["biography"]
+			}
+		},
+		"Item": {
+			"lineage": { "htmlFields": ["description"] },
+			"family": { "htmlFields": ["description"] },
+			"motif": {},
+			"role": { "htmlFields": ["description"] },
+			"skill": { "htmlFields": ["description"] },
+			"edge": { "htmlFields": ["description"] },
+			"torment": {},
+			"damnation": {},
+			"inheritance": {},
+			"spell": { "htmlFields": ["description"] },
+			"trick": { "htmlFields": ["description"] },
+			"social": { "htmlFields": ["description"] },
+			"equipment": { "htmlFields": ["description"] },
+			"template": { "htmlFields": ["description"] },
+			"quality": { "htmlFields": ["description"] },
+			"dreadPower": { "htmlFields": ["description"] }
+		},
+		"ChatMessage": {
+			"roll": {}
+		}
+	},
+	"flags": {
+		"hotReload": {
+			"extensions": ["css", "hbs", "json", "js"]
+		}
+	},
+	"url": "https://github.com/Ethaks/curseborne",
+	"license": "LICENSE.txt",
+	"readme": "README.md",
+	"bugs": "https://github.com/Ethaks/curseborne/issues",
+	"changelog": "CHANGELOG.md",
+	"media": [
+		{
+			"type": "setup",
+			"url": "systems/curseborne/assets/repo.webp",
+			"thumbnail": "systems/curseborne/assets/thumb.webp"
+		}
+	],
+	"background": "systems/curseborne/assets/repo.webp",
+	"version": "0.0.1",
+	"compatibility": {
+		"minimum": "13",
+		"verified": "13"
+	},
+	"scripts": ["greensock/dist/gsap.min.js"],
+	"esmodules": ["curseborne.js"],
+	"styles": [{ "src": "curseborne.css", "layer": null }],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json"
+		}
+	],
+	"packs": [],
+	"packFolders": [],
+	"socket": true,
+	"manifest": "https://github.com/Ethaks/curseborne/releases/latest/download/system.json",
+	"download": "#DOWNLOAD",
+	"grid": {
+		"type": 1,
+		"distance": 5,
+		"units": "ft",
+		"diagonals": 0
+	},
+	"primaryTokenAttribute": "injuries",
+	"secondaryTokenAttribute": "curseDice"
+}

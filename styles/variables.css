@@ -1,0 +1,25 @@
+:root {
+	--color-dark: #1a1a1a;
+	--color-light: #f0f0f0;
+	--color-shadow: rgba(0, 0, 0, 0.5);
+}
+
+/* .theme-light, */
+.theme-dark {
+	/* Core color palette */
+	--color-text: #edeeee;
+	--color-background: #090911;
+	--color-primary: #8088ae;
+	--color-secondary: #31406a;
+	--color-accent: #535baf;
+}
+
+/* Temporarily using nonsense selector while WIP */
+.theme-light {
+	/* Light color palette */
+	--color-text: #151515; /* Dark text */
+	--color-background: #f5f5fa; /* Very light background */
+	--color-primary: #5a6390; /* Darker shade for hover */
+	--color-secondary: #6e84b8; /* Secondary hue */
+	--color-accent: #7078c0; /* Accent color */
+}

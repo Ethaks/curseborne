@@ -1,0 +1,64 @@
+.curseborne.trick-selector {
+	.window-content {
+		padding: 1rem 0 1rem 1rem;
+	}
+	.window-content > div.standard-form {
+		overflow: hidden auto;
+		scrollbar-width: thin;
+		scrollbar-gutter: stable;
+		padding: 0;
+		padding-inline-end: 0.5rem;
+	}
+
+	.search {
+		width: calc(100% - 1rem);
+	}
+
+	.tricks {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+	.header {
+		display: flex;
+		position: sticky;
+		top: -1px;
+		background: var(--color-background);
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1px solid var(--color-primary);
+	}
+
+	.trick {
+		--border-color: var(--color-primary);
+		border: 1px solid var(--border-color);
+		border-radius: 8px;
+		margin: 0;
+		/* padding: 2px; */
+		transition: background 0.2s, color 0.2s;
+		cursor: pointer;
+
+		img.image {
+			border-top-left-radius: 7px;
+			border-bottom-left-radius: 7px;
+		}
+
+		.name {
+			padding-left: 2px;
+			height: 100%;
+			align-content: center;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&:has(.name:hover) {
+			--border-color: var(--color-secondary);
+			color: var(--color-background);
+			background: var(--color-primary);
+			--pip-color-empty: var(--color-primary);
+			--pip-color-filled: var(--color-background);
+			--pip-color-hover: var(--color-accent);
+		}
+	}
+}

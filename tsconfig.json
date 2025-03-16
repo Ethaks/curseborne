@@ -1,0 +1,39 @@
+{
+	"compilerOptions": {
+		"noEmit": true,
+		"module": "ESNext",
+		"target": "ESNext",
+		"lib": ["ESNext", "DOM"],
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"allowJs": true,
+		"checkJs": false,
+		"strict": true,
+		"paths": {
+			"@documents/*": ["./module/documents/*"],
+
+			"@models/*": ["./module/data/*"],
+			"@actor/*": ["./module/data/actor/*"],
+			"@item/*": ["./module/data/item/*"],
+			"@helpers/*": ["./module/helpers/*"],
+
+			"@config/*": ["./module/config/*"],
+			"@dice/*": ["./module/dice/*"],
+
+			"@applications/*": ["./module/applications/*"],
+			"@sheets/*": ["./module/applications/sheets/*"],
+
+			"@foundry/*": ["./foundry/*"]
+		}
+	},
+	"exclude": ["node_modules"],
+	"include": [
+		"module/**/*.mjs",
+		"**/*.d.ts",
+		"foundry/client/client.mjs",
+		"./foundry/public/scripts/greensock"
+	],
+	"typeAcquisition": {
+		"include": ["jquery", "gsap"]
+	}
+}

@@ -1,0 +1,45 @@
+<section class="curseborne curseborne-tooltip item-tooltip content flexcol">
+    <section class="tooltip-header flexrow">
+        {{#if img }}
+            <img class="item-image" src="{{img}}" alt="{{title}}" />
+        {{/if}}
+        <div class="name-stacked caps">
+            <span class="title flexrow">{{title}}</span>
+            <span class="subtitle flexrow">{{{subtitle}}}</span>
+        </div>
+    </section>
+
+    {{! Details }}
+    {{#if details }}
+        <fieldset class="details">
+            <legend class="header">
+                <span>{{localize "CURSEBORNE.Item.Tabs.details"}}</span>
+            </legend>
+            {{#each details }}
+                <div class="detail flexrow {{cls}}">
+                    {{#if label }}
+                        <span class="label">{{localize label}}</span>
+                    {{/if}}
+                    <span class="value flexrow">
+                        {{#if valueElement }}
+                            {{{valueElement}}}
+                        {{else}}
+                            {{value}}
+                        {{/if}}
+                    </span>
+                </div>
+            {{/each}}
+        </fieldset>
+    {{/if}}
+
+    {{! Description}}
+    {{#if description }}
+        <fieldset class="description">
+            <legend>
+                <span>{{localize "CURSEBORNE.Item.Tabs.description"}}</span>
+            </legend>
+            <div class="enriched">{{{description}}}</div>
+        </fieldset>
+    {{/if}}
+
+</section>

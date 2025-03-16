@@ -1,0 +1,26 @@
+# IDE
+.idea/
+.vs/
+.vscode/
+*.code-workspace
+/.vim
+
+# Node Modules
+node_modules/
+
+# Distribution directory
+dist/
+/curseborne.js
+/curseborne.js.map
+/curseborne.css
+/curseborne.css.map
+
+# Foundry links
+/foundry
+
+# Misc
+/.eslintcache
+stats.html
+.env.local
+/index.html
+/notes.md

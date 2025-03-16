@@ -1,0 +1,51 @@
+{{! List of enhancements }}
+<ol class="enhancements unlist">
+    {{#each enhancements }}
+        <li class="enhancement" data-id="{{id}}">
+            {{curse-formGroup
+            value.field
+            @root.formGroupOptions
+            value=value.value
+            name=value.name
+            stacked=true
+            disabled=disabled
+            classes="enh-value label-top"
+            }}
+            {{curse-formGroup
+            label.field
+            @root.formGroupOptions
+            value=label.value
+            name=label.name
+            stacked=true
+            disabled=disabled
+            classes="enh-label label-top"
+            }}
+            {{curse-formGroup
+            stacking.field
+            @root.formGroupOptions
+            value=stacking.value
+            name=stacking.name
+            stacked=true
+            disabled=disabled
+            classes="enh-stacking label-top"
+            }}
+
+            <button class="delete"
+                    type="button"
+                    {{disabled disabled}}
+                    data-action="deleteModifier"
+                    data-tooltip="CURSEBORNE.DICE.DeleteEnhancement">
+                <i class="fa-solid fa-minus"></i>
+            </button>
+            {{curse-formGroup
+            hint.field
+            @root.formGroupOptions
+            value=hint.value
+            name=hint.name
+            span=true
+            disabled=disabled
+            classes="enh-hint label-top"
+            }}
+        </li>
+    {{/each}}
+</ol>

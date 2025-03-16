@@ -1,0 +1,27 @@
+<section class="tab {{tab.id}} standard-form {{tab.cssClass}}"
+         data-group="{{tab.group}}"
+         data-tab="{{tab.id}}">
+    {{! Pools }}
+    <fieldset class="pools">
+        <legend>{{localize "CURSEBORNE.Actor.Adversary.FIELDS.pools.label"}}</legend>
+        {{#each pools }}
+            <div class="pool {{id}} form-group flexrow">
+                {{curse-formGroup
+                field
+                @root.formGroupOptions
+                localize=true
+                }}
+            </div>
+        {{/each}}
+    </fieldset>
+
+    {{! Combat }}
+    <fieldset class="combat grid grid-2col">
+        <legend>{{localize "CURSEBORNE.Combat"}}</legend>
+        {{curse-formGroup systemFields.initiative formGroupOptions localize=true}}
+        {{curse-formGroup systemFields.defense formGroupOptions localize=true}}
+        {{curse-formGroup systemFields.armor formGroupOptions localize=true}}
+        {{curse-formGroup systemFields.integrity formGroupOptions localize=true}}
+        {{curse-formGroup systemFields.injuries formGroupOptions localize=true}}
+    </fieldset>
+</section>

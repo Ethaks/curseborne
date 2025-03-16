@@ -1,0 +1,563 @@
+{
+	"TYPES": {
+		"Actor": {
+			"accursed": "Accursed",
+			"adversary": "Adversary"
+		},
+		"Item": {
+			"damnation": "Damnation",
+			"edge": "Edge",
+			"family": "Family",
+			"inheritance": "Inheritance",
+			"lineage": "Lineage",
+			"motif": "Motif",
+			"role": "Role",
+			"skill": "Skill",
+			"spell": "Spell",
+			"social": "Bond / Contact",
+			"equipment": "Equipment",
+			"torment": "Torment",
+			"dreadPower": "Dread Power",
+			"template": "Adversary Template",
+			"quality": "Quality",
+			"trick": "Trick"
+		}
+	},
+	"CURSEBORNE": {
+		"SheetLabels": {
+			"Actor": "Curseborne Actor Sheet",
+			"Item": "Curseborne Item Sheet"
+		},
+		"Actor": {
+			"Tabs": {
+				"main": "Main",
+				"social": "Social",
+				"biography": "Biography",
+				"spells": "Spells",
+				"equipment": "Equipment",
+				"effects": "Effects"
+			},
+			"base": {
+				"FIELDS": {
+					"biography": { "label": "Biography" },
+					"cover": {
+						"value": { "label": "Cover" },
+						"max": { "label": "Maximum Cover" }
+					},
+					"armor": {
+						"value": { "label": "Armor" },
+						"max": { "label": "Maximum Armor" }
+					},
+					"injuries": {
+						"value": { "label": "Injuries" },
+						"max": { "label": "Maximum Injuries" }
+					},
+					"initiative": { "label": "Initiative" },
+					"defense": { "label": "Defense" },
+					"integrity": { "label": "Integrity" }
+				}
+			},
+
+			"Accursed": {
+				"FIELDS": {
+					"xp.current": { "label": "XP" }
+				}
+			},
+
+			"Adversary": {
+				"FIELDS": {
+					"drive": { "label": "Drive" },
+					"combat": { "label": "Combat" },
+					"pools": {
+						"label": "Pools",
+						"primary": { "label": "Primary Pool", "short": "Primary" },
+						"secondary": { "label": "Secondary Pool", "short": "Secondary" },
+						"desperation": {
+							"label": "Desperation Pool",
+							"short": "Desperation"
+						}
+					}
+				}
+			}
+		},
+		"Item": {
+			"Tabs": {
+				"attributes": "Attributes",
+				"details": "Details",
+				"description": "Description",
+				"modifiers": "Modifiers",
+				"effects": "Effects"
+			},
+
+			"Equipment": {
+				"FIELDS": {
+					"type": {
+						"label": "Equipment Type",
+						"hint": "The type of equipment.",
+						"Weapon": "Weapon",
+						"Armor": "Armor",
+						"Tool": "Tool"
+					},
+					"armor": {
+						"label": "Armor Value",
+						"hint": "The armor this equipment provides its wearer."
+					},
+					"enhancement": {
+						"label": "Enhancement",
+						"hint": "The enhancement this equipment provides its wielder to associated rolls.",
+						"WeaponHint": "To attack actions using this weapon.",
+						"ToolHint": "To actions using this tool."
+					}
+				}
+			},
+
+			"Path": {
+				"Minor": "Minor Path",
+				"Major": "Major Path",
+				"SetMajor": "Set Major Path",
+				"FIELDS": {
+					"skills": {
+						"label": "Path Skills",
+						"hint": "Skills associated with this path."
+					}
+				}
+			},
+
+			"Bond": {
+				"Enhancement": "Bond Enhancement",
+				"FIELDS": {
+					"uses": {
+						"label": "Available Uses",
+						"hint": "How often this bond can be used to enhance a roll this session."
+					}
+				}
+			},
+			"Contact": {
+				"Invoke": "Invoke Contact",
+				"InvokeName": "Invoke Contact ({name})",
+				"Complication": "Repeat Contact Invoke",
+				"RollName": "Contact Roll ({name})",
+				"Pool": "Contact Pool",
+				"FIELDS": {
+					"bond.hint": "The bond to this contact."
+				}
+			},
+
+			"Trick": {
+				"FIELDS": {
+					"type": {
+						"label": "Trick Type",
+						"General": "General",
+						"CurseDice": "Curse Dice",
+
+						"Combat": "Combat — Universal",
+						"Melee": "Combat — Melee",
+						"Ranged": "Combat — Ranged",
+						"Defense": "Defense",
+
+						"Influence": "Influence",
+						"Integrity": "Integrity",
+						"Investigation": "Investigation"
+					},
+					"cost": {
+						"label": "Cost",
+						"Fixed": "Fixed",
+						"Variable": "Variable",
+						"type": { "label": "Trick Cost Type" },
+						"value": { "label": "Trick Cost Value" },
+						"min": { "label": "Minimum Cost" },
+						"max": { "label": "Maximum Cost" }
+					}
+				}
+			},
+
+			"Spell": {
+				"FIELDS": {
+					"cost": {
+						"type.label": "Cost",
+						"Bleed": "Bleed",
+						"BleedX": "Bleed {value} {dice}",
+						"Hold": "Hold",
+						"HoldX": "Hold {value} {dice}",
+						"value.label": "Cost Value"
+					},
+					"practice": { "label": "Practice" },
+					"subgroup": { "label": "Subgroup" },
+					"attunements": {
+						"label": "Attunements"
+					},
+					"advances": {
+						"label": "Advance Identifier",
+						"hint": "The identifier of the spell this is an advance of, if any."
+					}
+				},
+				"ATTUNEMENTS": {
+					"Elemental": "Elemental",
+					"Emotional": "Emotional",
+					"Ethereal": "Ethereal",
+					"Liminal": "Liminal",
+					"Lineage": "Lineage",
+					"Physical": "Physical",
+					"Psychic": "Psychic",
+					"Support": "Support"
+				}
+			},
+
+			"Quality": {
+				"Qualities": "Qualities"
+			},
+
+			"DreadPower": {
+				"DreadPowers": "Dread Powers"
+			}
+		},
+
+		"Effect": {
+			"Source": "Source",
+			"Toggle": "Toggle Effect",
+			"Temporary": "Temporary Effects",
+			"Passive": "Passive Effects",
+			"Inactive": "Inactive Effects"
+		},
+
+		"Attribute": "Attribute",
+		"Attributes": "Attributes",
+		"ATTRIBUTES": {
+			"Intellect": "Intellect",
+			"Cunning": "Cunning",
+			"Resolve": "Resolve",
+			"Might": "Might",
+			"Dexterity": "Dexterity",
+			"Stamina": "Stamina",
+			"Presence": "Presence",
+			"Manipulation": "Manipulation",
+			"Composure": "Composure"
+		},
+		"ATTRIBUTE_GROUPS": {
+			"Mental": "Mental",
+			"Physical": "Physical",
+			"Social": "Social"
+		},
+
+		"Path": "Path",
+		"Paths": "Paths",
+		"PATHS": {
+			"Lineage": "Lineage",
+			"Family": "Family",
+			"Role": "Role"
+		},
+
+		"SOCIAL": {
+			"Bond": "Bond",
+			"Contact": "Contact",
+			"FIELDS": {
+				"type": {
+					"label": "Type",
+					"hint": "The specific type of this relationship, i.e. Bond or Contact."
+				},
+				"uuid": {
+					"label": "Actor UUID",
+					"hint": "The UUID of the actor this bond or contact is associated with."
+				},
+				"bond": {
+					"dots": { "label": "Bond Rating" },
+					"uses": {
+						"label": "Uses",
+						"hint": "How often this bond can be used to enhance a roll this session.",
+						"labelLong": "Bond Uses"
+					}
+				},
+				"contact": {
+					"dots": { "label": "Contact Rating" },
+					"path": {
+						"label": "Path",
+						"hint": "The path this bond or contact is associated with."
+					},
+					"invokes": {
+						"label": "Invokes",
+						"hint": "How often this contact has been invoked this session.",
+						"labelLong": "Contact Invokes"
+					},
+					"tags": {
+						"label": "Tags",
+						"hint": "Tags associated with this contact."
+					}
+				}
+			}
+		},
+
+		"Dice": "Dice",
+		"DICE": {
+			"Roll": "Roll",
+			"Result": "Result",
+			"Hits": "Hits",
+			"MissingHits": "Missing Hits",
+			"AvailableHits": "Available Hits",
+			"Enhancement": "Enhancement",
+			"Complication": "Complication",
+			"ReducedBy": "Reduced by {value}",
+
+			"BuySuccess": "Change Failure into Success",
+			"RemoveSuccess": "Revert Change of Failure into Success",
+			"AddMomentumEnhancement": "Add Enhancement with Momentum",
+			"RemoveMomentumEnhancement": "Remove Momentum Enhancement",
+			"AddEnhancement": "Add Enhancement",
+			"DeleteEnhancement": "Remove Enhancement",
+			"BaseDifficulty": "Base Difficulty",
+			"AddDifficultyChange": "Add Difficulty Change",
+			"DeleteDifficultyChange": "Remove Difficulty Change",
+			"AddComplication": "Add Complication",
+			"DeleteComplication": "Remove Complication",
+			"BuyOffComplication": "Buy Off Complication",
+			"PurchaseTrick": "Purchase Trick",
+
+			"Success": "Success",
+			"SuccessWithConsequence": "Success with Consequence",
+			"ExtraordinarySuccess": "Extraordinary Success",
+			"Failure": "Failure",
+			"Disaster": "Disaster",
+			"WickedSuccess": "Wicked Success",
+			"CruelFailure": "Cruel Failure",
+
+			"FIELDS": {
+				"dieSources": {
+					"label": "Die Sources"
+				},
+				"target": {
+					"label": "Target Number",
+					"hint": "What number a die must meet or exceed to be a hit; default: 8."
+				},
+				"double": {
+					"label": "Double Hit Target",
+					"hint": "What number a die must meet or exceed to count as two hits; default: 10."
+				},
+				"curseDice": {
+					"label": "Curse Dice",
+					"hint": "The number of dice that are Curse Dice."
+				},
+				"enhancements": {
+					"label": "Enhancements",
+					"hint": "Additional hits applied to the roll if there is at least one hit."
+				},
+				"momentum": {
+					"label": "Momentum",
+					"hint": "Additional enhancements sourced from the Momentum pool applied to the roll if there is at least one hit.",
+					"increase": "Increase Momentum",
+					"decrease": "Decrease Momentum"
+				},
+				"advantage": {
+					"label": "Advantage",
+					"hint": "A major advantage over the opposition in a specific arena."
+				},
+				"autoHits": {
+					"label": "Automatic Hits",
+					"hint": "Hits that are automatically applied to the roll."
+				},
+				"difficulty": {
+					"label": "Difficulty",
+					"hint": "The number of hits required to succeed."
+				},
+				"difficulties": {
+					"label": "Difficulty Changes",
+					"hint": "Changes to the number of hits required to succeed."
+				},
+				"complications": {
+					"label": "Complications",
+					"hint": "Additional complications that can be bought off with hits."
+				},
+				"alteredOutcome": {
+					"label": "Altered Outcome",
+					"hint": "Whether this roll can be a Wicked Success or a Cruel Failure."
+				}
+			},
+
+			"MODIFIER": {
+				"FIELDS": {
+					"label": { "label": "Label" },
+					"value": { "label": "Value" },
+					"stacking": {
+						"label": "Stacking",
+						"hint": "Whether this enhancement stacks with others."
+					},
+					"hint": {
+						"label": "Hint",
+						"hint": "A description of the modifier"
+					},
+					"selectors": {
+						"label": "Selectors",
+						"hint": "Circumstances under which this modifier applies."
+					}
+				}
+			},
+
+			"COMPLICATION": {
+				"Minor": "Minor",
+				"Moderate": "Moderate",
+				"Major": "Major"
+			},
+
+			"DIFFICULTY": {
+				"Routine": "Routine",
+				"Straightforward": "Straightforward",
+				"Moderate": "Moderate",
+				"Challenging": "Challenging",
+				"Extreme": "Extreme",
+				"NearImpossible": "Near Impossible"
+			}
+		},
+
+		"Advanced": "Advanced",
+
+		"Edges": "Edges",
+
+		"Skill": "Skill",
+		"Skills": "Skills",
+		"SKILLS": {
+			"Artistry": "Artistry",
+			"Athletics": "Athletics",
+			"CloseCombat": "Close Combat",
+			"Culture": "Culture",
+			"Empathy": "Empathy",
+			"Enigmas": "Enigmas",
+			"Esoterica": "Esoterica",
+			"Larceny": "Larceny",
+			"Leadership": "Leadership",
+			"Medicine": "Medicine",
+			"Persuasion": "Persuasion",
+			"Pilot": "Pilot",
+			"RangedCombat": "Ranged Combat",
+			"Science": "Science",
+			"Survival": "Survival",
+			"Technology": "Technology"
+		},
+
+		"PRACTICES": {
+			"Haunting": "Haunting",
+			"EmotionalManipulation": "Emotional Manipulation",
+			"Incorporeality": "Incorporeality",
+			"Metaphysics": "Metaphysics",
+
+			"Predation": "Predation",
+			"VitalForce": "Vital Force",
+			"IronEdict": "Iron Edict",
+			"SmokeAndShadow": "Smoke and Shadow",
+
+			"Maelstrom": "Maelstrom",
+			"MutableForm": "Mutable Form",
+			"DepthlessFury": "Depthless Fury",
+			"Stranger": "The Stranger",
+
+			"Manifestation": "Manifestation",
+			"Mayhem": "Mayhem",
+			"Summoning": "Summoning",
+			"PhysicalPerfection": "Physical Perfection",
+
+			"Invocation": "Invocation",
+			"Acquisition": "Acquisition",
+			"Biomancy": "Biomancy",
+			"ConsumingSiphon": "Consuming Siphon",
+			"Illusion": "Illusion",
+			"Telelocation": "Telelocation",
+			"Thaumaturgy": "Thaumaturgy"
+		},
+
+		"StatusEffects": "Status Effects",
+		"STATUS_EFFECTS": {
+			"AggravatedWound": "Aggravated Wound",
+			"Agony": "Agony",
+			"Awed": "Awed",
+			"Bleeding": "Bleeding",
+			"Burning": "Burning",
+			"Composed": "Composed",
+			"Confused": "Confused",
+			"Crestfallen": "Crestfallen",
+			"Dazed": "Dazed",
+			"Deprived": "Deprived",
+			"DestroyedReputation": "Destroyed Reputation",
+			"Ennui": "Ennui",
+			"Enraptured": "Enraptured",
+			"Exhausted": "Exhausted",
+			"Exposure": "Exposure",
+			"FastActingToxin": "Fast-Acting Toxin",
+			"FrayedTemper": "Frayed Temper",
+			"Grappled": "Grappled",
+			"GuiltRidden": "Guilt-Ridden",
+			"Immobilized": "Immobilized",
+			"Inspired": "Inspired",
+			"Infected": "Infected",
+			"Liar": "Liar",
+			"Loss": "Loss",
+			"Refreshed": "Refreshed",
+			"SleepingPills": "Sleeping Pills",
+			"Slowed": "Slowed",
+			"SlowActingToxin": "Slow-Acting Toxin",
+			"Stunned": "Stunned",
+			"TakenOut": "Taken Out",
+			"Terrified": "Terrified",
+			"UnexpectedFavor": "Unexpected Favor",
+			"Unlucky": "Unlucky"
+		},
+
+		"INJURIES": {
+			"NearDeath": "Near Death",
+			"Maimed": "Maimed",
+			"Wounded": "Wounded",
+			"Bloodied": "Bloodied"
+		},
+
+		"COVER": {
+			"None": "No Cover",
+			"Light": "Light Cover",
+			"Heavy": "Heavy Cover",
+			"Full": "Full Cover"
+		},
+
+		"Duration": "Duration",
+		"DURATION": {
+			"Turn": "Turns",
+			"Round": "Rounds",
+			"Scene": "Scenes",
+			"Session": "Sessions",
+			"Story": "Stories",
+			"Campaign": "Campaigns",
+
+			"RealTime": "Real Time",
+			"ActionTime": "Action Time",
+			"NarrativeTime": "Narrative Time"
+		},
+
+		"ERROR": {
+			"CannotRollItem": "{type} Items cannot be rolled."
+		},
+
+		"Bonds": "Bonds",
+
+		"Contacts": "Contacts",
+		"DotRating": "Dot Rating",
+
+		"NextScene": "Next Scene",
+		"NextSession": "Next Session",
+
+		"Combat": "Combat",
+		"RollDefense": "Roll Defense",
+		"RollInitiative": "Roll Initiative",
+
+		"TheCurse": "The Curse",
+		"Entanglement": "Entanglement",
+		"CurseDie": "Curse Die",
+		"CurseDice": "Curse Dice",
+
+		"Tricks": "Tricks",
+		"SelectTrick": "Select a Trick",
+
+		"ContextMenu": "Context Menu",
+		"ShowActorImage": "Show Actor Image",
+		"ShowTokenImage": "Show Token Image",
+		"Edit": "Edit",
+		"EditMode": "Edit Mode",
+		"Duplicate": "Duplicate",
+		"Delete": "Delete",
+		"Submit": "Submit",
+		"Cancel": "Cancel"
+	}
+}

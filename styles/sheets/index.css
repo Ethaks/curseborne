@@ -1,0 +1,44 @@
+@import "./actor.css";
+@import "./item.css";
+
+/* Styles limited to curseborne sheets */
+.curseborne .sheet-header .header-fields {
+	flex: 1;
+}
+.curseborne .sheet-tabs {
+	flex: 0;
+}
+
+.curseborne.sheet .document-name {
+	padding: 4px;
+	margin: 0;
+	/* max-height: 105px; */
+
+	font-family: "Jost", sans-serif;
+	font-variant: small-caps;
+	color: var(--color-text);
+
+	input {
+		font-variant: initial;
+		font-weight: normal;
+		height: 3rem;
+	}
+}
+
+.curseborne.sheet header.window-header {
+	> slide-toggle {
+		.slide-toggle-thumb {
+			line-height: 12px;
+			&::before {
+				content: "\f0ad";
+				font-family: var(--font-awesome);
+				color: var(--color-secondary);
+				font-weight: bold;
+				font-size: var(--font-size-9);
+			}
+		}
+		&:is(.application.minimized &) {
+			display: none;
+		}
+	}
+}

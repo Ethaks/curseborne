@@ -22,8 +22,6 @@ Currently, the Curseborne system is not available through Foundry VTT’s packag
 4. Confirm the installation and wait for the process to complete.
 5. Once installed, create a new world and select **Curseborne** as the game system.
 
-For updates, you will need to repeat the installation process using the latest manifest link.
-
 ## Future Updates
 
 For support or inquiries, please contact `ethaks` in FoundryVTT's or Onyx Path Publishing's Discord communities.

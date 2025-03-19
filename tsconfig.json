@@ -26,11 +26,12 @@
 			"@foundry/*": ["./foundry/*"]
 		}
 	},
-	"exclude": ["node_modules"],
+	"exclude": ["node_modules", "foundry/common/server.mjs"],
 	"include": [
 		"module/**/*.mjs",
 		"**/*.d.ts",
 		"foundry/client/client.mjs",
+		"foundry/common/**/*.mjs",
 		"./foundry/public/scripts/greensock"
 	],
 	"typeAcquisition": {

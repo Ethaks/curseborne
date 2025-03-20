@@ -1,14 +1,16 @@
 import { DotsInput } from "../../applications/components/dots-input.mjs";
 
+/** @import { DataFieldOptions, DataFieldContext } from "@foundry/common/data/_types.mjs"; */
+
 /**
  * A field for tracking a value and a maximum value.
  * The maximum value is primarily part of the schema to allow for active effect modifications
  */
 export class DotsField extends foundry.data.fields.SchemaField {
 	/**
-	 * @param {PipFieldData} fieldOptions - The field field
-	 * @param {foundry.data.DataFieldOptions} options - The field options
-	 * @param {foundry.data.fields.DataFieldContext} context - The field context
+	 * @param {DotsFieldData} fieldOptions - The field field
+	 * @param {DataFieldOptions} options - The field options
+	 * @param {DataFieldContext} context - The field context
 	 */
 	constructor(fields, options, context = {}) {
 		for (const key of ["value", "max"]) {
@@ -37,6 +39,7 @@ export class DotsField extends foundry.data.fields.SchemaField {
 		super(fields, options, context);
 	}
 
+	/** @inheritDoc */
 	_toInput(config) {
 		if (config.name === this.fieldPath) config.name = `${this.fieldPath}.value`;
 		return DotsInput.create(config);

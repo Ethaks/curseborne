@@ -1,6 +1,6 @@
 import { DotsField } from "../data/fields/dots.mjs";
 
-/** @import { FormGroupConfig } from "../../foundry/common/data/_types.mjs" */
+/** @import { FormGroupConfig } from "@foundry/common/data/_types.mjs" */
 
 export class CurseborneHandlebarsHelpers {
 	static registerHelpers() {

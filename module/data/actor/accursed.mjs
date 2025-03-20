@@ -1,8 +1,8 @@
-import { ROLL_TYPE } from "../../config/dice.mjs";
-import { DotsField } from "../fields/dots.mjs";
+import { ROLL_TYPE } from "@config/dice.mjs";
+import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneActorBase } from "./base.mjs";
 
-/** @import { ActorRollResult } from "../../dice/roll" */
+/** @import { ActorRollResult } from "@dice/roll" */
 
 export class Accursed extends CurseborneActorBase {
 	/** @inheritDoc */

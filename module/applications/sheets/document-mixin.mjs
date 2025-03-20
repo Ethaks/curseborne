@@ -1,6 +1,6 @@
 import { SessionSetting } from "@helpers/session-setting.mjs";
 
-/** @import { ContextMenuEntry } from "@foundry/client-esm/applications/ui/context.mjs";
+/** @import { ContextMenuEntry } from "@foundry/client/applications/ux/context-menu.mjs";
 
 /**
  * A Mixin for DocumentSheets that adds some common functionality, including

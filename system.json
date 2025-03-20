@@ -14,7 +14,7 @@
 				"htmlFields": ["biography"]
 			},
 			"adversary": {
-				"htmlFields": ["biography"]
+				"htmlFields": ["biography", "drive", "pools.*.categories"]
 			}
 		},
 		"Item": {

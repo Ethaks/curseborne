@@ -30,8 +30,9 @@ export class Accursed extends CurseborneActorBase {
 			long: new fields.StringField({ required: true }),
 		});
 
-		// TODO: Use ID field to point to embedded path?
-		schema.major = new fields.StringField({ required: true });
+		schema.major = new fields.ForeignDocumentField(foundry.documents.Item, {
+			idOnly: true,
+		});
 
 		schema.entanglement = new DotsField(
 			{ max: 4 },

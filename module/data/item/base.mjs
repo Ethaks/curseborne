@@ -1,6 +1,7 @@
 import { systemTemplate } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneTypeDataModel } from "../base.mjs";
+import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 
 export class CurseborneItemBase extends CurseborneTypeDataModel {
 	/**
@@ -49,16 +50,31 @@ export class CurseborneItemBase extends CurseborneTypeDataModel {
 	/* -------------------------------------------- */
 	/*  Sheet Rendering                             */
 	/* -------------------------------------------- */
+
+	/**
+	 * Prepare item type specific data for the sheet rendering context.
+	 *
+	 * @param {object} context - The rendering context to be mutated
+	 * @returns {Promise<void>}
+	 */
 	async prepareSheetContext(context) {}
 
 	/* -------------------------------------------- */
 	/* Embed Preparation                            */
 	/* -------------------------------------------- */
+
+	/**
+	 * Prepare the data object used to render the tooltip/embed for this item.
+	 *
+	 * @param {object} config - The configuration object for the tooltip
+	 * @param {object} options - Additional options for the tooltip
+	 * @returns {Promise<object>}
+	 */
 	async _prepareEmbedContext(config, options) {
 		const context = await super._prepareEmbedContext(config, options);
 
 		// Fall back to description as common tooltip content
-		if (this.description) {
+		if (typeof this.description === "string") {
 			context.description = await foundry.applications.ux.TextEditor.enrichHTML(this.description, {
 				relativeTo: this.parent,
 				secrets: this.parent.isOwner,
@@ -76,6 +92,25 @@ export class CurseborneItemBase extends CurseborneTypeDataModel {
 		}
 
 		return context;
+	}
+
+	/* -------------------------------------------- */
+	/*  Chat Display                                */
+	/* -------------------------------------------- */
+
+	/**
+	 * Display the item card in chat.
+	 *
+	 * @param {object} [messageData={}] - Additional data for the created message
+	 * @returns {Promise<CurseborneChatMessage>} The created message
+	 */
+	async displayCard(messageData = {}) {
+		const actor = this.actor;
+		messageData.speaker ??= CurseborneChatMessage.implementation.getSpeaker({
+			actor,
+		});
+		messageData.content = `@Embed[${this.parent.uuid} caption=false inline=true]`;
+		return CurseborneChatMessage.implementation.create(messageData);
 	}
 }
 

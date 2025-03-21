@@ -1,3 +1,4 @@
+import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { SessionSetting } from "@helpers/session-setting.mjs";
 
 /** @import { ContextMenuEntry } from "@foundry/client/applications/ux/context-menu.mjs";
@@ -153,6 +154,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 			this._createContextMenu(
 				this._getContextMenuOptions.bind(this),
 				".items-list .item[data-item-id], .effect-list .effect[data-effect-id]",
+				{ fixed: true },
 			);
 		}
 
@@ -297,6 +299,21 @@ export function CurseborneDocumentSheetMixin(Base) {
 					name: "CURSEBORNE.Edit",
 					icon: '<i class="fa-solid fa-edit"></i>',
 					callback: (target) => this.constructor._onEditDocument.call(this, null, target),
+				},
+				{
+					name: "CURSEBORNE.DisplayCard",
+					icon: '<i class="fa-solid fa-fw fa-share-from-square"></i>',
+					callback: (target) => {
+						const item = this.getDocument(target);
+						const speaker = CurseborneChatMessage.implementation.getSpeaker({
+							actor: this.document,
+						});
+						return item.system.displayCard({ speaker });
+					},
+					condition: (target) => {
+						const item = this.getDocument(target);
+						return item?.system.displayCard instanceof Function;
+					},
 				},
 				{
 					name: "CURSEBORNE.Duplicate",
@@ -453,48 +470,24 @@ export function CurseborneDocumentSheetMixin(Base) {
 			);
 		}
 
-		// /**
-		//  * @this {foundry.applications.api.DocumentSheetV2 & ItemListsSheet}
-		//  * @param {PointerEvent} event
-		//  * @param {HTMLElement} target
-		//  */
-		// static async _onUseDocument(event, target) {
-		// 	const li = target.closest(".item");
-		// 	const doc = await this.getDocument(li);
-		// 	const options = { showDialog: !event.shiftKey };
-		// 	return doc?.use(options);
-		// }
-		//
-		// /**
-		//  * @this {foundry.applications.api.DocumentSheetV2 & ItemListsSheet}
-		//  * @param {PointerEvent} event
-		//  * @param {HTMLElement} target
-		//  * @returns {Promise<void>}
-		//  */
-		// static async _onRollDocument(event, target) {
-		// 	const li = target.closest(".item");
-		// 	const doc = await this.getDocument(li);
-		// 	return doc?.roll({ event });
-		// }
-
 		/**
 		 * Get the document associated with a target element
 		 *
 		 * @remarks This method is asynchronous because the document might be from a compendium, requiring a server request.
 		 * @param {HTMLElement} target - The clicked target element
-		 * @returns {Promise<mm3.documents.ItemMM3 | mm3.documents.ActiveEffectMM3 | null>} - The document instance
+		 * @returns {Promise<foundry.documents.Item | foundry.documents.ActiveEffect | null>} - The document instance
 		 */
-		async getDocument(target) {
+		getDocument(target) {
 			const { itemId, effectId, relativeId, uuid } = target.closest(
 				"[data-item-id], [data-effect-id], [data-relative-id], [data-uuid]",
 			).dataset;
 			// UUIDs always guarantee an approach to a document, requiring no further lookup
-			if (uuid) return foundry.utils.fromUuid(uuid);
+			if (uuid) return foundry.utils.fromUuidSync()(uuid);
 
 			// Relative IDs are in relation to the root document into which others are embedded
 			if (relativeId) {
 				const doc = this.document.isEmbedded ? this.document.parent : this.document;
-				return foundry.utils.fromUuid(relativeId, { relative: doc });
+				return foundry.utils.fromUuidSync(relativeId, { relative: doc });
 			}
 
 			// Effect IDs are for ActiveEffects directly embedded in the sheet document

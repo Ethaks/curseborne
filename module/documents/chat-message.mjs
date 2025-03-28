@@ -205,12 +205,66 @@ export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 		};
 
 		// Render message data specifically for ROLL type messages
-		if (this.isRoll) await this._renderRollContent(messageData);
+		if (this.isRoll) await this.#renderRollContent(messageData);
 
 		// Define a border color
 		if (this.style === CONST.CHAT_MESSAGE_STYLES.OOC)
 			messageData.borderColor = this.author?.color.css;
 
 		return messageData;
+	}
+
+	/* -------------------------------------------- */
+
+	/**
+	 * Render the inner HTML content for ROLL type messages.
+	 * @param {object} messageData      The chat message data used to render the message HTML
+	 * @returns {Promise<void>}
+	 */
+	async #renderRollContent(messageData) {
+		const data = messageData.message;
+		const renderRolls = async (isPrivate) => {
+			let html = "";
+			for (const r of this.rolls) {
+				html += await r.render({ isPrivate });
+			}
+			return html;
+		};
+
+		// Suppress the "to:" whisper flavor for private rolls
+		if (this.blind || this.whisper.length) messageData.isWhisper = false;
+
+		// Display standard Roll HTML content
+		if (this.isContentVisible) {
+			const el = document.createElement("div");
+			el.innerHTML = data.content; // Ensure the content does not already contain custom HTML
+			if (!el.childElementCount && this.rolls.length)
+				data.content = await this.#renderRollHTML(false);
+		}
+
+		// Otherwise, show "rolled privately" messages for Roll content
+		else {
+			const name = this.author?.name ?? game.i18n.localize("CHAT.UnknownUser");
+			data.flavor = game.i18n.format("CHAT.PrivateRollContent", {
+				user: foundry.utils.escapeHTML(name),
+			});
+			data.content = await renderRolls(true);
+			messageData.alias = name;
+		}
+	}
+
+	/* -------------------------------------------- */
+
+	/**
+	 * Render HTML for the array of Roll objects included in this message.
+	 * @param {boolean} isPrivate   Is the chat message private?
+	 * @returns {Promise<string>}   The rendered HTML string
+	 */
+	async #renderRollHTML(isPrivate) {
+		let html = "";
+		for (const roll of this.rolls) {
+			html += await roll.render({ isPrivate });
+		}
+		return html;
 	}
 }

@@ -1,3 +1,4 @@
+import { CurseborneActiveEffect } from "@documents/active-effect.mjs";
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { SessionSetting } from "@helpers/session-setting.mjs";
 
@@ -8,7 +9,8 @@ import { SessionSetting } from "@helpers/session-setting.mjs";
  *   - Edit and Play mode
  *   - Basic context preparation
  *
- * @param {typeof foundry.applications.api.DocumentSheetV2} Base
+ * @template {typeof foundry.applications.api.DocumentSheetV2} Base
+ * @param {Base} Base
  */
 export function CurseborneDocumentSheetMixin(Base) {
 	return class CurseborneDocumentSheet extends Base {
@@ -99,6 +101,11 @@ export function CurseborneDocumentSheetMixin(Base) {
 				},
 			};
 
+			/**
+			 * Add an effect to the appropriate category.
+			 *
+			 * @param {CurseborneActiveEffect} effect - The effect to add
+			 */
 			const addEffect = (effect) => {
 				let category;
 				if (effect.disabled) category = categories.inactive;
@@ -238,9 +245,13 @@ export function CurseborneDocumentSheetMixin(Base) {
 		 * @param {HTMLElement} target
 		 * @protected
 		 */
-		static _onToggleMode(event, target) {
-			const mode = this._sheetMode === this.constructor.SHEET_MODES.EDIT ? 1 : 0;
-			this._sheetMode = mode;
+		static async _onToggleMode(event, target) {
+			// Submit any pending changes when switching from edit to play mode
+			if (this._sheetMode === this.constructor.SHEET_MODES.EDIT) {
+				await this.submit({ render: false });
+			}
+			const newMode = this._sheetMode === this.constructor.SHEET_MODES.EDIT ? 1 : 0;
+			this._sheetMode = newMode;
 			this.render();
 		}
 

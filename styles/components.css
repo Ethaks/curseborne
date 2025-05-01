@@ -16,8 +16,10 @@ dots-input {
 		background: var(--pip-color-empty);
 		border: 2px solid var(--pip-border-color);
 		border-radius: 100%;
-		width: var(--pip-size);
-		height: var(--pip-size);
+		min-width: var(--pip-size);
+		max-width: var(--pip-size);
+		min-height: var(--pip-size);
+		max-height: var(--pip-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -27,6 +29,7 @@ dots-input {
 		margin: 0;
 		flex: 0 0 var(--pip-size);
 		transition: color 0.1s ease, background 0.1s ease;
+		--button-size: var(--pip-size);
 
 		&:is([disabled], [readonly]) {
 			pointer-events: none;

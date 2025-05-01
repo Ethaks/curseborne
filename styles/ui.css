@@ -27,6 +27,10 @@
 		border-radius: 0;
 	}
 
+	button {
+		--button-size: 2rem;
+	}
+
 	button[data-action="decrease"] {
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;

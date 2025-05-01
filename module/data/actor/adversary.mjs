@@ -1,6 +1,7 @@
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { DotsField } from "../fields/dots.mjs";
 import { CurseborneActorBase } from "./base.mjs";
+import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 
 /** @import {ActorRollOptions} from "@dice/roll" */
 
@@ -84,6 +85,14 @@ export class Adversary extends CurseborneActorBase {
 		options.dialogOptions ??= {};
 		options.dialogOptions.show ??= {};
 		options.dialogOptions.show.curseDice = false;
+
+		options.messageData ??= {};
+		foundry.utils.mergeObject(options.messageData, {
+			speaker: CurseborneChatMessage.getSpeaker({
+				token: options.token ?? this.actor.token,
+				actor: this.actor,
+			}),
+		});
 
 		return curseborne.dice.CurseborneRoll.createActorRoll({
 			type: ROLL_TYPE.POOL,

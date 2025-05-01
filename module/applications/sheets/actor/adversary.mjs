@@ -211,8 +211,8 @@ export class AdversarySheet extends CurseborneActorSheet {
 	 * @param {HTMLElement} target The clicked element.
 	 * @returns {Promise<void>}
 	 */
-	static async _onRoll(event, target) {
+	static async _onRoll(_event, target) {
 		const pool = target.dataset.pool;
-		return this.actor.system.roll(pool);
+		return this.actor.system.roll(pool, { token: this.token });
 	}
 }

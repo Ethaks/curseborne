@@ -169,8 +169,9 @@ export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 		} else actor = game.actors.get(this.speaker.actor);
 
 		const avatar =
-			(this.isContentVisible ? actor?.prototypeToken?.texture.src : this.author.avatar) ||
-			foundry.documents.Actor.implementation.getDefaultArtwork({}).img;
+			(this.isContentVisible
+				? (actor?.token?.texture.src ?? actor?.prototypeToken?.texture.src)
+				: this.author.avatar) || foundry.documents.Actor.implementation.getDefaultArtwork({}).img;
 		const tokenUuid = actor?.uuid;
 
 		const isWhisper = this.whisper.length;

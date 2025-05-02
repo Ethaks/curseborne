@@ -11,7 +11,7 @@ This system is not affiliated with, endorsed by, or sponsored by Onyx Path Publi
 
 Currently, the Curseborne system is not available through Foundry VTT’s package registry. To install it manually:
 
-1. Open Foundry VTT (**⚠️ version 13.338** is required).
+1. Open Foundry VTT (**⚠️ version 13** is required).
 2. Navigate to the **Game Systems** tab in the setup menu.
 3. Click **Install System** and paste the manifest URL:
 

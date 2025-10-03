@@ -3,7 +3,7 @@
 	"formatter": {
 		"lineWidth": 100
 	},
-	"organizeImports": { "enabled": true },
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
@@ -16,7 +16,7 @@
 		}
 	},
 	"files": {
-		"include": ["**/*.mjs", "**/*.d.ts", "**/*.json", "**/*.jsonc", "**/*.css"]
+		"includes": ["**/*.mjs", "**/*.d.ts", "**/*.json", "**/*.jsonc", "**/*.css"]
 	},
 	"linter": {
 		"enabled": true,
@@ -30,12 +30,12 @@
 				"noDelete": "off"
 			},
 			"correctness": {
-				"noNewSymbol": "error",
 				"noUndeclaredVariables": "error",
 				"noUnreachable": "error",
 				"noUnreachableSuper": "error",
 				"noUnusedVariables": "info",
-				"noUnusedImports": "info"
+				"noUnusedImports": "info",
+				"noInvalidBuiltinInstantiation": "error"
 			},
 			"style": { "useBlockStatements": "off", "noParameterAssign": "off" },
 			"suspicious": {
@@ -46,17 +46,17 @@
 				"noRedeclare": "error"
 			}
 		},
-		"ignore": ["**/*.d.ts"]
+		"includes": ["**", "!**/*.d.ts"]
 	},
 	"overrides": [
 		{
-			"include": ["tools/**/*.mjs"],
+			"includes": ["**/tools/**/*.mjs"],
 			"javascript": {
 				"globals": ["Bun"]
 			}
 		},
 		{
-			"include": ["module/**/*.mjs"],
+			"includes": ["**/module/**/*.mjs"],
 			"javascript": {
 				"globals": [
 					"Handlebars",

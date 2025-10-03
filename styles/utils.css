@@ -368,7 +368,6 @@ fieldset.grid {
 	outline: none;
 	width: unset;
 	border: none;
-	background: none;
 	line-height: unset;
 
 	&:hover,

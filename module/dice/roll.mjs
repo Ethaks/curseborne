@@ -356,10 +356,14 @@ export class CurseborneRoll extends foundry.dice.Roll {
 
 	/**
 	 * Add injury dice to the roll if the actor is an accursed and a skill die source is a path skill.
+	 *
+	 * TODO: This should be moved elsewhere, possibly into a method on the Accursed model;
+	 * maybe change its roll pattern so that it first resolves the dialog configuration and then applies extra steps?
 	 */
 	async _addInjuryDice() {
-		const skillSource = this.data.sources.find((s) => s.type === "skill");
-		if (!skillSource) return;
+		const skillSource =
+			this.data.sources.get("skill") ?? this.data.sources.find((s) => s.type === "skill");
+		if (!skillSource?.value) return;
 
 		const actor = await foundry.utils.fromUuid(this.data.actor);
 		if (actor.type !== "accursed") return;
@@ -452,6 +456,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		this.dialog?.render(options);
 	}
 
+	/** @inheritDoc */
 	initialize(data) {
 		if (data instanceof this.constructor.dataModel) data = data.toObject();
 		this.data.updateSource(data);

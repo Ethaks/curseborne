@@ -221,7 +221,7 @@ export class TrickSelector extends ApplicationV2 {
 				dotsInput.classList.add("flexshrink", "align-right");
 				trickList.insertAdjacentHTML(
 					"beforeend",
-					`<li class="trick flexrow" data-uuid="${trick.uuid}" data-action="chooseTrick" data-cost-type="variable">
+					`<li class="trick flexrow" data-uuid="${trick.uuid}" data-action="chooseTrick" data-cost-type="${trick.system.cost.type}">
 								<img src="${trick.img}" width="36" height="36" class="image flexshrink" loading="lazy">
 								<span class="name" data-tooltip-direction="LEFT">${trick.name}</span>
 								${dotsInput.outerHTML}

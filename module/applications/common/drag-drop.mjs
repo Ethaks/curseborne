@@ -91,7 +91,10 @@ export function DragDropMixin(Base) {
 		 * @protected
 		 */
 		async _onDragStart(event) {
-			const docRow = event.currentTarget.closest("[data-item-id]");
+			// Find the closest element that has in their dataset a documentId/itemId/effectId/relativeId/uuid
+			const docRow = event.currentTarget.closest(
+				"[data-document-id],[data-item-id],[data-effect-id],[data-relative-id],[data-uuid]",
+			);
 			if ("link" in event.target.dataset) return;
 
 			// Chained operation

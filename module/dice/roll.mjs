@@ -167,20 +167,12 @@ export class CurseborneRoll extends foundry.dice.Roll {
 
 		// Individual string parts making up the roll formula
 		const parts = [];
-		data = data instanceof this.dataModel ? data : new this.MODEL(data);
+		data = data instanceof this.dataModel ? data : new this.dataModel(data);
 
 		// Determine the number of dice to roll for the normal and curse pool
 		const totalDice = data.dice;
 		const curseDice = Math.min(totalDice, data.curseDice);
-		let normalDice = Math.max(totalDice - curseDice, 0);
-
-		let injuryDice = 0;
-		const injurySource = data.sources.get("injury");
-		if (injurySource) {
-			// Reduce normal dice by the number of injury dice so they can be added separately
-			normalDice -= Number.parseInt(injurySource.value);
-			injuryDice = Number.parseInt(injurySource.value);
-		}
+		const normalDice = Math.max(totalDice - curseDice, 0);
 
 		/**
 		 * Generate a Curseborne dice pool formula given a number of dice and a label.
@@ -196,7 +188,6 @@ export class CurseborneRoll extends foundry.dice.Roll {
 			dicePool(normalDice, "CURSEBORNE.Dice"),
 			dicePool(curseDice, "CURSEBORNE.CurseDice"),
 		);
-		if (injuryDice) parts.push(dicePool(injuryDice, injurySource.label));
 
 		// Automatic hits are always applied, regardless of hits on dice
 		parts.push(`${data.autoHits}[${game.i18n.localize("CURSEBORNE.DICE.FIELDS.autoHits.label")}]`);
@@ -207,7 +198,6 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		// Add curse dice/normal dice option to their terms for machine readability
 		terms[0].options = { ...terms[0].options, type: "normal" };
 		terms[2].options = { ...terms[2].options, type: "curse" };
-		if (injuryDice) terms[4].options = { ...terms[4].options, type: "injury" };
 
 		return terms;
 	}

@@ -23,7 +23,9 @@
 			"@applications/*": ["./module/applications/*"],
 			"@sheets/*": ["./module/applications/sheets/*"],
 
-			"@foundry/*": ["./foundry/*"]
+			"@foundry/*": ["./foundry/*"],
+			"@client/*": ["./foundry/client/*"],
+			"@common/*": ["./foundry/common/*"]
 		}
 	},
 	"exclude": ["node_modules", "foundry/common/server.mjs"],

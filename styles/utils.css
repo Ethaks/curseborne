@@ -369,6 +369,8 @@ fieldset.grid {
 	width: unset;
 	border: none;
 	line-height: unset;
+	height: unset;
+	min-height: unset;
 
 	&:hover,
 	&:focus {

@@ -28,7 +28,9 @@ dots-input {
 		padding: 0;
 		margin: 0;
 		flex: 0 0 var(--pip-size);
-		transition: color 0.1s ease, background 0.1s ease;
+		transition:
+			color 0.1s ease,
+			background 0.1s ease;
 		--button-size: var(--pip-size);
 
 		&:is([disabled], [readonly]) {
@@ -126,6 +128,10 @@ modifier-select {
 
 		&.inactive {
 			color: var(--color-text-subtle);
+		}
+
+		button {
+			padding: 0;
 		}
 	}
 

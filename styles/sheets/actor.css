@@ -59,13 +59,13 @@
 	}
 }
 
-.curseborne.sheet.accursed {
-	@property --sidebar-width {
-		syntax: "<number>";
-		initial-value: 230px;
-		inherits: true;
-	}
+@property --sidebar-width {
+	syntax: "<length>";
+	initial-value: 230px;
+	inherits: true;
+}
 
+.curseborne.sheet.accursed {
 	section.tab {
 		margin-left: var(--sidebar-width);
 	}

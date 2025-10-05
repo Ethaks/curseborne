@@ -237,7 +237,10 @@
 		}
 	}
 
-	--sidebar-width: 230px;
+	/* BUG: Without this nesting the rest of the CSS file gets shoved into the variable's string value by LightningCSS */
+	&:not(.sidebar-collapsed) {
+		--sidebar-width: 230px;
+	}
 	&.sidebar-collapsed {
 		--sidebar-width: 0px;
 		section.sidebar {

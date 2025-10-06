@@ -132,6 +132,12 @@ modifier-select {
 
 		button {
 			padding: 0;
+
+			&::before {
+				content: "";
+				border-left: 1px solid var(--color-border);
+				height: 1em;
+			}
 		}
 	}
 

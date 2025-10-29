@@ -1,0 +1,10 @@
+.application.curseborne.text-editor {
+	&:not(.minimizing, .minimized, .maximizing) {
+		min-height: 200px;
+		min-width: 475px;
+	}
+
+	prose-mirror {
+		height: 100%;
+	}
+}

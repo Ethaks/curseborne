@@ -43,6 +43,7 @@ Hooks.once("init", () => {
 	};
 	CONFIG.Item.documentClass = documents.CurseborneItem;
 	CONFIG.Item.dataModels = {
+		// Accursed
 		edge: models.item.Edge,
 		skill: models.item.Skill,
 		lineage: models.item.Lineage,
@@ -52,16 +53,16 @@ Hooks.once("init", () => {
 		spell: models.item.Spell,
 		equipment: models.item.Equipment,
 
-		trick: models.item.Trick,
-
+		// Adversaries
 		template: models.item.AdversaryTemplate,
 		quality: models.item.AdversaryQuality,
 		dreadPower: models.item.DreadPower,
+
+		// Common
+		trick: models.item.Trick,
 	};
 
-	// Active Effects are never copied to the Actor,
-	// but will still apply to the Actor from within the Item
-	// if the transfer property on the Active Effect is true.
+	// TODO: Remove with v14
 	CONFIG.ActiveEffect.legacyTransferral = false;
 	CONFIG.ActiveEffect.documentClass = documents.CurseborneActiveEffect;
 	CONFIG.ActiveEffect.dataModels.base = models.effect.CurseborneActiveEffectModel;

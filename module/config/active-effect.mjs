@@ -17,7 +17,18 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	awed: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Awed",
 		img: "",
-		system: { label: "social" },
+		system: {
+			label: "social",
+			difficulties: {
+				awed: { value: 1, hint: "CURSEBORNE.STATUS_EFFECTS.AwedHint" },
+			},
+			complcations: {
+				awed: {
+					value: COMPLICATION.MODERATE,
+					hint: "CURSEBORNE.STATUS_EFFECTS.AwedHint",
+				},
+			},
+		},
 	},
 	bleeding: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Bleeding",
@@ -53,7 +64,9 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		img: "",
 		system: {
 			label: "social",
-			difficulties: { confused: { value: 1 } },
+			difficulties: {
+				confused: { value: 1, label: "CURSEBORNE.STATUS_EFFECTS.ConfusedHint" },
+			},
 		},
 	},
 	crestfallen: {

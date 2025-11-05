@@ -157,6 +157,11 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		img: "",
 		system: { label: "combat" },
 	},
+	mortallyWounded: {
+		name: "CURSEBORNE.STATUS_EFFECTS.MortallyWounded",
+		img: "",
+		system: { label: "combat" },
+	},
 	refreshed: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Refreshed",
 		img: "",

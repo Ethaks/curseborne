@@ -91,6 +91,16 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		img: "",
 		system: { label: "social" },
 	},
+	drained: {
+		name: "CURSEBORNE.STATUS_EFFECTS.Drained",
+		system: {
+			complications: {
+				drained: {
+					value: COMPLICATION.MODERATE,
+				},
+			},
+		},
+	},
 	ennui: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Ennui",
 		img: "",

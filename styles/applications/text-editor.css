@@ -4,6 +4,14 @@
 		min-width: 475px;
 	}
 
+	.window-content:has(> div.enriched) {
+		padding-right: 1rem;
+	}
+
+	div.enriched {
+		user-select: text;
+	}
+
 	prose-mirror {
 		height: 100%;
 	}

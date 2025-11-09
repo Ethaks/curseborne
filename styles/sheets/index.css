@@ -42,3 +42,27 @@
 		}
 	}
 }
+
+.curseborne.sheet {
+	:has(> button.edit-text) {
+		position: relative;
+	}
+
+	button.edit-text {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		width: 2rem;
+		height: 2rem;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	:has(> button.edit-text):hover,
+	&[data-sheet-mode="edit"] {
+		button.edit-text {
+			opacity: 1;
+			pointer-events: auto;
+		}
+	}
+}

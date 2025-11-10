@@ -131,6 +131,7 @@ export class AdversarySheet extends CurseborneActorSheet {
 				qualities.push(qualityContext);
 			}),
 		);
+		qualities.sort((a, b) => a.item.sort - b.item.sort);
 		return qualities;
 	}
 
@@ -151,6 +152,7 @@ export class AdversarySheet extends CurseborneActorSheet {
 				dreadPowers.push(dreadPowerContext);
 			}),
 		);
+		dreadPowers.sort((a, b) => a.item.sort - b.item.sort);
 		return dreadPowers;
 	}
 

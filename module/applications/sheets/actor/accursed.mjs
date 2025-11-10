@@ -320,6 +320,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 				id: edge.id,
 				name: edge.name,
 				img: edge.img,
+				sort: edge.sort,
 				system: edge.system,
 				dotField: edge.system.schema.fields.dots,
 				formGroupOptions: {
@@ -334,7 +335,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 			});
 		}
 
-		return edges;
+		return edges.sort((a, b) => a.sort - b.sort);
 	}
 
 	async _prepareAttributes(_context) {
@@ -440,6 +441,14 @@ export class AccursedSheet extends CurseborneActorSheet {
 				prepareSpell(advancement, true);
 			}
 		}
+
+		// Sort spells by their sort value within each subgroup
+		for (const practice of Object.values(spellsContext)) {
+			for (const subgroup of Object.values(practice.subgroups)) {
+				subgroup.spells.sort((a, b) => a.item.sort - b.item.sort);
+			}
+		}
+
 		return spellsContext;
 	}
 
@@ -522,6 +531,11 @@ export class AccursedSheet extends CurseborneActorSheet {
 				}
 			}),
 		);
+
+		// Sort items in their categories by sort value
+		bonds.sort((a, b) => a.sort - b.sort);
+		contacts.sort((a, b) => a.sort - b.sort);
+
 		return { bonds, contacts };
 	}
 
@@ -546,6 +560,11 @@ export class AccursedSheet extends CurseborneActorSheet {
 				img: item.img,
 				tooltip: curseborne.tooltips.createPlaceholder({ uuid: item.uuid }),
 			});
+		}
+
+		// Sort equipment items by their sort value within each section
+		for (const section of Object.values(equipmentContext.sections)) {
+			section.items.sort((a, b) => a.item.sort - b.item.sort);
 		}
 
 		return equipmentContext;

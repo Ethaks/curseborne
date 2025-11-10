@@ -60,6 +60,18 @@
 
 			"Accursed": {
 				"FIELDS": {
+					"aspirations": {
+						"label": "Aspirations",
+						"short1": {
+							"label": "First Short-term Aspiration",
+							"short": "Short 1"
+						},
+						"short2": {
+							"label": "Second Short-term Aspiration",
+							"short": "Short 2"
+						},
+						"long": { "label": "Long-term Aspiration", "short": "Long" }
+					},
 					"xp.current": { "label": "XP" }
 				}
 			},

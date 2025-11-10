@@ -11,7 +11,7 @@
 	"documentTypes": {
 		"Actor": {
 			"accursed": {
-				"htmlFields": ["biography"]
+				"htmlFields": ["biography", "aspirations.*"]
 			},
 			"adversary": {
 				"htmlFields": ["biography", "drive", "pools.*.categories"]

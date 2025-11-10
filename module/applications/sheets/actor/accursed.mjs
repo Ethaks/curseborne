@@ -1,8 +1,7 @@
-import { staticID, systemTemplate } from "@helpers/utils.mjs";
-import { CurseborneActorSheet } from "./base.mjs";
-
 import { SessionSetting } from "@helpers/session-setting.mjs";
+import { staticID, systemTemplate } from "@helpers/utils.mjs";
 import { Flip } from "../../scripts/greensock/esm/Flip.js";
+import { CurseborneActorSheet } from "./base.mjs";
 
 export class AccursedSheet extends CurseborneActorSheet {
 	/** @override */
@@ -125,6 +124,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		context.attributes = await this._prepareAttributes(context);
 		context.practices = await this._prepareSpells(context);
 		context.equipment = await this._prepareEquipment(context);
+		context.aspirations = await this._prepareAspirations(context);
 
 		const { bonds, contacts } = await this._prepareSocials(context);
 		Object.assign(context, { bonds, contacts });
@@ -168,7 +168,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		}),
 	});
 
-	async _prepareInjuries(context) {
+	async _prepareInjuries(_context) {
 		const healthContext = {};
 
 		// Cover
@@ -235,7 +235,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return healthContext;
 	}
 
-	async _prepareSidebarContext(context) {
+	async _prepareSidebarContext(_context) {
 		const sidebar = {};
 		sidebar.expanded = this.#sidebarSetting.get();
 		// Use either actor image or prototype token, dependent on ui flag
@@ -252,7 +252,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return sidebar;
 	}
 
-	async _preparePaths(context) {
+	async _preparePaths(_context) {
 		const paths = {};
 		for (const type of ["lineage", "family", "role"]) {
 			const item = this.actor.itemTypes[type][0];
@@ -337,7 +337,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return edges;
 	}
 
-	async _prepareAttributes(context) {
+	async _prepareAttributes(_context) {
 		const groups = Object.entries(curseborne.config.attributeGroups).reduce(
 			(acc, [id, { label }]) => {
 				acc[id] = { label, attributes: [] };
@@ -361,7 +361,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return groups;
 	}
 
-	async _prepareSpells(context) {
+	async _prepareSpells(_context) {
 		// The result object for the context;
 		const spellsContext = {};
 
@@ -525,7 +525,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return { bonds, contacts };
 	}
 
-	async _prepareEquipment(context) {
+	async _prepareEquipment(_context) {
 		const equipmentContext = {};
 		const items = this.actor.itemTypes.equipment;
 
@@ -549,6 +549,29 @@ export class AccursedSheet extends CurseborneActorSheet {
 		}
 
 		return equipmentContext;
+	}
+
+	async _prepareAspirations(context) {
+		const aspirations = Object.entries(this.actor.system.aspirations);
+		return Promise.all(
+			aspirations.map(async ([key, aspiration]) => {
+				const field = this.actor.system.schema.getField(`aspirations.${key}`);
+				const value = await foundry.applications.ux.TextEditor.enrichHTML(aspiration, {
+					relativeTo: this.actor,
+					secrets: this.actor.isOwner,
+					rollData: context.rollData,
+				});
+				return {
+					id: `${context.rootId}-aspirations.${key}`,
+					key,
+					labelShort: game.i18n.localize(
+						`CURSEBORNE.Actor.Accursed.FIELDS.aspirations.${key}.short`,
+					),
+					labelLong: field.label,
+					value,
+				};
+			}),
+		);
 	}
 
 	/** @inheritDoc */
@@ -675,7 +698,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return this.actor.system.rollDefense({ skipDialog: event.shiftKey });
 	}
 
-	static async _onNextSession(event, target) {
+	static async _onNextSession(event, _target) {
 		event.preventDefault();
 		if (!this.actor.isOwner) return;
 		return curseborne.session.startSession([this.actor.id]);
@@ -768,9 +791,9 @@ export class AccursedSheet extends CurseborneActorSheet {
 	/**
 	 * @this {AccursedSheet}
 	 * @param {Event} event - The triggering event
-	 * @param {HTMLElement} target - The target element
+	 * @param {HTMLElement} _target - The target element
 	 */
-	static async _onToggleSidebar(event, target) {
+	static async _onToggleSidebar(event, _target) {
 		event.preventDefault();
 		const isCollapsed = this.element.classList.contains("sidebar-collapsed");
 		const state = Flip.getState(

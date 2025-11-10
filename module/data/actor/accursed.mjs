@@ -26,8 +26,9 @@ export class Accursed extends CurseborneActorBase {
 		schema.injuries = new DotsField({ max: 7 }, { required: true });
 
 		schema.aspirations = new fields.SchemaField({
-			short: new fields.StringField({ required: true }),
-			long: new fields.StringField({ required: true }),
+			short1: new fields.HTMLField({ required: true, blank: true }),
+			short2: new fields.HTMLField({ required: true, blank: true }),
+			long: new fields.HTMLField({ required: true, blank: true }),
 		});
 
 		schema.major = new fields.ForeignDocumentField(foundry.documents.Item, {

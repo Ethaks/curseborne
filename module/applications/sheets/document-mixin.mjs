@@ -1,5 +1,7 @@
+import { TextEditorApplication } from "@applications/dialogs/text-editor.mjs";
 import { CurseborneActiveEffect } from "@documents/active-effect.mjs";
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
+import { CurseborneItem } from "@documents/item.mjs";
 import { SessionSetting } from "@helpers/session-setting.mjs";
 
 /** @import { ContextMenuEntry } from "@foundry/client/applications/ux/context-menu.mjs";
@@ -24,6 +26,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 				deleteDoc: this._onDeleteDocument,
 				copyDoc: this._onDuplicateDocument,
 				contextMenu: this._onOpenContextMenu,
+				editText: this._onEditText,
 			},
 			dragDrop: [{ dragSelector: "[data-drag]", dropSelector: null }],
 			form: { submitOnChange: true },
@@ -516,18 +519,40 @@ export function CurseborneDocumentSheetMixin(Base) {
 		}
 
 		/**
+		 * Open a text editor application for editing a text field.
+		 *
+		 * @this {CurseborneDocumentSheet}
+		 * @param {PointerEvent} _event
+		 * @param {HTMLElement} target
+		 * @protected
+		 */
+		static async _onEditText(_event, target) {
+			const doc = this.getDocument(target) ?? this.document;
+			const fieldPath = target.dataset.field;
+			const field = doc.system.schema.getField(fieldPath);
+			if (!field) throw new Error(`Field ${fieldPath} not found on document ${doc.uuid}`);
+			const editor = new TextEditorApplication({ document: doc, field });
+			editor.render({ force: true, mode: this._sheetMode });
+		}
+
+		/**
 		 * Get the document associated with a target element
 		 *
 		 * @remarks This method is asynchronous because the document might be from a compendium, requiring a server request.
 		 * @param {HTMLElement} target - The clicked target element
-		 * @returns {Promise<foundry.documents.Item | foundry.documents.ActiveEffect | null>} - The document instance
+		 * @returns {CurseborneItem | CurseborneActiveEffect | Promise<CurseborneItem | CurseborneActiveEffect> null} - The document instance
 		 */
 		getDocument(target) {
-			const { itemId, effectId, relativeId, uuid } = target.closest(
-				"[data-item-id], [data-effect-id], [data-relative-id], [data-uuid]",
-			).dataset;
+			const { itemId, effectId, relativeId, uuid } =
+				target.closest("[data-item-id], [data-effect-id], [data-relative-id], [data-uuid]")
+					?.dataset ?? {};
 			// UUIDs always guarantee an approach to a document, requiring no further lookup
-			if (uuid) return foundry.utils.fromUuidSync()(uuid);
+			if (uuid) {
+				const doc = foundry.utils.fromUuidSync(uuid);
+				if (doc instanceof foundry.abstract.Document) return doc;
+				else if (doc) return foundry.utils.fromUuid(uuid);
+				return null;
+			}
 
 			// Relative IDs are in relation to the root document into which others are embedded
 			if (relativeId) {

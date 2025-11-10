@@ -590,6 +590,24 @@
 			}
 		}
 	}
+
+	section.tab.biography {
+		.aspiration {
+			label {
+				flex: 0.5;
+				max-width: 110px;
+			}
+
+			.form-fields {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				-webkit-line-clamp: 4;
+				max-height: 8rem;
+				text-overflow: ellipsis;
+			}
+		}
+	}
 }
 
 .curseborne.sheet.adversary {

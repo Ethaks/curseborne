@@ -410,6 +410,7 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 		const choice = event.target.closest(".dropdown-item");
 		if (!choice) return;
 
+		this.#input.value = ""; // Clear the input to avoid doubled values
 		this._value[choice.dataset.id] = this._choices[choice.dataset.id];
 		if (this.#dropdown) {
 			this.#dropdown.remove();

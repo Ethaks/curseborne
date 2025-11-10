@@ -426,13 +426,8 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 	 * @param {string} value - The modifier value to add
 	 */
 	_tryAdd(value) {
-		value = this._parseAddValue(value);
-		const id = value.id || randomID({ collection: Object.keys(this._value) });
-
-		this._value[id] = {
-			id,
-			...value,
-		};
+		const parsed = this._parseAddValue(value);
+		this._value[parsed.id] = parsed;
 
 		if (this.#dropdown) this.#updateDropdownItems();
 		this.#input.value = "";
@@ -441,8 +436,17 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 		this.#input.focus();
 	}
 
+	/**
+	 * Transforms a possible value to be added into the expected object format.
+	 *
+	 * @param {string | {value: string, id?: string}} value - The value to parse
+	 * @returns {{id: string, value: string}} - The parsed value
+	 * @protected
+	 */
 	_parseAddValue(value) {
-		return { value };
+		if (typeof value === "string") value = { value };
+		value.id ||= randomID({ collection: Object.keys(this._value) });
+		return value;
 	}
 
 	/* -------------------------------------------- */
@@ -455,11 +459,7 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 		if (this.#input.value.trim().length) {
 			try {
 				const value = this._parseAddValue(this.#input.value.trim());
-				const id = value.id || randomID({ collection: Object.keys(this._value) });
-				this._value[id] = {
-					id,
-					...value,
-				};
+				this._value[value.id] = value;
 			} catch (error) {
 				console.error(`${SYSTEM_ID} | ${this.constructor.name} failed to parse input value`, error);
 			}

@@ -79,10 +79,10 @@ export class ModifierSelectElement extends BetterMultiSelectElement {
 		const { stacking, number, label } = value.match(
 			/(?<stacking>\+)?(?<number>\d+)\s*(?<label>.*)/,
 		).groups;
-		return {
+		return super._parseAddValue({
 			value: number,
 			stacking: stacking === "+",
 			label: label.replace(/^\[|\]$/g, ""),
-		};
+		});
 	}
 }

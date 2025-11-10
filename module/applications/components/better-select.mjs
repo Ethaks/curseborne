@@ -1,6 +1,7 @@
-/** @import { RollModifier } from "@dice/data.mjs"; */
-
 import { randomID, SYSTEM_ID } from "@helpers/utils.mjs";
+
+/** @import { RollModifier } from "@dice/data.mjs"; */
+/** @import { FormInputConfig } from "@common/data/_types.mjs"; */
 
 /**
  * A (multi-)select UI element for selecting values from a pre-defined list, or adding free-form values.
@@ -170,7 +171,7 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 	}
 
 	/**
-	 * Create an HTML string fragment for a single element pill.
+	 * Create an HTML element for a single pill.
 	 *
 	 * @param {string} key - The modifier key
 	 * @param {RollModifier} value - The modifier value
@@ -178,46 +179,25 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 	 * @returns {HTMLUListElement}
 	 */
 	static renderValue(key, value, editable = true) {
-		// TODO: Make suitable for general use instead of modifier only
-		// Modifier pill list element
-		const li = document.createElement("li");
-		li.classList.add("tag");
-		li.dataset.id = key;
-
-		// Modifier value span
-		if ("value" in value) {
-			const spanValue = document.createElement("span");
-			spanValue.classList.add("tag-value");
-			spanValue.textContent = value.value;
-			li.appendChild(spanValue);
-		}
-
-		// Modifier label span
-		if ("label" in value) {
-			const spanLabel = document.createElement("span");
-			spanLabel.classList.add("tag-label");
-			spanLabel.textContent = value.label;
-			li.appendChild(spanLabel);
-		}
-
-		// Hint as tooltip
-		if (value.hint) {
-			li.dataset.tooltip = value.hint;
-		}
-
-		// Remove button
-		if (editable) {
-			const a = document.createElement("a");
-			a.className = "remove fa-solid fa-times";
-			a.dataset.tooltip = game.i18n.format(""); // TODO: Add tooltip text according to type
-			a.setAttribute("aria-label", a.dataset.tooltip);
-			li.appendChild(a);
-		}
-		return li;
+		return foundry.utils.parseHTML(`<li
+			class="tag"
+			data-id="${key}"
+			${value.hint ? `data-tooltip="${value.hint}"` : ""}
+		>
+			${value ? `<span class="tag-value">${value.value}</span>` : ""}
+			${value.label ? `<span class="tag-label">${value.label}</span>` : ""}
+			${
+				editable
+					? `<button type="button" class="remove unbutton" data-tooltip aria-label="${game.i18n.localize("CURSEBORNE.Delete")}">
+							<i class="fa-solid fa-times" inert></i>
+					   </button>`
+					: ""
+			}
+		</li>`);
 	}
 
 	/**
-	 * Create an HTML string fragment for a single choice in the dropdown list.
+	 * Create an HTML element for a single choice in the dropdown list.
 	 * Each choice is a list element showing the label of the choice on the left, and the value on the right.
 	 * An optional stacking icon is displayed before the value if the choice is stacking.
 	 *
@@ -227,29 +207,22 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 	 */
 	static renderChoice(id, choice) {
 		const { label, value, hint } = choice;
-		const li = document.createElement("li");
-		li.classList.add("dropdown-item");
-		li.dataset.id = id;
 
-		// Label span
-		const spanLabel = document.createElement("span");
-		spanLabel.classList.add("dropdown-item-label");
-		spanLabel.textContent = label;
-		li.appendChild(spanLabel);
-
-		// Value span
-		const spanValue = document.createElement("span");
-		spanValue.classList.add("dropdown-item-value");
-		spanValue.textContent = value;
-		li.appendChild(spanValue);
-
-		// Add hint element if available
-		if (choice.hint) {
-			const hint = document.createElement("span");
-			hint.classList.add("dropdown-item-hint");
-			hint.innerHTML = choice.hint;
-			li.appendChild(hint);
-		}
+		const li = foundry.utils.parseHTML(`
+			<li
+				class="dropdown-item"
+				data-id="${id}"
+				${hint ? `data-tooltip="${hint}"` : ""}
+			>
+				<div class="dropdown-item-label">
+				${label}
+				</div>
+				<div class="dropdown-item-value">
+					${value}
+				</div>
+				${hint ? `<span class="dropdown-item-hint">${hint}</span>` : ""}
+			</li>
+		`);
 
 		for (const [key, value] of Object.entries(foundry.utils.flattenObject(choice))) {
 			li.dataset[key] = value;
@@ -319,7 +292,7 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 		}
 	}
 
-	#onBlurInput(event) {
+	#onBlurInput(_event) {
 		// Remove dropdown when input loses focus (after delay to allow clicking choices)
 		setTimeout(() => {
 			if (this.#dropdown) {
@@ -378,7 +351,10 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 
 	/** @inheritDoc */
 	_onClick(event) {
-		// TODO: Handle focusing the element without breaking dropdowns
+		// Forward click to input element
+		if (event.target !== this.#input) {
+			this.#input.focus();
+		}
 	}
 
 	/**
@@ -410,7 +386,7 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 	/**
 	 * Filter the available choices based on the current input value.
 	 *
-	 * @param {string} input - The current input value}
+	 * @param {string} input - The current input value
 	 * @param {string} id - The choice ID to check
 	 * @param {object} choice - The choice object to check
 	 * @returns {boolean} - Is the choice valid?
@@ -418,7 +394,7 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 	_applyChoiceFilter(input, id, choice) {
 		return (
 			choice.label.toLowerCase().includes(input.toLowerCase().trim()) ||
-			choice.value.toLowerCase().includes(input.toLowerCase().trim())
+			`${choice.value}`.toLowerCase().includes(input.toLowerCase().trim())
 		);
 	}
 
@@ -502,7 +478,7 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 	/**
 	 * Create a HTMLModifierSelectElement using provided configuration data.
 	 *
-	 * @param {import("../../../foundry/common/data/_types.mjs").FormInputConfig} config - The input field configuration data
+	 * @param {FormInputConfig} config - The input field configuration data
 	 * @returns {BetterMultiSelectElement} - A constructed HTMLModifierSelectElement
 	 */
 	static create(config) {

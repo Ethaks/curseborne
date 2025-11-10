@@ -25,8 +25,6 @@
 			"skill": { "htmlFields": ["description"] },
 			"edge": { "htmlFields": ["description"] },
 			"torment": {},
-			"damnation": {},
-			"inheritance": {},
 			"spell": { "htmlFields": ["description"] },
 			"trick": { "htmlFields": ["description"] },
 			"social": { "htmlFields": ["description"] },

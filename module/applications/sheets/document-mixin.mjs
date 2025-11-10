@@ -37,6 +37,15 @@ export function CurseborneDocumentSheetMixin(Base) {
 		}
 
 		/** @inheritDoc */
+		_configureRenderOptions(options) {
+			super._configureRenderOptions(options);
+			if (options.mode && this.isEditable) this._sheetMode = options.mode;
+			// New sheets should always start in edit mode
+			else if (options.renderContext === `create${this.document.documentName}`)
+				this._mode = this.constructor.SHEET_MODES.EDIT;
+		}
+
+		/** @inheritDoc */
 		async _prepareContext(options) {
 			const context = await super._prepareContext(options);
 
@@ -140,15 +149,18 @@ export function CurseborneDocumentSheetMixin(Base) {
 			const frame = await super._renderFrame(options);
 
 			// Add edit mode slide-toggle to the header
-			const slideToggle = document.createElement("slide-toggle");
-			slideToggle.classList.add("sheet-mode");
-			slideToggle.checked = this.isEditMode;
-			slideToggle.setAttribute("data-action", "toggleMode");
-			slideToggle.dataset.tooltip = "CURSEBORNE.EditMode";
-			// Insert before header buttons
-			frame
-				.querySelector(".window-header button")
-				.insertAdjacentElement("beforebegin", slideToggle);
+			if (this.isEditable) {
+				const slideToggle = document.createElement("slide-toggle");
+				slideToggle.classList.add("sheet-mode");
+				slideToggle.checked = this.isEditMode;
+				slideToggle.setAttribute("data-action", "toggleMode");
+				slideToggle.dataset.tooltip = "CURSEBORNE.EditMode";
+				slideToggle.dataset.action = "toggleMode";
+				// Insert before header buttons
+				frame
+					.querySelector(".window-header button")
+					.insertAdjacentElement("beforebegin", slideToggle);
+			}
 
 			return frame;
 		}
@@ -166,13 +178,11 @@ export function CurseborneDocumentSheetMixin(Base) {
 		}
 
 		/** @inheritDoc */
-		_onRender(context, options) {
-			super._onRender(context, options);
+		async _onRender(context, options) {
+			await super._onRender(context, options);
 
-			// HACK: Assign action to prevent hard-private onDoubleClick minimizing from triggering
-			for (const el of this.element.querySelectorAll(".window-header .sheet-mode *")) {
-				el.dataset.action ??= "toggleMode";
-			}
+			// Set sheet mode in sheet element dataset
+			this.element.dataset.sheetMode = this.isEditMode ? "edit" : "play";
 
 			// Add special styling for label-top hints.
 			for (const hint of this.element.querySelectorAll(".label-top > p.hint")) {
@@ -196,7 +206,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 		 *
 		 * @enum
 		 */
-		static SHEET_MODES = /** @type {const} */ ({ EDIT: 0, PLAY: 1 });
+		static SHEET_MODES = Object.freeze({ PLAY: 1, EDIT: 2 });
 
 		/**
 		 * The sheet's current mode.
@@ -247,10 +257,13 @@ export function CurseborneDocumentSheetMixin(Base) {
 		 */
 		static async _onToggleMode(event, target) {
 			// Submit any pending changes when switching from edit to play mode
-			if (this._sheetMode === this.constructor.SHEET_MODES.EDIT) {
+			if (this.isEditMode) {
 				await this.submit({ render: false });
 			}
-			const newMode = this._sheetMode === this.constructor.SHEET_MODES.EDIT ? 1 : 0;
+			const newMode =
+				this._sheetMode === this.constructor.SHEET_MODES.EDIT
+					? this.constructor.SHEET_MODES.PLAY
+					: this.constructor.SHEET_MODES.EDIT;
 			this._sheetMode = newMode;
 			this.render();
 		}
@@ -307,9 +320,28 @@ export function CurseborneDocumentSheetMixin(Base) {
 		_getContextMenuOptions() {
 			return [
 				{
+					name: "CURSEBORNE.View",
+					icon: '<i class="fa-solid fa-eye"></i>',
+					condition: () => this.isPlayMode,
+					callback: (target) => {
+						const item = this.getDocument(target);
+						return item?.sheet.render({
+							force: true,
+							mode: this.constructor.SHEET_MODES.PLAY,
+						});
+					},
+				},
+				{
 					name: "CURSEBORNE.Edit",
 					icon: '<i class="fa-solid fa-edit"></i>',
-					callback: (target) => this.constructor._onEditDocument.call(this, null, target),
+					condition: () => this.isEditMode,
+					callback: (target) => {
+						const doc = this.getDocument(target);
+						return doc?.sheet.render({
+							force: true,
+							mode: this.constructor.SHEET_MODES.EDIT,
+						});
+					},
 				},
 				{
 					name: "CURSEBORNE.DisplayCard",
@@ -422,11 +454,13 @@ export function CurseborneDocumentSheetMixin(Base) {
 		 * @this {CurseborneDocumentSheet}
 		 * @param {PointerEvent} _event
 		 * @param {HTMLElement} target
+		 * @param {object} options
+		 * @param {typeof CurseborneDocumentSheet.SHEET_MODES[keyof typeof CurseborneDocumentSheet.SHEET_MODES]} [options.mode]
 		 */
-		static async _onEditDocument(_event, target) {
+		static async _onEditDocument(_event, target, options) {
 			const li = target.closest("[data-item-id], [data-effect-id]");
 			const doc = await this.getDocument(li);
-			return doc?.sheet.render(true);
+			return doc?.sheet.render({ force: true, mode: options?.mode });
 		}
 
 		/**

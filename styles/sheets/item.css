@@ -115,3 +115,16 @@
 		}
 	}
 }
+
+.curseborne.active-effect-config:not(.minimized, .minimizing, .maximizing) {
+	min-width: 500px;
+	min-height: 400px;
+}
+.curseborne.active-effect-config [data-tab="details"].active {
+	.form-group.stacked:first-of-type {
+		flex: 1;
+		> .form-fields {
+			height: 90%;
+		}
+	}
+}

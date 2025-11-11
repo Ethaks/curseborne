@@ -7,6 +7,7 @@ export class CurseborneActiveEffectConfig extends CurseborneModifiersMixin.mixin
 	/** @inheritDoc */
 	static DEFAULT_OPTIONS = {
 		classes: ["curseborne"],
+		window: { resizable: true },
 	};
 
 	static {

@@ -10,10 +10,15 @@ import * as session from "./helpers/session.mjs";
 import { registerSystemSheet, systemPath, systemTemplate } from "./helpers/utils.mjs";
 import * as settings from "./settings.mjs";
 
-/* -------------------------------------------- */
-/*  Init Hook                                   */
-/* -------------------------------------------- */
-
+/* ---------------------------------------------------------------------------------------------- */
+/*                                           Public API                                           */
+/* ---------------------------------------------------------------------------------------------- */
+/**
+ * The public API of the Curseborne system.
+ *
+ * This being a global property (and the system being loaded before modules) allows modules
+ * to easily extend the system's classes e.g. to `curseborne.documents.CurseborneActor`.
+ */
 globalThis.curseborne = {
 	documents,
 	applications,
@@ -26,6 +31,10 @@ globalThis.curseborne = {
 	/** @type {CurseborneTooltips} */
 	tooltips: new CurseborneTooltips(),
 };
+
+/* ---------------------------------------------------------------------------------------------- */
+/*                                           Init Hook                                            */
+/* ---------------------------------------------------------------------------------------------- */
 
 Hooks.once("init", () => {
 	// Add custom constants for configuration.
@@ -125,6 +134,9 @@ Hooks.once("init", () => {
 	CONFIG.ui.momentum = applications.Momentum;
 });
 
+/* ---------------------------------------------------------------------------------------------- */
+/*                                  Localization Initialization                                   */
+/* ---------------------------------------------------------------------------------------------- */
 Hooks.on("i18nInit", () => {
 	// Localize non-TypeDataModels
 	const { RollModifier, Enhancement, Complication } = models.modifier;
@@ -135,16 +147,14 @@ Hooks.on("i18nInit", () => {
 	}
 });
 
-/* -------------------------------------------- */
-/*  Handlebars Helpers                          */
-/* -------------------------------------------- */
-
-// If you need to add Handlebars helpers, here is a useful example:
+/* ---------------------------------------------------------------------------------------------- */
+/*                                       Handlebars Helpers                                       */
+/* ---------------------------------------------------------------------------------------------- */
 CurseborneHandlebarsHelpers.registerHelpers();
 
-/* -------------------------------------------- */
-/*  Ready Hook                                  */
-/* -------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
+/*                                           Ready Hook                                           */
+/* ---------------------------------------------------------------------------------------------- */
 
 Hooks.once("ready", () => {
 	// Wait to register hotbar drop hook on ready so that modules could register earlier if they want to

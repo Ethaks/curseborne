@@ -45,7 +45,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 			if (options.mode && this.isEditable) this._sheetMode = options.mode;
 			// New sheets should always start in edit mode
 			else if (options.renderContext === `create${this.document.documentName}`)
-				this._mode = this.constructor.SHEET_MODES.EDIT;
+				this._sheetMode = this.constructor.SHEET_MODES.EDIT;
 		}
 
 		/** @inheritDoc */

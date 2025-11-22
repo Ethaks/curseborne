@@ -476,8 +476,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 					),
 					tooltip: curseborne.tooltips.createPlaceholder({
 						uuid: social.uuid,
-						tooltipDirection:
-							social.system.type === "bond" ? TOOLTIP_DIRECTIONS.RIGHT : TOOLTIP_DIRECTIONS.LEFT,
+						tooltipDirection: TOOLTIP_DIRECTIONS.RIGHT,
 					}),
 
 					// Bond data

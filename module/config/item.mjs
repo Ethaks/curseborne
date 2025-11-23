@@ -115,6 +115,7 @@ export const practices = {
 			biomancy: { label: "CURSEBORNE.PRACTICES.Biomancy" },
 			consumingSiphon: { label: "CURSEBORNE.PRACTICES.ConsumingSiphon" },
 			illusion: { label: "CURSEBORNE.PRACTICES.Illusion" },
+			spiritualism: { label: "CURSEBORNE.PRACTICES.Spiritualism" },
 			telelocation: { label: "CURSEBORNE.PRACTICES.Telelocation" },
 			thaumaturgy: { label: "CURSEBORNE.PRACTICES.Thaumaturgy" },
 		},

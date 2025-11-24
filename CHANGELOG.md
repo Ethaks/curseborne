@@ -50,3 +50,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add missing _Mortally Wounded_ and _Drained_ status effect
 - Prevent entered values in modifier selection elements to get added twice
 - Add missing _Spiritualism_ practice
+- Prevent Attribute dots affected by Active Effects from storing the derived value

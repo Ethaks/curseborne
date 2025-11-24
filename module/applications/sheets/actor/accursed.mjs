@@ -338,7 +338,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return edges.sort((a, b) => a.sort - b.sort);
 	}
 
-	async _prepareAttributes(_context) {
+	async _prepareAttributes(context) {
 		const groups = Object.entries(curseborne.config.attributeGroups).reduce(
 			(acc, [id, { label }]) => {
 				acc[id] = { label, attributes: [] };
@@ -355,7 +355,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 				id,
 				label: game.i18n.localize(attributeConfig.label),
 				field: this.actor.system.schema.fields.attributes.fields[id],
-				value: attribute.value,
+				value: this.isEditMode ? context.source.system.attributes[id].value : attribute.value,
 				max: attribute.max,
 			});
 		}

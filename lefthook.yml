@@ -1,5 +1,16 @@
 pre-commit:
-  commands:
-    check:
-      run: bun x @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+  parallel: true
+  jobs:
+    - name: biome
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: >
+        bun x @biomejs/biome check --write
+        --no-errors-on-unmatched
+        --files-ignore-unknown=true
+        {staged_files}
+
+    - name: dprint-hbs
+      glob: "*.hbs"
+      run: bun x dprint fmt {staged_files}
       stage_fixed: true

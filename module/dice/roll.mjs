@@ -428,8 +428,13 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		const data = super.toJSON();
 		// Include data object in serialised data
 		data.data = this.data.toObject();
+
 		// Delete inner rollData object to avoid it taking up space
 		if ("rollData" in data.data) delete data.data.rollData;
+		if ("actor" in data.options && data.options.actor && typeof data.options.actor !== "string")
+			data.options.actor = data.options.actor.uuid;
+		if ("token" in data.options && data.options.token && typeof data.options.token !== "string")
+			data.options.token = data.options.token.uuid;
 		return data;
 	}
 

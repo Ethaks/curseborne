@@ -2,6 +2,8 @@ import { TabsMixin } from "@applications/common/tabs.mjs";
 import { systemTemplate } from "../../helpers/utils.mjs";
 import { FormDialog } from "./form.mjs";
 
+/** @import { CurseborneRollContext } from "@dice/data.mjs" */
+
 export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 	/** @inheritDoc */
 	static PARTS = {
@@ -81,6 +83,7 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 	/** @inheritDoc */
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
+		this.options.roll?.initialize();
 		this.rollData = this.actor.getRollData();
 		context.rollData = this.rollData;
 		context.fields = this.object.schema.fields;
@@ -101,14 +104,19 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 		}, {});
 		const dataSourceField = this.rollContext.schema.getField("sources").model;
 		const { DieSourceField } = curseborne.models.fields;
+
+		const sortOrder = /** @type {const} */ ({
+			skill: 0,
+			attribute: 1,
+			default: 2,
+		});
 		context.sources = this.rollContext.sources.contents
 			.sort((a, b) => {
-				// Sort by fixed ids first (attribute > skill), then other entries
-				if (a.type === b.type) return a.id.localeCompare(b.id);
-				if (a.type === "attribute") return -1;
-				if (b.type === "attribute") return 1;
-				if (a.type === "skill") return -1;
-				if (b.type === "skill") return 1;
+				// Sort: skill > attribute > other; within type by id to remain stable
+				const oa = sortOrder[a.type] ?? sortOrder.default;
+				const ob = sortOrder[b.type] ?? sortOrder.default;
+
+				if (oa !== ob) return oa - ob;
 				return a.id.localeCompare(b.id);
 			})
 			.map((source) => {

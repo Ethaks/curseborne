@@ -1,61 +1,65 @@
 {{! Adversary Sheet Header }}
 <header class="sheet-header">
-    {{! Avatar }}
-    <div class="header-left">
-        <img class="profile-img"
-             src="{{actor.img}}"
-             data-edit="img"
-             data-action="onEditImage"
-             title="{{actor.name}}"
-             height="60"
-             width="60" />
-    </div>
+	{{! Avatar }}
+	<div class="header-left">
+		<img
+			class="profile-img"
+			src="{{actor.img}}"
+			data-edit="img"
+			data-action="onEditImage"
+			title="{{actor.name}}"
+			height="60"
+			width="60"
+		>
+	</div>
 
-    {{! Name and Template }}
-    <div class="header-center">
-        {{! Name }}
-        <h1 class="document-name">
-            {{#if editable }}
-                <input type="text" name="name" value="{{actor.name}}" class="document-name" />
-            {{else}}
-                <span>{{actor.name}}</span>
-            {{/if}}
+	{{! Name and Template }}
+	<div class="header-center">
+		{{! Name }}
+		<h1 class="document-name">
+			{{#if editable}}
+				<input type="text" name="name" value="{{actor.name}}" class="document-name" />
+			{{else}}
+				<span>{{actor.name}}</span>
+			{{/if}}
+		</h1>
 
-        </h1>
+		{{! Template }}
+		<div class="template">
+			{{! Add button if no template present }}
+			{{#if (not template)}}
+				<button
+					type="button"
+					class="add-item"
+					data-action="addItem"
+					data-item-type="template"
+					data-tooltip="TYPES.Item.template"
+				>
+					<i class="fa-solid fa-plus"></i>
+				</button>
+			{{else}}
+				{{! Template display if present }}
+				<ul class="items-list unlist template">
+					<li
+						class="item template flexrow"
+						data-item-id="{{template.id}}"
+						data-tooltip="{{template.tooltip}}"
+					>
+						<div class="item-name">
+							<img class="item-image" src="{{template.img}}" alt="{{template.name}}" />
+							<h4 class="item-name">{{template.name}}</h4>
+						</div>
+						{{#if editable}}
+							<button type="button" class="item-control unbutton" data-action="contextMenu">
+								<i class="fa-solid fa-ellipsis-v"></i>
+							</button>
+						{{/if}}
+					</li>
+				</ul>
+			{{/if}}
+		</div>
+	</div>
 
-        {{! Template }}
-        <div class="template">
-            {{! Add button if no template present }}
-            {{#if (not template) }}
-                <button type="button"
-                        class="add-item"
-                        data-action="addItem"
-                        data-item-type="template"
-                        data-tooltip="TYPES.Item.template">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            {{else}}
-
-                {{! Template display if present }}
-                <ul class="items-list unlist template">
-                    <li class="item template flexrow"
-                        data-item-id="{{template.id}}"
-                        data-tooltip="{{template.tooltip}}">
-                        <div class="item-name">
-                            <img class="item-image" src="{{template.img}}" alt="{{template.name}}" />
-                            <h4 class="item-name">{{template.name}}</h4>
-                        </div>
-                        {{#if editable }}
-                            <button type="button" class="item-control unbutton" data-action="contextMenu">
-                                <i class="fa-solid fa-ellipsis-v"></i>
-                            </button>
-                        {{/if}}
-                    </li>
-                </ul>
-            </div>
-        {{/if}}
-    </div>
-
-    {{! XP and Time Controls }}
-    <div class="header-right"></div>
+	{{! XP and Time Controls }}
+	<div class="header-right"></div>
 </header>

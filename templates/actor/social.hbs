@@ -1,106 +1,109 @@
 {{! Social Tab }}
-<section class="tab social {{tab.cssClass}} standard-form"
-         data-group="primary"
-         data-tab="social">
+<section class="tab social {{tab.cssClass}} standard-form" data-group="primary" data-tab="social">
+	{{! Aspirations }}
+	{{! TODO: How to handle? }}
 
-    {{! Aspirations }}
-    {{! TODO: How to handle? }}
+	<div class="grid grid-2col">
+		{{! Left Column }}
+		<div class="flexcol">
+			{{! Bonds }}
+			<fieldset class="bonds">
+				<legend class="flexrow">
+					<span>{{localize "CURSEBORNE.Bonds"}}</span>
+					{{#if editable}}
+						<button
+							type="button"
+							class="unbutton add-bond"
+							data-action="createDoc"
+							data-type="social"
+							data-system-type="bond"
+							data-tooltip="CURSEBORNE.DICE.AddBond"
+						>
+							<i class="fa-solid fa-plus"></i>
+						</button>
+					{{/if}}
+				</legend>
+				<ul class="items-list unlist">
+					{{#each bonds}}
+						<li class="item bond flexrow" data-item-id="{{id}}">
+							<div class="item-name rollable" data-tooltip="{{tooltip}}">
+								<img class="item-image" src="{{img}}" title="{{name}}" />
+								<h3 class="item-name">{{name}}</h3>
+							</div>
+							<div class="dots flexcol align-right flexshrink">
+								{{
+									curse-formInput
+									bond.dots.field
+									formGroupOptions
+									value=system.bond.dots.value
+									max=system.bond.dots.max
+									dataset=bond.dots.dataset
+									classes="align-right"
+								}}
+								{{
+									curse-formInput
+									bond.uses.field
+									formGroupOptions
+									value=system.bond.uses.value
+									max=system.bond.uses.max
+									dataset=bond.uses.dataset
+									editable=@root.isEditable
+								}}
+							</div>
+							{{#if @root.editable}}
+								<button type="button" class="item-control unbutton" data-action="contextMenu">
+									<i class="fa-solid fa-ellipsis-v"></i>
+								</button>
+							{{/if}}
+						</li>
+					{{/each}}
+				</ul>
+			</fieldset>
+		</div>
 
-    <div class="grid grid-2col">
-        {{! Left Column }}
-        <div class="flexcol">
-            {{! Bonds }}
-            <fieldset class="bonds">
-                <legend class="flexrow">
-                    <span>{{localize "CURSEBORNE.Bonds"}}</span>
-                    {{#if editable }}
-                        <button type="button"
-                                class="unbutton add-bond"
-                                data-action="createDoc"
-                                data-type="social"
-                                data-system-type="bond"
-                                data-tooltip="CURSEBORNE.DICE.AddBond">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    {{/if}}
-                </legend>
-                <ul class="items-list unlist">
-                    {{#each bonds }}
-                        <li class="item bond flexrow" data-item-id="{{id}}">
-                            <div class="item-name rollable" data-tooltip="{{tooltip}}">
-                                <img class="item-image" src="{{img}}" title="{{name}}" />
-                                <h3 class="item-name">{{name}}</h3>
-                            </div>
-                            <div class="dots flexcol align-right flexshrink">
-                                {{curse-formInput
-                                bond.dots.field
-                                formGroupOptions
-                                value=system.bond.dots.value
-                                max=system.bond.dots.max
-                                dataset=bond.dots.dataset
-                                classes="align-right"
-                                }}
-                                {{curse-formInput
-                                bond.uses.field
-                                formGroupOptions
-                                value=system.bond.uses.value
-                                max=system.bond.uses.max
-                                dataset=bond.uses.dataset
-                                editable=@root.isEditable
-                                }}
-
-                            </div>
-                            {{#if @root.editable }}
-                                <button type="button" class="item-control unbutton" data-action="contextMenu">
-                                    <i class="fa-solid fa-ellipsis-v"></i>
-                                </button>
-                            {{/if}}
-                        </li>
-                    {{/each}}
-                </ul>
-            </fieldset>
-        </div>
-
-        {{! Right Column}}
-        <div class="flexcol">
-            <fieldset class="contacts">
-                <legend class="flexrow">
-                    <span>{{localize "CURSEBORNE.Contacts"}}</span>
-                    {{#if editable }}
-                        <button type="button"
-                                class="unbutton add-contact"
-                                data-action="createDoc"
-                                data-type="social"
-                                data-system-type="contact"
-                                data-tooltip="CURSEBORNE.DICE.AddContact">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    {{/if}}
-                </legend>
-                <ul class="items-list unlist">
-                    {{#each contacts }}
-                        <li class="item contact flexrow" data-item-id="{{id}}">
-                            <div class="item-name rollable" data-action="roll" data-tooltip="{{tooltip}}">
-                                <img class="item-image" src="{{img}}" title="{{name}}" />
-                                <h3 class="item-name">{{name}}</h3>
-                            </div>
-                            {{curse-formInput
-                            contact.dots.field
-                            formGroupOptions
-                            value=system.contact.dots.value
-                            max=system.contact.dots.max
-                            dataset=contact.dots.dataset
-                            classes="align-right"
-                            }}
-                            {{#if @root.editable }}
-                                <button type="button" class="item-control unbutton" data-action="contextMenu">
-                                    <i class="fa-solid fa-ellipsis-v"></i>
-                                </button>
-                            {{/if}}
-                        </li>
-                    {{/each}}
-                </ul>
-            </fieldset>
-        </div>
-    </div>
+		{{! Right Column}}
+		<div class="flexcol">
+			<fieldset class="contacts">
+				<legend class="flexrow">
+					<span>{{localize "CURSEBORNE.Contacts"}}</span>
+					{{#if editable}}
+						<button
+							type="button"
+							class="unbutton add-contact"
+							data-action="createDoc"
+							data-type="social"
+							data-system-type="contact"
+							data-tooltip="CURSEBORNE.DICE.AddContact"
+						>
+							<i class="fa-solid fa-plus"></i>
+						</button>
+					{{/if}}
+				</legend>
+				<ul class="items-list unlist">
+					{{#each contacts}}
+						<li class="item contact flexrow" data-item-id="{{id}}">
+							<div class="item-name rollable" data-action="roll" data-tooltip="{{tooltip}}">
+								<img class="item-image" src="{{img}}" title="{{name}}" />
+								<h3 class="item-name">{{name}}</h3>
+							</div>
+							{{
+								curse-formInput
+								contact.dots.field
+								formGroupOptions
+								value=system.contact.dots.value
+								max=system.contact.dots.max
+								dataset=contact.dots.dataset
+								classes="align-right"
+							}}
+							{{#if @root.editable}}
+								<button type="button" class="item-control unbutton" data-action="contextMenu">
+									<i class="fa-solid fa-ellipsis-v"></i>
+								</button>
+							{{/if}}
+						</li>
+					{{/each}}
+				</ul>
+			</fieldset>
+		</div>
+	</div>
 </section>

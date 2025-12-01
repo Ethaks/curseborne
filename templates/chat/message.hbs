@@ -1,43 +1,42 @@
-<li class="chat-message message flexcol {{cssClass}}"
-    data-message-id="{{message._id}}"
-    {{#if borderColor }}
-    style="border-color:{{borderColor }}"
-    {{/if }}>
+<li
+	class="chat-message message flexcol {{cssClass}}"
+	data-message-id="{{message._id}}"
+	{{#if borderColor }}
+	style="border-color:{{borderColor }}"
+	{{/if }}
+>
+	<header class="message-header box caps flexrow">
+		<a class="avatar" {{#if tokenUuid }}data-uuid="{{tokenUuid }}" {{/if }}>
+			<img src="{{avatar}}" width="42" height="42" alt="{{alias}}" data-tooltip="{{alias}}" />
+		</a>
+		<h4 class="message-sender">
+			<div class="name-stacked">
+				<div class="title">{{alias}}</div>
+				<div class="subtitle">{{subtitle}}</div>
+			</div>
+		</h4>
+		{{!-- <span class="roll-icons flexrow"></span> --}}
+		<span class="message-metadata">
+			<time class="message-timestamp">{{timeSince message.timestamp}}</time>
+			{{#if canDelete}}
+				<a aria-label="{{localize 'Delete'}}" class="message-delete" data-action="deleteMessage">
+					<i class="fa-solid fa-trash"></i>
+				</a>
+			{{/if}}
+			<a class="chat-control" data-action="contextMenu">
+				<i class="fa-solid fa-ellipsis-vertical"></i>
+			</a>
+		</span>
 
-    <header class="message-header box caps flexrow">
-        <a class="avatar" {{#if tokenUuid }}data-uuid="{{tokenUuid }}"{{/if }}>
-            <img src="{{avatar}}"
-                 width="42"
-                 height="42"
-                 alt="{{alias}}"
-                 data-tooltip="{{alias}}" />
-        </a>
-        <h4 class="message-sender">
-            <div class="name-stacked">
-                <div class="title">{{alias}}</div>
-                <div class="subtitle">{{subtitle}}</div>
-            </div>
-        </h4>
-        {{!-- <span class="roll-icons flexrow"></span> --}}
-        <span class="message-metadata">
-            <time class="message-timestamp">{{timeSince message.timestamp}}</time>
-            {{#if canDelete }}
-                <a aria-label="{{localize 'Delete'}}"
-                   class="message-delete"
-                   data-action="deleteMessage"><i class="fa-solid fa-trash"></i></a>
-            {{/if}}
-            <a class="chat-control" data-action="contextMenu"><i class="fa-solid fa-ellipsis-vertical"></i></a>
-        </span>
-
-        {{!--
+		{{!--
         {{#if isWhisper }}
             <span class="whisper-to">{{localize 'CHAT.To'}}: {{whisperTo}}</span>
         {{/if}} --}}
 
-        {{#if message.flavor }}
-            <span class="flavor-text">{{{message.flavor}}}</span>
-        {{/if}}
-    </header>
+		{{#if message.flavor}}
+			<span class="flavor-text">{{{message.flavor}}}</span>
+		{{/if}}
+	</header>
 
-    <div class="message-content">{{{message.content}}}</div>
+	<div class="message-content">{{{message.content}}}</div>
 </li>

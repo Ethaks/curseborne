@@ -1,97 +1,94 @@
 {{! Inline template for individual spell }}
 {{#*inline "spell"}}
-<li class="item spell flexrow {{ifThen isAdvance "advance" ""}}"
-    data-item-id="{{item.id}}"
-    data-flip-id="{{@root.rootId}}-{{item.id}}">
-    <div class="item-name flexrow" data-tooltip="{{tooltip}}">
-        <div class="item-image">
-            <a class="rollable" data-roll-type="item">
-                <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
-            </a>
-        </div>
-        <span>{{item.name}}</span>
-    </div>
+	<li
+		class='item spell flexrow {{ifThen isAdvance "advance" ""}}'
+		data-item-id="{{item.id}}"
+		data-flip-id="{{@root.rootId}}-{{item.id}}"
+	>
+		<div class="item-name flexrow" data-tooltip="{{tooltip}}">
+			<div class="item-image">
+				<a class="rollable" data-roll-type="item">
+					<img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+				</a>
+			</div>
+			<span>{{item.name}}</span>
+		</div>
 
-    {{! Cost }}
-    <div class="spell-cost" data-tooltip="{{costLong}}">
-        {{#if item.system.cost.value }}
-            <i class="{{costIcon}}"></i>
-            <span class="cost-value">{{{cost}}}</span>
-        {{/if}}
-    </div>
+		{{! Cost }}
+		<div class="spell-cost" data-tooltip="{{costLong}}">
+			{{#if item.system.cost.value}}
+				<i class="{{costIcon}}"></i>
+				<span class="cost-value">{{{cost}}}</span>
+			{{/if}}
+		</div>
 
-    {{! Attunements }}
-    <div class="spell-attunements flexrow" data-tooltip="{{attunements}}">{{attunements}}</div>
+		{{! Attunements }}
+		<div class="spell-attunements flexrow" data-tooltip="{{attunements}}">{{attunements}}</div>
 
-    {{! Controls }}
-    <div class="item-controls">
-        {{#if @root.editable }}
-            <a class="item-control item-delete" data-action="deleteDoc">
-                <i class="fa-solid fa-trash"></i>
-            </a>
-        {{/if}}
-        <a class="item-control"
-           data-action="contextMenu"
-           data-tooltip="CURSEBORNE.ContextMenu">
-            <i class="fa-solid fa-ellipsis-v"></i>
-        </a>
-    </div>
-</li>
+		{{! Controls }}
+		<div class="item-controls">
+			{{#if @root.editable}}
+				<a class="item-control item-delete" data-action="deleteDoc">
+					<i class="fa-solid fa-trash"></i>
+				</a>
+			{{/if}}
+			<a class="item-control" data-action="contextMenu" data-tooltip="CURSEBORNE.ContextMenu">
+				<i class="fa-solid fa-ellipsis-v"></i>
+			</a>
+		</div>
+	</li>
 {{/inline}}
 
 {{! Spells Tab }}
 <section class="tab spells {{tab.cssClass}}" data-group="primary" data-tab="spells">
+	{{! Spell Search Bar }}
+	<search class="flexrow" data-search="spells">
+		{{! Search Mode Toggle}}
+		<button type="button" class="inline-control toggle-search-mode icon" data-action="toggleSearch">
+		</button>
 
-    {{! Spell Search Bar }}
-    <search class="flexrow" data-search="spells">
-    {{! Search Mode Toggle}}
-    <button type="button"
-            class="inline-control toggle-search-mode icon"
-            data-action="toggleSearch"></button>
+		{{! Search Input}}
+		<input
+			type="search"
+			name="spell-search"
+			class="spell-search"
+			placeholder='{{localize "Search"}}'
+		>
+	</search>
 
-    {{! Search Input}}
-    <input type="search"
-           name="spell-search"
-           class="spell-search"
-           placeholder="{{localize "Search"}}">
-    </search>
+	{{#each practices}}
+		{{! Each Practice gets its own box }}
+		<section class="items-section practice boxed-list">
+			{{! Practice Header }}
+			<div class="items-header header">
+				<h3 class="item-name">{{localize label}}</h3>
+			</div>
 
-    {{#each practices }}
-        {{! Each Practice gets its own box }}
-        <section class="items-section practice boxed-list">
+			{{! Practice Spells, sorted by subgroup }}
+			{{#each subgroups}}
+				<ol class="items-list unlist subgroup">
+					{{! Subgroup Header }}
+					<div class="items-header header">
+						<h4 class="item-name subgroup-header">{{localize label}}</h4>
+					</div>
 
-            {{! Practice Header }}
-            <div class="items-header header">
-                <h3 class="item-name">{{localize label}}</h3>
-            </div>
+					{{#each spells}}
+						{{! Core Spell }}
+						{{> spell this}}
 
-            {{! Practice Spells, sorted by subgroup }}
-            {{#each subgroups }}
-                <ol class="items-list unlist subgroup">
-                    {{! Subgroup Header }}
-                    <div class="items-header header">
-                        <h4 class="item-name subgroup-header">{{localize label}}</h4>
-                    </div>
+						{{#each advances}}
+							{{! Spell Advances }}
+							{{> spell this}}
+						{{/each}}
+					{{/each}}
+				</ol>
+			{{/each}}
+		</section>
+	{{/each}}
 
-                    {{#each spells }}
-                        {{! Core Spell }}
-                        {{> spell this}}
-
-                        {{#each advances }}
-                            {{! Spell Advances }}
-                            {{> spell this}}
-                        {{/each}}
-                    {{/each}}
-
-                </ol>
-            {{/each}}
-        </section>
-    {{/each}}
-
-    {{#if editable }}
-        <button type="button" class="item-create" data-action="createDoc" data-type="spell">
-            <i class="fa-solid fa-plus"></i>
-        </button>
-    {{/if}}
-
+	{{#if editable}}
+		<button type="button" class="item-create" data-action="createDoc" data-type="spell">
+			<i class="fa-solid fa-plus"></i>
+		</button>
+	{{/if}}
 </section>

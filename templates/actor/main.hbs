@@ -1,127 +1,122 @@
 {{! Main Tab }}
-<section class="tab main standard-form {{tab.cssClass}}"
-         data-group="primary"
-         data-tab="main">
+<section class="tab main standard-form {{tab.cssClass}}" data-group="primary" data-tab="main">
+	<fieldset class="paths grid">
+		<legend class="flexrow">
+			<span>{{localize "CURSEBORNE.Paths"}}</span>
+			{{#if editable}}
+				<button type="button" class="unbutton add-item" data-action="addItem" data-item-type="path">
+					<i class="fa-solid fa-plus"></i>
+				</button>
+			{{/if}}
+		</legend>
+		<ul class="items-list unlist paths grid grid-3col">
+			{{#each paths}}
+				<li
+					class="path item flexrow {{type}}"
+					data-item-id="{{id}}"
+					data-drag
+					data-tooltip="{{tooltip}}"
+				>
+					<div class="item-name">
+						<img class="item-image align-right flexshrink" src="{{img}}" />
+						<h4 class="item-name">{{name}}</h4>
+					</div>
+					{{#if @root.editable}}
+						<a class="item-control" data-action="contextMenu">
+							<i class="fa-solid fa-ellipsis-v"></i>
+						</a>
+					{{/if}}
+				</li>
+			{{/each}}
+		</ul>
+	</fieldset>
 
-    <fieldset class="paths grid">
-        <legend class="flexrow">
-            <span>{{localize "CURSEBORNE.Paths"}}</span>
-            {{#if editable }}
-                <button type="button"
-                        class="unbutton add-item"
-                        data-action="addItem"
-                        data-item-type="path">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            {{/if}}
-        </legend>
-        <ul class="items-list unlist paths grid grid-3col">
-            {{#each paths }}
-                <li class="path item flexrow {{type}}"
-                    data-item-id="{{id}}"
-                    data-drag
-                    data-tooltip="{{tooltip}}">
-                    <div class="item-name">
-                        <img class="item-image align-right flexshrink" src="{{img}}" />
-                        <h4 class="item-name">{{name}}</h4>
-                    </div>
-                    {{#if @root.editable }}
-                        <a class="item-control" data-action="contextMenu">
-                            <i class="fa-solid fa-ellipsis-v"></i>
-                        </a>
-                    {{/if}}
-                </li>
-            {{/each}}
-        </ul>
-    </fieldset>
+	<div class="skills-edges">
+		<fieldset class="skills">
+			<legend>{{localize "CURSEBORNE.Skills"}}</legend>
 
-    <div class="skills-edges">
-        <fieldset class="skills">
-            <legend>{{localize "CURSEBORNE.Skills"}}</legend>
+			<ul class="skills items-list unlist grid grid-2col">
+				{{#each skills}}
+					<li class="item skill flexrow" data-item-id="{{id}}">
+						<a class="item-name" data-action="roll" data-tooltip="{{tooltip}}">
+							<h3 class="item-name">{{name}}</h3>
+						</a>
+						{{
+							curse-formInput
+							dotField
+							formGroupOptions
+							value=system.dots.value
+							max=system.dots.max
+							dataset=dataset
+							classes="align-right"
+						}}
 
-            <ul class="skills items-list unlist grid grid-2col">
-                {{#each skills }}
-                    <li class="item skill flexrow" data-item-id="{{id}}">
-                        <a class="item-name" data-action="roll" data-tooltip="{{tooltip}}">
-                            <h3 class="item-name">{{name}}</h3>
-                        </a>
-                        {{curse-formInput
-                        dotField
-                        formGroupOptions
-                        value=system.dots.value
-                        max=system.dots.max
-                        dataset=dataset
-                        classes="align-right"
-                        }}
+						{{#if @root.editable}}
+							<a class="item-control" data-action="contextMenu">
+								<i class="fa-solid fa-ellipsis-v"></i>
+							</a>
+						{{/if}}
+					</li>
+				{{/each}}
+			</ul>
+		</fieldset>
 
-                        {{#if @root.editable }}
-                            <a class="item-control" data-action="contextMenu">
-                                <i class="fa-solid fa-ellipsis-v"></i>
-                            </a>
-                        {{/if}}
-                    </li>
-                {{/each}}
-            </ul>
-        </fieldset>
+		{{! Edges}}
+		<fieldset class="edges standard-form">
+			<legend class="flexrow">
+				<span>{{localize "CURSEBORNE.Edges"}}</span>
+				{{#if editable}}
+					<button type="button" class="unbutton add-item" data-action="createDoc" data-type="edge">
+						<i class="fa-solid fa-plus"></i>
+					</button>
+				{{/if}}
+			</legend>
+			<ul class="edges items-list unlist">
+				{{#each edges}}
+					<li class="item edge flexrow" data-item-id="{{id}}">
+						<h4 class="item-name" data-tooltip="{{tooltip}}">{{name}}</h4>
+						{{
+							curse-formInput
+							dotField
+							formGroupOptions
+							value=system.dots.value
+							max=system.dots.max
+							dataset=dataset
+							classes="align-right"
+						}}
+						{{#if @root.editable}}
+							<a class="item-control" data-action="contextMenu">
+								<i class="fa-solid fa-ellipsis-v"></i>
+							</a>
+						{{/if}}
+					</li>
+				{{/each}}
+			</ul>
+		</fieldset>
+	</div>
 
-        {{! Edges}}
-        <fieldset class="edges standard-form">
-            <legend class="flexrow">
-                <span>{{localize "CURSEBORNE.Edges"}}</span>
-                {{#if editable }}
-                    <button type="button"
-                            class="unbutton add-item"
-                            data-action="createDoc"
-                            data-type="edge">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                {{/if}}
-            </legend>
-            <ul class="edges items-list unlist">
-                {{#each edges }}
-                    <li class="item edge flexrow" data-item-id="{{id}}">
-                        <h4 class="item-name" data-tooltip="{{tooltip}}">{{name}}</h4>
-                        {{curse-formInput
-                        dotField
-                        formGroupOptions
-                        value=system.dots.value
-                        max=system.dots.max
-                        dataset=dataset
-                        classes="align-right"
-                        }}
-                        {{#if @root.editable }}
-                            <a class="item-control" data-action="contextMenu">
-                                <i class="fa-solid fa-ellipsis-v"></i>
-                            </a>
-                        {{/if}}
-                    </li>
-                {{/each}}
-            </ul>
-        </fieldset>
-
-    </div>
-
-    <fieldset class="attributes grid grid-3col">
-        <legend>{{localize "CURSEBORNE.Attributes"}}</legend>
-        {{#each attributes }}
-            <div class="arena flexcol">
-                <h4 class="arena-name align-center">{{localize label}}</h4>
-                <ul class="items-list attributes flexcol {{groupId}} unlist">
-                    {{#each attributes }}
-                        <li class="attribute item flexrow" data-attribute-id="{{id}}">
-                            <a class="item-name" data-action="roll">{{label}}</a>
-                            {{curse-formInput
-                            field
-                            @root.formGroupOptions
-                            value=value
-                            localize=true
-                            max=max
-                            classes="align-right"
-                            }}
-                        </li>
-                    {{/each}}
-                </ul>
-            </div>
-        {{/each}}
-    </fieldset>
+	<fieldset class="attributes grid grid-3col">
+		<legend>{{localize "CURSEBORNE.Attributes"}}</legend>
+		{{#each attributes}}
+			<div class="arena flexcol">
+				<h4 class="arena-name align-center">{{localize label}}</h4>
+				<ul class="items-list attributes flexcol {{groupId}} unlist">
+					{{#each attributes}}
+						<li class="attribute item flexrow" data-attribute-id="{{id}}">
+							<a class="item-name" data-action="roll">{{label}}</a>
+							{{
+								curse-formInput
+								field
+								@root.formGroupOptions
+								value=value
+								localize=true
+								max=max
+								classes="align-right"
+							}}
+						</li>
+					{{/each}}
+				</ul>
+			</div>
+		{{/each}}
+	</fieldset>
 </section>

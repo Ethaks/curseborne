@@ -1,50 +1,52 @@
 {{! Accursed Sheet Header }}
 <header class="sheet-header">
-    {{! Avatar }}
-    <div class="header-left">
-        <img class="profile-img"
-             src="{{actor.img}}"
-             data-edit="img"
-             data-action="onEditImage"
-             title="{{actor.name}}"
-             height="60"
-             width="60" />
-    </div>
+	{{! Avatar }}
+	<div class="header-left">
+		<img
+			class="profile-img"
+			src="{{actor.img}}"
+			data-edit="img"
+			data-action="onEditImage"
+			title="{{actor.name}}"
+			height="60"
+			width="60"
+		/>
+	</div>
 
-    {{! Name and Entanglement }}
-    <div class="header-center">
-        <h1 class="document-name">
-            {{#if editable }}
-                <input type="text" name="name" value="{{actor.name}}" class="document-name" />
-            {{else}}
-                <span>{{actor.name}}</span>
-            {{/if}}
-        </h1>
-        <div class="entanglement" data-tooltip="CURSEBORNE.Entanglement">
-            {{curse-formInput
-            systemFields.entanglement
-            formGroupOptions
-            value=system.entanglement.value
-            max=system.entanglement.max
-            }}
-        </div>
-    </div>
+	{{! Name and Entanglement }}
+	<div class="header-center">
+		<h1 class="document-name">
+			{{#if editable}}
+				<input type="text" name="name" value="{{actor.name}}" class="document-name" />
+			{{else}}
+				<span>{{actor.name}}</span>
+			{{/if}}
+		</h1>
+		<div class="entanglement" data-tooltip="CURSEBORNE.Entanglement">
+			{{
+				curse-formInput
+				systemFields.entanglement
+				formGroupOptions
+				value=system.entanglement.value
+				max=system.entanglement.max
+			}}
+		</div>
+	</div>
 
-    {{! XP and Time Controls }}
-    <div class="header-right">
-        {{curse-formGroup
-        systemFields.xp.fields.current
-        formGroupOptions
-        classes="xp"
-        }}
+	{{! XP and Time Controls }}
+	<div class="header-right">
+		{{curse-formGroup
+			systemFields.xp.fields.current
+			formGroupOptions
+			classes="xp"}}
 
-        <div class="time-controls flexrow">
-            <button type="button" data-action="nextScene" data-tooltip="CURSEBORNE.NextScene">
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-            <button type="button" data-action="nextSession" data-tooltip="CURSEBORNE.NextSession">
-                <i class="fa-solid fa-fast-forward"></i>
-            </button>
-        </div>
-    </div>
+		<div class="time-controls flexrow">
+			<button type="button" data-action="nextScene" data-tooltip="CURSEBORNE.NextScene">
+				<i class="fa-solid fa-arrow-right"></i>
+			</button>
+			<button type="button" data-action="nextSession" data-tooltip="CURSEBORNE.NextSession">
+				<i class="fa-solid fa-fast-forward"></i>
+			</button>
+		</div>
+	</div>
 </header>

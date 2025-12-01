@@ -1,38 +1,43 @@
 {{! List of Difficulty Changes }}
 <ol class="difficulties unlist">
-    {{#each difficulties }}
-        <li class="difficulty" data-id="{{id}}">
-            {{curse-formGroup
-            value.field
-            @root.formGroupOptions
-            value=value.value
-            name=value.name
-            stacked=true
-            classes="diff-value label-top"
-            }}
-            {{curse-formGroup
-            label.field
-            @root.formGroupOptions
-            value=label.value
-            name=label.name
-            stacked=true
-            classes="diff-label label-top"
-            }}
+	{{#each difficulties}}
+		<li class="difficulty" data-id="{{id}}">
+			{{
+				curse-formGroup
+				value.field
+				@root.formGroupOptions
+				value=value.value
+				name=value.name
+				stacked=true
+				classes="diff-value label-top"
+			}}
+			{{
+				curse-formGroup
+				label.field
+				@root.formGroupOptions
+				value=label.value
+				name=label.name
+				stacked=true
+				classes="diff-label label-top"
+			}}
 
-            <button class="delete"
-                    type="button"
-                    data-action="deleteModifier"
-                    data-tooltip="CURSEBORNE.DICE.DeleteDifficultyChange">
-                <i class="fa-solid fa-minus"></i>
-            </button>
-            {{curse-formGroup
-            hint.field
-            @root.formGroupOptions
-            value=hint.value
-            name=hint.name
-            span=true
-            classes="diff-hint label-top"
-            }}
-        </li>
-    {{/each}}
+			<button
+				class="delete"
+				type="button"
+				data-action="deleteModifier"
+				data-tooltip="CURSEBORNE.DICE.DeleteDifficultyChange"
+			>
+				<i class="fa-solid fa-minus"></i>
+			</button>
+			{{
+				curse-formGroup
+				hint.field
+				@root.formGroupOptions
+				value=hint.value
+				name=hint.name
+				span=true
+				classes="diff-hint label-top"
+			}}
+		</li>
+	{{/each}}
 </ol>

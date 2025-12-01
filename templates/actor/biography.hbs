@@ -1,39 +1,46 @@
 {{! Biography Tab }}
-<section class="tab biography {{tab.cssClass}} standard-form"
-         data-group="primary"
-         data-tab="biography">
+<section
+	class="tab biography {{tab.cssClass}} standard-form"
+	data-group="primary"
+	data-tab="biography"
+>
+	{{! Aspirations }}
+	{{#if aspirations}}
+		<fieldset class="aspirations">
+			<legend>
+				{{localize
+                "CURSEBORNE.Actor.Accursed.FIELDS.aspirations.label"}}
+			</legend>
+			{{#each aspirations}}
+				<div class="form-group aspiration" data-aspiration="{{key}}">
+					<label for="{{id}}" data-tooltip aria-label="{{labelLong}}">{{labelShort}}</label>
+					<div class="form-fields" id="{{id}}">{{{value}}}</div>
+					<button
+						type="button"
+						class="edit-text"
+						data-action="editText"
+						data-field="aspirations.{{key}}"
+						data-tooltip
+						aria-label="{{localize 'CURSEBORNE.Edit'}}"
+					>
+						<i class="fa-solid fa-fw fa-edit"></i>
+					</button>
+				</div>
+			{{/each}}
+		</fieldset>
+	{{/if}}
 
-    {{! Aspirations }}
-    {{#if aspirations }}
-        <fieldset class="aspirations">
-            <legend>
-                {{localize
-                "CURSEBORNE.Actor.Accursed.FIELDS.aspirations.label"
-                }}
-            </legend>
-            {{#each aspirations }}
-                <div class="form-group aspiration" data-aspiration="{{key}}">
-                    <label for="{{id}}" data-tooltip aria-label="{{labelLong}}">{{labelShort}}</label>
-                    <div class="form-fields" id="{{id}}">{{{value}}}</div>
-                    <button type="button"
-                            class="edit-text"
-                            data-action="editText"
-                            data-field="aspirations.{{key}}"
-                            data-tooltip
-                            aria-label="{{localize 'CURSEBORNE.Edit'}}">
-                        <i class="fa-solid fa-fw fa-edit"></i>
-                    </button>
-                </div>
-            {{/each}}
-        </fieldset>
-    {{/if}}
-
-    {{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
-    {{#if editable }}
-        <prose-mirror name="system.biography" data-document-u-u-i-d="{{actor.uuid}}" value="{{system.biography}}" collaborate="true">
-        {{{enrichedBiography}}}
-        </prose-mirror>
-    {{else}}
-        {{{enrichedBiography}}}
-    {{/if}}
+	{{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
+	{{#if editable}}
+		<prose-mirror
+			name="system.biography"
+			data-document-u-u-i-d="{{actor.uuid}}"
+			value="{{system.biography}}"
+			collaborate="true"
+		>
+			{{{enrichedBiography}}}
+		</prose-mirror>
+	{{else}}
+		{{{enrichedBiography}}}
+	{{/if}}
 </section>

@@ -1,82 +1,82 @@
 {{! Inline template for individual equipment item }}
 {{#*inline "equipment"}}
-<li class="item equipment flexrow"
-    data-item-id="{{item.id}}"
-    data-flip-id="{{@root.rootId}}-{{item.id}}">
+	<li
+		class="item equipment flexrow"
+		data-item-id="{{item.id}}"
+		data-flip-id="{{@root.rootId}}-{{item.id}}"
+	>
+		{{! Item Name and Image }}
+		<div class="item-name flexrow" data-tooltip="{{tooltip}}">
+			<div class="item-image">
+				<img src="{{item.img}}" title="{{item.name}}" width="24" height="24">
+			</div>
+			<span>{{item.name}}</span>
+		</div>
 
-    {{! Item Name and Image }}
-    <div class="item-name flexrow" data-tooltip="{{tooltip}}">
-        <div class="item-image">
-            <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
-        </div>
-        <span>{{item.name}}</span>
-    </div>
+		{{! Armor }}
+		{{#if armor.enabled}}
+			<div class="armor flexrow" data-tooltip="{{armor.tooltip}}">
+				<span class="armor-value">{{armor.value}}</span>
+			</div>
+		{{/if}}
 
-    {{! Armor }}
-    {{#if armor.enabled }}
-        <div class="armor flexrow" data-tooltip="{{armor.tooltip}}">
-            <span class="armor-value">{{armor.value}}</span>
-        </div>
-    {{/if}}
+		{{! Item Tags }}
+		<div class="equipment-tags flexrow" data-tooltip="{{tags}}">{{tags}}</div>
 
-    {{! Item Tags }}
-    <div class="equipment-tags flexrow" data-tooltip="{{tags}}">{{tags}}</div>
-
-    {{! Controls }}
-    <div class="item-controls">
-        {{#if @root.editable }}
-            <a class="item-control item-delete" data-action="deleteDoc">
-                <i class="fa-solid fa-trash"></i>
-            </a>
-        {{/if}}
-        <a class="item-control"
-           data-action="contextMenu"
-           data-tooltip="CURSEBORNE.ContextMenu">
-            <i class="fa-solid fa-ellipsis-v"></i>
-        </a>
-    </div>
-</li>
+		{{! Controls }}
+		<div class="item-controls">
+			{{#if @root.editable}}
+				<a class="item-control item-delete" data-action="deleteDoc">
+					<i class="fa-solid fa-trash"></i>
+				</a>
+			{{/if}}
+			<a class="item-control" data-action="contextMenu" data-tooltip="CURSEBORNE.ContextMenu">
+				<i class="fa-solid fa-ellipsis-v"></i>
+			</a>
+		</div>
+	</li>
 {{/inline}}
 
-<section class="tab {{tab.id}} {{tab.cssClass}}"
-         data-group="primary"
-         data-tab="{{tab.id}}">
+<section class="tab {{tab.id}} {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+	{{! Equipment Search Bar }}
+	<search class="flexrow" data-search="equipment">
+		<button
+			type="button"
+			class="inline-control toggle-search-mode icon"
+			data-action="toggleSearchMode"
+		>
+		</button>
 
-    {{! Equipment Search Bar }}
-    <search class="flexrow" data-search="equipment">
-    <button type="button"
-            class="inline-control toggle-search-mode icon"
-            data-action="toggleSearchMode"></button>
+		{{! Search Input }}
+		<input
+			type="search"
+			name="equipment-search"
+			class="equipment-search"
+			placeholder="{{localize 'Search'}}"
+		>
+	</search>
 
-    {{! Search Input }}
-    <input type="search"
-           name="equipment-search"
-           class="equipment-search"
-           placeholder="{{localize 'Search'}}" />
-    </search>
+	{{! Equipment Sections }}
+	{{#each equipment.sections}}
+		{{#if items.length}}
+			<section class="items-section type boxed-list">
+				{{! Section Header }}
+				<div class="items-header header">
+					<h3 class="item-name">{{localize label}}</h3>
+				</div>
 
-    {{! Equipment Sections }}
-    {{#each equipment.sections }}
-        {{#if items.length }}
-            <section class="items-section type boxed-list">
+				<ol class="items-list unlist">
+					{{#each items}}
+						{{~> equipment item=this}}
+					{{/each}}
+				</ol>
+			</section>
+		{{/if}}
+	{{/each}}
 
-                {{! Section Header }}
-                <div class="items-header header">
-                    <h3 class="item-name">{{localize label}}</h3>
-                </div>
-
-                <ol class="items-list unlist">
-                    {{#each items }}
-                        {{~> equipment item=this}}
-                    {{/each}}
-                </ol>
-            </section>
-        {{/if}}
-    {{/each}}
-
-    {{#if editable }}
-        <button type="button" class="item-create" data-action="createDoc" data-type="equipment">
-            <i class="fa-solid fa-plus"></i>
-        </button>
-    {{/if}}
+	{{#if editable}}
+		<button type="button" class="item-create" data-action="createDoc" data-type="equipment">
+			<i class="fa-solid fa-plus"></i>
+		</button>
+	{{/if}}
 </section>

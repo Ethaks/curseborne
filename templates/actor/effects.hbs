@@ -1,99 +1,106 @@
 {{! Effects Tab }}
-<section class="tab effects {{tab.cssClass}}"
-         data-group="{{tab.group}}"
-         data-tab="{{tab.id}}">
-    {{! Status Effects }}
-    <div class="status-effects boxed-list">
-        <div class="box-header flexrow">
-            <h4>{{localize "CURSEBORNE.StatusEffects"}}</h4>
-        </div>
+<section class="tab effects {{tab.cssClass}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+	{{! Status Effects }}
+	<div class="status-effects boxed-list">
+		<div class="box-header flexrow">
+			<h4>{{localize "CURSEBORNE.StatusEffects"}}</h4>
+		</div>
 
-        <ul class="conditions-list unlist">
-            {{#each statusEffects }}
-                <li class="status-effect flexrow {{cssClass}}"
-                    data-action="toggleStatusEffect"
-                    data-uuid="{{reference}}"
-                    data-status-effect-id="{{id}}">
+		<ul class="conditions-list unlist">
+			{{#each statusEffects}}
+				<li
+					class="status-effect flexrow {{cssClass}}"
+					data-action="toggleStatusEffect"
+					data-uuid="{{reference}}"
+					data-status-effect-id="{{id}}"
+				>
+					<img class="icon" src="{{img}}" alt="{{name}}" height="30" width="30" />
 
-                    <img class="icon" src="{{img}}" alt="{{name}}" height="30" width="30" />
+					<div class="name-stacked">
+						<span class="title">{{name}}</span>
+					</div>
 
-                    <div class="name-stacked">
-                        <span class="title">{{name}}</span>
-                    </div>
+					<div class="item-controls flexshrink align-right">
+						<button
+							type="button"
+							class="item-control unbutton"
+							data-action="toggleStatusEffect"
+							{{disabled locked}}
+						>
+							<i class='fa-solid fa-toggle-{{ifThen (not disabled) "on" "off"}}'></i>
+						</button>
+					</div>
+				</li>
+			{{/each}}
+		</ul>
+	</div>
+	{{! Separate box-list for each of temporary, passive, inactive effects }}
+	{{#each effects as |section sid|}}
+		<div class="effects-section boxed-list" data-effect-type="{{section.type}}">
+			<div class="box-header flexrow">
+				<h4>{{localize section.label}}</h4>
+				{{#if @root.editable}}
+					<button
+						type="button"
+						class="unbutton flexshrink align-right"
+						data-action="createDoc"
+						data-document-class="ActiveEffect"
+						data-origin="{{@root.item.uuid}}"
+						data-img="icons/svg/aura.svg"
+						{{#if (eq section.type "inactive") }}
+						data-disabled="true"
+						{{else }}
+						{{#if (eq section.type "temporary") }}
+						data-duration.rounds="1"
+						{{/if }}
+						{{/if }}
+						data-tooltip='{{localize "DOCUMENT.Create" type="Effect" }}'
+					>
+						<i class="fa-solid fa-plus"></i>
+					</button>
+				{{/if}}
+			</div>
+			<div class="sub-header flexrow">
+				<div class="effect-name">{{localize "Name"}}</div>
+				<div class="effect-source">{{localize "CURSEBORNE.Effect.Source"}}</div>
+				<div class="effect-duration">{{localize "EFFECT.TABS.duration"}}</div>
+				<div class="effect-controls"></div>
+			</div>
 
-                    <div class="item-controls flexshrink align-right">
-                        <button type="button"
-                                class="item-control unbutton"
-                                data-action="toggleStatusEffect"
-                                {{disabled locked}}>
-                            <i class="fa-solid fa-toggle-{{ifThen (not disabled) "on" "off"}}"></i>
-                        </button>
-                    </div>
-                </li>
-            {{/each}}
-        </ul>
-    </div>
-    {{! Separate box-list for each of temporary, passive, inactive effects }}
-    {{#each effects as |section sid| }}
-        <div class="effects-section boxed-list" data-effect-type="{{section.type}}">
-            <div class="box-header flexrow">
-                <h4>{{localize section.label}}</h4>
-                {{#if @root.editable }}
-                <button type="button"
-                        class="unbutton flexshrink align-right"
-                        data-action="createDoc"
-                        data-document-class="ActiveEffect"
-                        data-origin="{{@root.item.uuid}}"
-                        data-img="icons/svg/aura.svg"
-                        {{#if (eq section.type "inactive") }}
-                        data-disabled="true"
-                        {{else }}
-                        {{#if (eq section.type "temporary") }}
-                        data-duration.rounds="1"
-                        {{/if }}
-                        {{/if }}
-                        data-tooltip="{{localize "DOCUMENT.Create" type="Effect" }}">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            {{/if}}
-        </div>
-        <div class="sub-header flexrow">
-            <div class="effect-name">{{localize "Name"}}</div>
-            <div class="effect-source">{{localize "CURSEBORNE.Effect.Source"}}</div>
-            <div class="effect-duration">{{localize "EFFECT.TABS.duration"}}</div>
-            <div class="effect-controls"></div>
-        </div>
-
-        {{! List of effects for this section }}
-        <ol class="effect-list unlist">
-            {{#each section.effects }}
-                <li class="item effect flexrow"
-                    data-effect-id="{{effect.id}}"
-                    data-relative-id="{{relativeUuid}}"
-                    data-parent-id="{{effect.parent.id}}"
-                    data-drag="true">
-                    <div class="effect-name effect-name flexrow">
-                        <div class="effect-image">
-                            <img src="{{effect.img}}" height="24" width="24" />
-                        </div>
-                        <div>{{effect.name}}</div>
-                    </div>
-                    <div class="effect-source">{{effect.sourceName}}</div>
-                    <div class="effect-duration">{{effect.duration.label}}</div>
-                    <div class="effect-controls flexrow align-right flexshrink">
-                        <button type="button"
-                                class="effect-control unbutton"
-                                data-action="toggleEffect"
-                                data-tooltip="{{localize "CURSEBORNE.Effect.Toggle"}}">
-                            <i class="fa-solid fa-toggle-{{ifThen effect.disabled "off" "on"}}"></i>
-                        </button>
-                        <button type="button" class="item-control unbutton" data-action="contextMenu">
-                            <i class="fa-solid fa-ellipsis-v"></i>
-                        </button>
-                    </div>
-                </li>
-            {{/each}}
-        </ol>
-    </div>
-{{/each}}
+			{{! List of effects for this section }}
+			<ol class="effect-list unlist">
+				{{#each section.effects}}
+					<li
+						class="item effect flexrow"
+						data-effect-id="{{effect.id}}"
+						data-relative-id="{{relativeUuid}}"
+						data-parent-id="{{effect.parent.id}}"
+						data-drag="true"
+					>
+						<div class="effect-name effect-name flexrow">
+							<div class="effect-image">
+								<img src="{{effect.img}}" height="24" width="24" />
+							</div>
+							<div>{{effect.name}}</div>
+						</div>
+						<div class="effect-source">{{effect.sourceName}}</div>
+						<div class="effect-duration">{{effect.duration.label}}</div>
+						<div class="effect-controls flexrow align-right flexshrink">
+							<button
+								type="button"
+								class="effect-control unbutton"
+								data-action="toggleEffect"
+								data-tooltip='{{localize "CURSEBORNE.Effect.Toggle"}}'
+							>
+								<i class='fa-solid fa-toggle-{{ifThen effect.disabled "off" "on"}}'></i>
+							</button>
+							<button type="button" class="item-control unbutton" data-action="contextMenu">
+								<i class="fa-solid fa-ellipsis-v"></i>
+							</button>
+						</div>
+					</li>
+				{{/each}}
+			</ol>
+		</div>
+	{{/each}}
 </section>

@@ -1,38 +1,43 @@
 {{! List of complications }}
 <ol class="complications unlist">
-    {{#each complications }}
-        <li class="complication" data-id="{{id}}">
-            {{curse-formGroup
-            value.field
-            @root.formGroupOptions
-            value=value.value
-            name=value.name
-            stacked=true
-            classes="comp-value label-top"
-            }}
-            {{curse-formGroup
-            label.field
-            @root.formGroupOptions
-            value=label.value
-            name=label.name
-            stacked=true
-            classes="comp-label label-top"
-            }}
+	{{#each complications}}
+		<li class="complication" data-id="{{id}}">
+			{{
+				curse-formGroup
+				value.field
+				@root.formGroupOptions
+				value=value.value
+				name=value.name
+				stacked=true
+				classes="comp-value label-top"
+			}}
+			{{
+				curse-formGroup
+				label.field
+				@root.formGroupOptions
+				value=label.value
+				name=label.name
+				stacked=true
+				classes="comp-label label-top"
+			}}
 
-            <button class="delete"
-                    type="button"
-                    data-action="deleteModifier"
-                    data-tooltip="CURSEBORNE.DICE.DeleteComplication">
-                <i class="fa-solid fa-minus"></i>
-            </button>
-            {{curse-formGroup
-            hint.field
-            @root.formGroupOptions
-            value=hint.value
-            name=hint.name
-            span=true
-            classes="comp-hint label-top"
-            }}
-        </li>
-    {{/each}}
+			<button
+				class="delete"
+				type="button"
+				data-action="deleteModifier"
+				data-tooltip="CURSEBORNE.DICE.DeleteComplication"
+			>
+				<i class="fa-solid fa-minus"></i>
+			</button>
+			{{
+				curse-formGroup
+				hint.field
+				@root.formGroupOptions
+				value=hint.value
+				name=hint.name
+				span=true
+				classes="comp-hint label-top"
+			}}
+		</li>
+	{{/each}}
 </ol>

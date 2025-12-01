@@ -1,0 +1,10 @@
+{
+	"lineWidth": 100,
+	"useTabs": true,
+	"markup": {
+		"formatComments": true
+	},
+	"includes": ["**/*.{hbs}"],
+	"excludes": [],
+	"plugins": ["https://plugins.dprint.dev/g-plane/markup_fmt-v0.25.1.wasm"]
+}

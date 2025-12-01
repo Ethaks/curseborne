@@ -25,6 +25,9 @@ jobs:
       - name: lint
         run: bun run lint
 
+      - name: style
+        uses: dprint/check@v2.3
+
   # licensecheck:
   #   runs-on: ubuntu-latest
   #   steps:

@@ -1,9 +1,13 @@
+import { ROLL_TYPE } from "@config/dice.mjs";
+import { CurseborneRollContext } from "@dice/data.mjs";
 import { toLabelObject } from "@helpers/utils.mjs";
+import { DieSourceField } from "@models/fields/die-source.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { prepareIdentifiers } from "@models/fields/identifier.mjs";
 import { CurseborneTypeDataModel } from "../base.mjs";
 
-/** @import {RollModifier} from "@models/roll/modifier/base" */
+/** @import { RollModifier } from "@models/modifiers.mjs" */
+/** @import { CurseborneRoll, ActorRollOptions, ActorRollResult } from "@dice/_module.mjs" */
 
 export class CurseborneActorBase extends CurseborneTypeDataModel {
 	/** @inheritDoc */
@@ -57,10 +61,14 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 		}
 	}
 
+	/* ---------------------------------------------------------------------------------------------- */
+	/*                                             Rolls                                             */
+	/* --------------------------------------------------------------------------------------------- */
+
 	/**
 	 * The rolls currently in-progress by this actor.
 	 *
-	 * @type {Record<string, CurseborneRoll>}
+	 * @type {Record<string, { roll: CurseborneRoll, promise: Promise<ActorRollResult>, resolve: Function, reject: Function }>}
 	 */
 	#rolls = {};
 	/** {@inheritDoc CurseborneActorBase#rolls} */
@@ -86,6 +94,7 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 
 		options.data ??= {};
 		options.data.rollData ??= this.actor.getRollData();
+		options.actor ??= this.actor;
 
 		options.dialogOptions ??= {};
 		options.dialogOptions.modifiers ??= {};
@@ -101,6 +110,92 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 
 		return options;
 	}
+
+	/**
+	 * Create a roll associated with this actor.
+	 *
+	 * @param {import("@dice/roll.mjs").ActorRollOptions["type"]} [type=ROLL_TYPE.GENERAL] - The type of roll to create.
+	 * @param {import("@dice/roll.mjs").ActorRollOptions} [options={}] - Additional options for the roll.
+	 * @returns {Promise<ActorRollResult>} The created roll.
+	 */
+	async _createRoll(
+		type = ROLL_TYPE.GENERAL,
+		{
+			data = {},
+			messageData = {},
+			dialogOptions = {},
+			message = {},
+			skipDialog = false,
+			chatMessage = true,
+			...options
+		} = {},
+	) {
+		const progressRoll = this.rolls[type];
+		if (type in this.rolls && progressRoll) {
+			progressRoll.roll.initialize(data);
+			progressRoll.roll.renderDialog();
+			progressRoll.roll.dialog.bringToFront();
+			return progressRoll.promise;
+		}
+
+		data.type = type;
+		const actor = options.actor || this.actor;
+		// data.actor ??= actor;
+		const rollData = new CurseborneRollContext(data, { parent: actor });
+		const roll = new curseborne.dice.CurseborneRoll(rollData, {
+			...options,
+		});
+		roll.initialize();
+		let task = this.rolls[type];
+
+		if (!skipDialog) {
+			try {
+				task = Promise.withResolvers();
+				this.rolls[type] = { roll, ...task };
+				roll.dialog = new curseborne.applications.dialogs.CurseborneRollDialog({
+					roll,
+					object: rollData,
+					actor,
+					...dialogOptions,
+				});
+				await roll.dialog.render({ force: true });
+				await roll.dialog.wait();
+			} catch (error) {
+				task.reject(error);
+				throw error;
+			} finally {
+				// Unregister roll once it is configured
+				if (actor.system.rolls[type]?.roll === roll) delete actor.system.rolls[type];
+			}
+		}
+
+		if (chatMessage) {
+			messageData.flavor ||= roll.data.sources
+				.filter((s) => s.type !== "")
+				.map((s) => {
+					const choiceData = DieSourceField.getChoices(s.type, actor);
+					const label = choiceData.choices.find((c) => c.value === s.value)?.label || "";
+					// Replace spaces with non-breaking spaces
+					return label.replace(/ /g, "\u00A0");
+				})
+				.filterJoin(", ");
+			const message = await roll.toMessage(messageData);
+			const result = { roll: message.rolls[0], message };
+			task.resolve({ ...result });
+			return { ...result };
+		}
+
+		await roll.evaluate();
+		task.resolve({ roll });
+		return { roll };
+	}
+
+	/**
+	 * Handle model-specific alterations to an in-progress roll during its initialization.
+	 *
+	 * @param {CurseborneRoll} roll - The roll being initialized.
+	 */
+	_onRollInitialize(roll) {}
 
 	/**
 	 * Get the available choices for a modifier type.

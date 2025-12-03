@@ -465,6 +465,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 	initialize(data) {
 		if (data instanceof this.constructor.dataModel) data = data.toObject();
 		this.data.updateSource(data);
+		this.options?.actor?.system._onRollInitialize?.(this);
 		this.terms = this.constructor.parse("", this.data);
 		this._formula = this.constructor.getFormula(this.terms);
 	}

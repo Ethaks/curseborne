@@ -1,3 +1,4 @@
+import { ROLL_TYPE } from "@config/dice.mjs";
 import { camelize } from "@helpers/utils.mjs";
 import { IdentifierField } from "@models/fields/identifier.mjs";
 import { DotsField } from "../fields/dots.mjs";
@@ -17,14 +18,16 @@ export class Skill extends LimitedActorTypesItem(CurseborneItemBase) {
 	}
 
 	async roll(options) {
-		if (this.actor) options = this.actor.system._prepareCommonRollOptions?.(options);
-		return curseborne.dice.CurseborneRoll.createActorRoll({
+		const actor = options.actor || this.actor;
+		if (!actor) throw new Error("Skills can only be rolled by an actor.");
+		options = this.actor.system._prepareCommonRollOptions?.(options);
+		return actor.system.roll(ROLL_TYPE.SKILL, {
 			...options,
 			data: {
 				...options.data,
 				sources: { skill: { value: `@skills.${this.identifier}.dots.value` } },
 			},
-			actor: this.actor,
+			actor,
 			event,
 		});
 	}

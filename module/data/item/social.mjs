@@ -1,8 +1,8 @@
 import { COMPLICATION, DIFFICULTY, ROLL_TYPE } from "@config/dice.mjs";
+import { requiredInteger } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneItemBase } from "./base.mjs";
 import { Path } from "./path.mjs";
-import { requiredInteger } from "@helpers/utils.mjs";
 
 export class Social extends CurseborneItemBase {
 	static LOCALIZATION_PREFIXES = ["CURSEBORNE.SOCIAL"];
@@ -128,7 +128,7 @@ export class Social extends CurseborneItemBase {
 		});
 		options.data.difficulty = DIFFICULTY.ROUTINE;
 
-		if (this.bond?.uses.value > 0) {
+		if (type === "roll" && this.bond?.uses.value > 0) {
 			addModifier("enhancements", "bond", {
 				value: this.bond.dots.value,
 				stacking: true,
@@ -179,11 +179,10 @@ export class Social extends CurseborneItemBase {
 			});
 		}
 
-		const roll = await curseborne.dice.CurseborneRoll.createActorRoll({
-			...options,
-			actor: this.actor,
-			type: type === "invoke" ? ROLL_TYPE.CONTACT_INVOKE : ROLL_TYPE.CONTACT_SELF,
-		});
+		const roll = await this.actor.system._createRoll(
+			type === "invoke" ? ROLL_TYPE.CONTACT_INVOKE : ROLL_TYPE.CONTACT_SELF,
+			options,
+		);
 
 		const updateData = {};
 		if (roll.roll) {

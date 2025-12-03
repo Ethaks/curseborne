@@ -203,23 +203,39 @@ export class Accursed extends CurseborneActorBase {
 			options.data.sources[source.type] = source;
 		}
 
-		return curseborne.dice.CurseborneRoll.createActorRoll({
-			...options,
-			actor: this.parent,
-			type: ROLL_TYPE.GENERAL,
-		});
+		return this._createRoll(ROLL_TYPE.GENERAL, options);
+	}
+
+	/** @inheritDoc */
+	_onRollInitialize(roll) {
+		super._onRollInitialize(roll);
+
+		// Add injury dice source to the roll if applicable, or remove if present and not applicable
+		if (roll.data.type === ROLL_TYPE.GENERAL) {
+			const skillSource =
+				roll.data.sources.get("skill") ?? roll.data.sources.find((s) => s.type === "skill");
+			const { dice, level } = this.injuries;
+			const skillIdentifier = skillSource.value.match(/@skills\.(.+)\.dots\.value/)?.[1];
+			const isPathSkill = this.skills[skillIdentifier]?.isPathSkill;
+
+			if (level && dice > 0 && isPathSkill) {
+				roll.data.updateSource({
+					"sources.injury": {
+						id: "injury",
+						type: "injury",
+						value: "@injuries.dice",
+					},
+				});
+			} else if (roll.data.sources.has("injury") && !(isPathSkill && level)) {
+				roll.data.updateSource({ "sources.-=injury": null });
+			}
+			roll.terms = roll.constructor.parse("", roll.data);
+		}
 	}
 
 	async rollDefense(options = {}) {
 		options = this._prepareCommonRollOptions(options);
 		options.data.difficulty ??= 0;
-
-		const roll = await curseborne.dice.CurseborneRoll.createActorRoll({
-			...options,
-			actor: this.parent,
-			type: ROLL_TYPE.DEFENSE,
-		});
-
-		return roll;
+		return this._createRoll(ROLL_TYPE.DEFENSE, options);
 	}
 }

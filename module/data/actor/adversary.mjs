@@ -1,7 +1,7 @@
 import { ROLL_TYPE } from "@config/dice.mjs";
+import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { DotsField } from "../fields/dots.mjs";
 import { CurseborneActorBase } from "./base.mjs";
-import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 
 /** @import {ActorRollOptions} from "@dice/roll" */
 
@@ -94,10 +94,8 @@ export class Adversary extends CurseborneActorBase {
 			}),
 		});
 
-		return curseborne.dice.CurseborneRoll.createActorRoll({
-			type: ROLL_TYPE.POOL,
+		return this._createRoll(ROLL_TYPE.POOL, {
 			...options,
-			actor: this.parent,
 		});
 	}
 }

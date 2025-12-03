@@ -65,7 +65,6 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 
 			// The `getRollData` result of the rolling actor; not to be persisted
 			rollData: new fields.ObjectField(),
-			actor: new fields.DocumentUUIDField({ type: "Actor", idOnly: true }),
 		};
 	}
 
@@ -105,7 +104,7 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 		data.sources = this.schema.fields.sources.clean(data.sources);
 		switch (data.type || ROLL_TYPE.GENERAL) {
 			case ROLL_TYPE.GENERAL: {
-				ensureSources(["attribute", "skill"]);
+				ensureSources(["skill", "attribute"]);
 				break;
 			}
 			case ROLL_TYPE.DEFENSE: {

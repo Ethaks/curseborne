@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tooltips for socials now always open to the right
 - Allow bond uses to be edited in Play Mode
 - Sort Skill dice before Attribute dice in roll dialogs
+- Rework roll initialisation to make use of common functionality
 
 ### Removed
 

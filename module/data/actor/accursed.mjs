@@ -100,8 +100,7 @@ export class Accursed extends CurseborneActorBase {
 
 	/** @inheritDoc */
 	prepareBaseData() {
-		// Create object for skills to store their references in
-		this.skills ??= {};
+		super.prepareBaseData();
 
 		// 5 curse dice by default, 7 at entanglement 2 and 3, 9 at entanglement 4
 		// TODO: Re-visit scaling when higher entanglement levels are possible

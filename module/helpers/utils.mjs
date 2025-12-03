@@ -147,7 +147,7 @@ export function staticID(id) {
  */
 export function camelize(str) {
 	// Pre-slufigy using Foundry's method
-	const slug = str.slugify({ lowercase: false });
+	const slug = str.slugify({ lowercase: false, strict: true });
 
 	// Remove '-' and capitalize the next letter
 	const camelized = slug.replace(/-./g, (match) => match.charAt(1).toUpperCase());

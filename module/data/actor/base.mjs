@@ -1,6 +1,7 @@
-import { DotsField } from "@models/fields/dots.mjs";
-import { CurseborneTypeDataModel } from "../base.mjs";
 import { toLabelObject } from "@helpers/utils.mjs";
+import { DotsField } from "@models/fields/dots.mjs";
+import { prepareIdentifiers } from "@models/fields/identifier.mjs";
+import { CurseborneTypeDataModel } from "../base.mjs";
 
 /** @import {RollModifier} from "@models/roll/modifier/base" */
 
@@ -33,6 +34,27 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 		schema.armor = new DotsField({ max: 0 });
 
 		return schema;
+	}
+
+	/* ---------------------------------------------------------------------------------------------- */
+	/*                                       Data Preparation                                        */
+	/* --------------------------------------------------------------------------------------------- */
+
+	/** @inheritDoc */
+	prepareBaseData() {
+		super.prepareBaseData();
+
+		// Prepare identifiers for embedded items and store references in this model
+		for (const [itemType, items] of Object.entries(this.parent.itemTypes)) {
+			const model = CONFIG.Item.dataModels[itemType];
+			if (!model?.metadata?.hasIdentifier) continue;
+			const map = prepareIdentifiers(items.map((i) => i.system));
+			const path = model.metadata?.identifierCollectionName || `${itemType}s`;
+			this[path] = map.entries().reduce((acc, [id, model]) => {
+				acc[id] = model;
+				return acc;
+			}, {});
+		}
 	}
 
 	/**

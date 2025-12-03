@@ -8,6 +8,7 @@ export class Equipment extends LimitedActorTypesItem(CurseborneItemBase) {
 	static metadata = Object.freeze({
 		...super.metadata,
 		type: "equipment",
+		identifierCollectionName: "equipment",
 	});
 
 	/** @inheritDoc */

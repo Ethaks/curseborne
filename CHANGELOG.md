@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inherit sheet mode when viewing/editing items from a character sheet
 - Add _Aspirations_ as text fields to Accursed sheets' biography tabs
 - Enable manually sorting some item types in actor sheets
+- Make embedded items available in objects in `rollData` using their identifier as key, e.g. `actor.system.skills.technology`
 
 ### Changed
 

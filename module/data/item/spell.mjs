@@ -71,15 +71,6 @@ export class Spell extends CurseborneItemBase {
 		return schema;
 	}
 
-	/** @inheritDoc */
-	prepareBaseData() {
-		super.prepareBaseData();
-
-		// The identifier for this spell,
-		// TODO: Handle collisions
-		this.identifier ||= camelize(this.parent.name);
-	}
-
 	/**
 	 * The spell's currently active advancements, i.e. advancements in the same collection.
 	 *

@@ -1,9 +1,10 @@
+import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { systemTemplate } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
+import { IdentifierMixin } from "@models/fields/identifier.mjs";
 import { CurseborneTypeDataModel } from "../base.mjs";
-import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 
-export class CurseborneItemBase extends CurseborneTypeDataModel {
+export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel) {
 	/**
 	 * Data relating to all instances of this item type model.
 	 *

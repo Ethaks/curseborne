@@ -78,7 +78,7 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 		 * @param {object} [options] - Additional options for ensuring sources.
 		 * @param {boolean} [options.deleteOthers=true] - Whether to delete sources of other types.
 		 */
-		const ensureSources = (types = [], { deleteOthers = true } = {}) => {
+		const ensureSources = (types = [], { deleteOthers = false } = {}) => {
 			types = Array.isArray(types) ? types : [types];
 			types = types.map((type) =>
 				typeof type === "string"

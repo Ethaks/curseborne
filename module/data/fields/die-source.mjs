@@ -22,6 +22,8 @@ export class DieSourceField extends foundry.data.fields.SchemaField {
 			case "attribute":
 			case "skill":
 				return `CURSEBORNE.${source.type.capitalize()}`;
+			case "injury":
+				return "CURSEBORNE.InjuryDice";
 			case "pool":
 				return "CURSEBORNE.Actor.Adversary.FIELDS.pools.label";
 			case "contactPool":
@@ -70,6 +72,13 @@ export class DieSourceField extends foundry.data.fields.SchemaField {
 					});
 				}
 			}
+		} else if (type === "injury") {
+			const level = actor.system.injuries.level;
+			const config = curseborne.config.injuryLevels[level];
+			choices.push({
+				label: `${game.i18n.localize(config.label)} +${actor.system.injuries.dice}`,
+				value: "@injuries.dice",
+			});
 		} else if (type === "pool") {
 			for (const pool of ["primary", "secondary", "desperation"]) {
 				const dice = actor.system.pools[pool].value;

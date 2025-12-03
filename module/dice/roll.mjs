@@ -236,7 +236,6 @@ export class CurseborneRoll extends foundry.dice.Roll {
 
 	/** @override */
 	async evaluate(options) {
-		await this._addInjuryDice();
 		await super.evaluate(options);
 		this._applyEnhancements();
 		return this;
@@ -352,40 +351,6 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		this._total = this._evaluateTotal();
 
 		return this;
-	}
-
-	/**
-	 * Add injury dice to the roll if the actor is an accursed and a skill die source is a path skill.
-	 *
-	 * TODO: This should be moved elsewhere, possibly into a method on the Accursed model;
-	 * maybe change its roll pattern so that it first resolves the dialog configuration and then applies extra steps?
-	 */
-	async _addInjuryDice() {
-		const skillSource =
-			this.data.sources.get("skill") ?? this.data.sources.find((s) => s.type === "skill");
-		if (!skillSource?.value) return;
-
-		const actor = await foundry.utils.fromUuid(this.data.actor);
-		if (actor.type !== "accursed") return;
-
-		const injuryLevel = actor.system.injuries.level;
-		if (!injuryLevel) return;
-		const injuryConfig = curseborne.config.injuryLevels[injuryLevel];
-
-		// The skill value is `@skills.${identifier}.dots.value`; extract the identifier
-		const skillIdentifier = skillSource.value.match(/@skills\.(.+)\.dots\.value/)[1];
-		const isPathSkill = actor.system.skills[skillIdentifier]?.isPathSkill;
-		if (!isPathSkill) return;
-
-		this.data.updateSource({
-			"sources.injury": {
-				id: "injury",
-				type: "injury",
-				value: injuryConfig.dice,
-				label: injuryConfig.label,
-			},
-		});
-		this.terms = this.constructor.parse("", this.data);
 	}
 
 	/**

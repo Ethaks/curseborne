@@ -123,6 +123,9 @@ export class Accursed extends CurseborneActorBase {
 				this.injuries.level = level;
 			}
 		}
+
+		// Set injury dice based on level
+		this.injuries.dice = curseborne.config.injuryLevels[this.injuries.level]?.dice || 0;
 	}
 
 	/** @inheritDoc */

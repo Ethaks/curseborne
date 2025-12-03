@@ -299,6 +299,7 @@
 		},
 
 		"Dice": "Dice",
+		"InjuryDice": "Injury Dice",
 		"DICE": {
 			"Roll": "Roll",
 			"Result": "Result",

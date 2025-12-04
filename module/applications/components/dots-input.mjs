@@ -51,13 +51,6 @@ export class DotsInput extends foundry.applications.elements.AbstractFormInputEl
 	#disabledPips = [];
 
 	/**
-	 * The number input element that is used for the form submission.
-	 *
-	 * @type {HTMLInputElement}
-	 */
-	#input;
-
-	/**
 	 * An array of button elements representing the pips.
 	 *
 	 * @type {HTMLButtonElement[]}
@@ -66,11 +59,6 @@ export class DotsInput extends foundry.applications.elements.AbstractFormInputEl
 
 	/** @inheritDoc */
 	_buildElements() {
-		this.#input = this._primaryInput = document.createElement("input");
-		this.#input.type = "number";
-		this.#input.classList.add("pip-input", "hidden");
-		this._applyInputAttributes(this.#input);
-
 		this.#pips = Array.from({ length: this.#max }, (_, i) => {
 			const pip = document.createElement("button");
 			pip.classList.add("pip");
@@ -86,7 +74,7 @@ export class DotsInput extends foundry.applications.elements.AbstractFormInputEl
 
 		this.setAttribute("aria-role", "slider");
 
-		return [this.#input, ...this.#pips];
+		return [...this.#pips];
 	}
 
 	/** @inheritDoc */

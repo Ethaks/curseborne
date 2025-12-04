@@ -7,8 +7,8 @@
 export class DotsInput extends foundry.applications.elements.AbstractFormInputElement {
 	constructor(...args) {
 		super(...args);
-		this.#max = this.hasAttribute("max") ? Number.parseInt(this.getAttribute("max")) : 1;
-		this.#min = this.hasAttribute("min") ? Number.parseInt(this.getAttribute("min")) : 0;
+		this.#max = this.hasAttribute("max") ? Number.parseInt(this.getAttribute("max"), 10) : 1;
+		this.#min = this.hasAttribute("min") ? Number.parseInt(this.getAttribute("min"), 10) : 0;
 
 		// Parse disabled; can be a range (e.g. "1-3") or a list (e.g. "1,3,5"), or a single number (e.g. "2").
 		// For range and lists, these indices are disabled; for a number, that number of pips from the end are disabled.
@@ -62,13 +62,16 @@ export class DotsInput extends foundry.applications.elements.AbstractFormInputEl
 		this.#pips = Array.from({ length: this.#max }, (_, i) => {
 			const pip = document.createElement("button");
 			pip.classList.add("pip");
-			// If below minimum, or if disabled through disabledPips, use a smaller dot and mark as disabled.
-			if (i < this.#min || this.#disabledPips.includes(i)) {
-				pip.classList.add("small", "disabled");
-			}
 			pip.classList.toggle("filled", i < this._getValue());
 			pip.dataset.index = i;
 			this._applyInputAttributes(pip);
+
+			// If below minimum, or if disabled through disabledPips, mark as disabled.
+			if (i + 1 < this.#min || this.#disabledPips.includes(i)) {
+				pip.classList.add("disabled");
+				pip.setAttribute("disabled", ""); // Disable the button element
+			}
+
 			return pip;
 		});
 
@@ -180,7 +183,7 @@ export class DotsInput extends foundry.applications.elements.AbstractFormInputEl
 	static create(config) {
 		const input = document.createElement(this.tagName);
 		input.name = config.name;
-		for (const attr of ["value", "max", "disabled", "readonly"]) {
+		for (const attr of ["value", "min", "max", "disabled", "readonly"]) {
 			if (config[attr] !== undefined) {
 				if (typeof config[attr] === "boolean") {
 					if (config[attr]) input.setAttribute(attr, "");

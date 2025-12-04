@@ -1,8 +1,7 @@
 import * as fs from "node:fs";
 import path from "node:path";
-import { build, write } from "bun";
-
 import browserslist from "browserslist";
+import { build, write } from "bun";
 import * as lightningcss from "lightningcss";
 import yargs from "yargs";
 
@@ -109,12 +108,19 @@ async function buildCode(mode = "release") {
  * @returns {Promise<void>}
  */
 async function buildCss() {
-	const { code, map } = lightningcss.bundle({
+	const { code, map, warnings } = lightningcss.bundle({
 		filename: "styles/curseborne.css",
 		targets: browserTargets,
 		minify: true,
 		sourceMap: true,
 	});
+
+	if (warnings.length) {
+		for (const warning of warnings) {
+			console.warn(warning);
+		}
+	}
+
 	return Promise.all([
 		write(fromRoot("curseborne.css"), code),
 		write(fromRoot("curseborne.css.map"), map),

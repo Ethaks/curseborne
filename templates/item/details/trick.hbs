@@ -12,13 +12,14 @@
 
 		{{! Fixed Cost }}
 		{{#if (eq system.cost.type "fixed")}}
-			{{curse-formGroup systemFields.cost.fields.value formGroupOptions}}
+			{{
+				curse-formGroup systemFields.cost.fields.value formGroupOptions min=-1 max=system.cost.max type="number"
+			}}
 		{{/if}}
 
 		{{! Variable Cost }}
 		{{#if (eq system.cost.type "variable")}}
 			{{curse-formGroup systemFields.cost.fields.min formGroupOptions}}
-			{{curse-formGroup systemFields.cost.fields.value formGroupOptions}}
 			{{curse-formGroup systemFields.cost.fields.max formGroupOptions}}
 		{{/if}}
 	</fieldset>

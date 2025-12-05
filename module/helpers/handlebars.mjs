@@ -50,12 +50,7 @@ export class CurseborneHandlebarsHelpers {
 			return foundry.utils.getProperty(source, path);
 		};
 
-		// TODO: Still needed?
-		if (field instanceof DotsField) {
-			config.name = `${field.fieldPath}.value`;
-		} else {
-			config.name ??= field.fieldPath;
-		}
+		config.name ??= field.fieldPath;
 
 		// If a model is given, retrieve the value from the model
 		if (config.model || config.source) {
@@ -104,12 +99,7 @@ export class CurseborneHandlebarsHelpers {
 			...options.hash,
 		};
 
-		// TODO: Still needed?
-		if (field instanceof DotsField) {
-			inputConfig.name = `${field.fieldPath}.value`;
-		} else {
-			inputConfig.name ??= field.fieldPath;
-		}
+		inputConfig.name ??= field.fieldPath;
 
 		const groupConfig = {
 			label,
@@ -133,10 +123,6 @@ export class CurseborneHandlebarsHelpers {
 
 		// If a model is given, retrieve the value from the model
 		if (model) {
-			if (field instanceof DotsField) {
-				// Derive a PipField's max from the model, not the field
-				inputConfig.max = foundry.utils.getProperty(model ?? source, `${field.fieldPath}.max`);
-			}
 			// If edit mode is given and true, and source data is available, use that instead of the derived value
 			if (isEditMode === true && source !== null) {
 				inputConfig.value ??= foundry.utils.getProperty(source, inputConfig.name);

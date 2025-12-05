@@ -355,8 +355,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 				id,
 				label: game.i18n.localize(attributeConfig.label),
 				field: this.actor.system.schema.fields.attributes.fields[id],
-				value: this.isEditMode ? context.source.system.attributes[id].value : attribute.value,
-				max: attribute.max,
+				value: this.isEditMode ? context.source.system.attributes[id] : attribute,
 			});
 		}
 		return groups;

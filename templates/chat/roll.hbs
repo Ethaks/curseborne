@@ -135,7 +135,7 @@
 					class="toggle-success"
 					data-action="toggleSuccess"
 					data-tooltip
-					aria-label="CURSEBORNE.DICE.BuySuccess"
+					aria-label='{{localize "CURSEBORNE.DICE.BuySuccess"}}'
 				>
 					<i class="fa-solid fa-check"></i>
 				</button>
@@ -147,7 +147,7 @@
 					class="remove-success"
 					data-action="toggleSuccess"
 					data-tooltip
-					aria-label="CURSEBORNE.DICE.RemoveSuccess"
+					aria-label='{{localize "CURSEBORNE.DICE.RemoveSuccess"}}'
 				>
 					<i class="fa-solid fa-times"></i>
 				</button>
@@ -160,7 +160,7 @@
 					data-action="addEnhancement"
 					data-change="-1"
 					data-tooltip
-					aria-label="CURSEBORNE.DICE.RemoveMomentumEnhancement"
+					aria-label='{{localize "CURSEBORNE.DICE.RemoveMomentumEnhancement"}}'
 				>
 					<i class="fa-solid fa-minus"></i>
 				</button>
@@ -171,7 +171,7 @@
 					class="add-enhancement"
 					data-action="addEnhancement"
 					data-tooltip
-					aria-label="CURSEBORNE.DICE.AddMomentumEnhancement"
+					aria-label='{{localize "CURSEBORNE.DICE.AddMomentumEnhancement"}}'
 				>
 					<i class="fa-solid fa-plus"></i>
 				</button>
@@ -204,7 +204,7 @@
 							<a
 								class='control fa-regular fa-{{ifThen boughtOff "circle-check" "circle"}}'
 								data-tooltip
-								aria-label="CURSEBORNE.DICE.BuyOffComplication"
+								aria-label='{{localize "CURSEBORNE.DICE.BuyOffComplication"}}'
 								data-action="toggleComplication"
 								data-complication-id="{{id}}"
 								{{disabled (not canToggle) }}
@@ -232,20 +232,21 @@
 								<img class="item-image" src="{{img}}">
 								<span class="item-name">{{name}}</span>
 							</div>
-							<dots-input
-								class="align-right flexshrink {{costType}}"
-								data-action="setTrickCost"
-								value="{{value}}"
-								max="3"
-								{{disabled disabled}}
-							>
-							</dots-input>
+							{{
+								curse-formInput
+								field (object )
+								value=value
+								disabled=disabled
+								classes=classes
+								dataset=(object action="setTrickCost")
+								type="number"
+							}}
 							{{#if allowDelete}}
 								<button
 									class="delete-trick align-center unbutton"
 									data-action="deleteTrick"
 									data-tooltip
-									aria-label="CURSEBORNE.Delete"
+									aria-label='{{localize "CURSEBORNE.Delete"}}'
 								>
 									<i class="fa-solid fa-trash"></i>
 								</button>

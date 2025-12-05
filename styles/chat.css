@@ -337,6 +337,11 @@ li.chat-message {
 						pointer-events: none;
 					}
 
+					input[type="number"] {
+						width: 2rem;
+						border: 0;
+					}
+
 					dots-input.fixed,
 					.delete-trick {
 						transition: all 0.2s ease-in-out;

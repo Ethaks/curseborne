@@ -551,6 +551,8 @@
 		"Contacts": "Contacts",
 		"DotRating": "Dot Rating",
 		"Cost": "Cost",
+		"Minimum": "Minimum",
+		"Maximum": "Maximum",
 
 		"NextScene": "Next Scene",
 		"NextSession": "Next Session",

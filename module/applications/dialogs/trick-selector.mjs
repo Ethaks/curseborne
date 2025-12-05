@@ -115,7 +115,7 @@ export class TrickSelector extends ApplicationV2 {
 		const trickLi = target.closest(".trick");
 		const { uuid, costType } = trickLi.dataset;
 		const trick = await foundry.utils.fromUuid(uuid);
-		const cost = target.querySelector("dots-input").value;
+		const cost = target.querySelector("dots-input,input").value;
 		if (costType === "variable" && cost === 0) return;
 		if (costType === "variable" && (cost < trick.system.cost.min || cost > trick.system.cost.max))
 			return;
@@ -208,16 +208,19 @@ export class TrickSelector extends ApplicationV2 {
 						</li>`,
 			);
 			for (const trick of choices) {
+				const trickType = trick.system.cost.type;
 				const config = {
-					value: trick.system.cost.type === "fixed" ? trick.system.cost.value : 0,
-					max: 3,
+					value: trickType === "fixed" ? trick.system.cost.value : 0,
+					max: trickType === "fixed" ? trick.system.cost.value : trick.system.cost.max,
+					min: trickType === "fixed" ? trick.system.cost.value : trick.system.cost.min,
+					type: "number",
 					readonly: trick.system.cost.type === "fixed",
 				};
 				const tooltip = curseborne.tooltips.createPlaceholder({
 					uuid: trick.uuid,
 					tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.LEFT,
 				});
-				const dotsInput = DotsInput.create(config);
+				const dotsInput = trick.system.schema.fields.cost.toInput(config);
 				dotsInput.classList.add("flexshrink", "align-right");
 				trickList.insertAdjacentHTML(
 					"beforeend",

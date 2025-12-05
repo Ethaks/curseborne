@@ -158,6 +158,9 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 					name: item.name,
 					tooltip: curseborne.tooltips.createPlaceholder({ uuid: t.uuid }),
 					disabled,
+					field: item.system.schema.fields.cost,
+					value: { value: t.value, max: 3, min: -1 },
+					classes: `align-right flexshrink ${item.system.cost.type}`,
 					costType: item.system.cost.type,
 					allowDelete: item.system.cost.type === "fixed" && isGM,
 				};

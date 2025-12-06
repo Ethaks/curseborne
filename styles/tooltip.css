@@ -9,6 +9,7 @@
 
 	/* Increase size for document tooltips */
 	&:has(.curseborne.item-tooltip, .curseborne.actor-tooltip) {
+		min-width: 350px;
 		max-width: 375px;
 		max-height: max-content;
 		padding-bottom: 1rem;

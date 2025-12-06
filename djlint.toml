@@ -1,7 +1,0 @@
-profile = "handlebars"
-extension = "hbs"
-max_attribute_length = 80
-max_blank_lines = 1
-max_line_length = 130
-preserve_leading_space = false
-format_attribute_template_tags = true

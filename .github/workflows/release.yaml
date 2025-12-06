@@ -25,7 +25,7 @@ jobs:
         run: bun install
 
       - name: lint
-        run: npm run lint
+        run: bun run lint
 
   # TODO: Add reuse once licensing is determined
   #

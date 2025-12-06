@@ -20,13 +20,13 @@
 					{{#if label}}
 						<span class="label">{{localize label}}</span>
 					{{/if}}
-					<span class="value flexrow">
-						{{#if valueElement}}
-							{{{valueElement}}}
-						{{else}}
+					{{#if valueElement}}
+						{{{valueElement}}}
+					{{else}}
+						<span class="value flexrow">
 							{{value}}
-						{{/if}}
-					</span>
+						</span>
+					{{/if}}
 				</div>
 			{{/each}}
 		</fieldset>

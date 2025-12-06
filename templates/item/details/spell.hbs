@@ -3,7 +3,11 @@
 	{{curse-formGroup systemFields.practice formGroupOptions labelAttr="label"}}
 	{{curse-formGroup systemFields.attunements formGroupOptions}}
 
-	{{curse-formGroup systemFields.advances formGroupOptions}}
+	<fieldset class="advance">
+		<legend>{{localize "CURSEBORNE.Item.Spell.Advance"}}</legend>
+		{{curse-formGroup systemFields.advances formGroupOptions}}
+		{{curse-formGroup systemFields.entanglement formGroupOptions}}
+	</fieldset>
 
 	<fieldset class="cost">
 		<legend>{{localize "CURSEBORNE.Item.Spell.FIELDS.cost.type.label"}}</legend>

@@ -184,9 +184,11 @@
 			},
 
 			"Spell": {
+				"Advance": "Advance",
+
 				"FIELDS": {
 					"cost": {
-						"type.label": "Cost",
+						"type": { "label": "Cost" },
 						"Bleed": "Bleed",
 						"BleedX": "Bleed {value} {dice}",
 						"Hold": "Hold",
@@ -200,7 +202,14 @@
 					},
 					"advances": {
 						"label": "Advance Identifier",
-						"hint": "The identifier of the spell this is an advance of, if any."
+						"hint": "The identifier of the spell this is an advance of, if any.",
+						"details": {
+							"label": "Advances"
+						}
+					},
+					"entanglement": {
+						"label": "Entanglement Requirement",
+						"hint": "The Entanglement level required to purchase this spell."
 					}
 				},
 				"ATTUNEMENTS": {

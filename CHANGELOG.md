@@ -23,6 +23,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Known Issues
 -->
 
+## [0.0.5]
+
+### Added
+
+- Add Entanglement Requirement field to spells
+
+### Fixed
+
+- Sort Advances of Spells under them again instead of purely based on manual sort order
+
 ## [0.0.4]
 
 ### Added

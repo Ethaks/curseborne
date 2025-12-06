@@ -20,7 +20,7 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 		const fields = foundry.data.fields;
 		const schema = {};
 
-		schema.description = new fields.HTMLField();
+		schema.description = new fields.HTMLField({ trim: true });
 
 		return schema;
 	}
@@ -75,7 +75,7 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 		const context = await super._prepareEmbedContext(config, options);
 
 		// Fall back to description as common tooltip content
-		if (typeof this.description === "string") {
+		if (typeof this.description === "string" && this.description.length > 0) {
 			context.description = await foundry.applications.ux.TextEditor.enrichHTML(this.description, {
 				relativeTo: this.parent,
 				secrets: this.parent.isOwner,

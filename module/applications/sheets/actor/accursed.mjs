@@ -365,7 +365,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		// The result object for the context;
 		const spellsContext = {};
 
-		const prepareSpell = (spell, isAdvance = false) => {
+		const prepareSpell = (spell, advances = null) => {
 			// The subgroup ID for the spell's practice
 			const subgroup = spell.system.practice;
 			// Find practice to which subgroup belongs
@@ -386,7 +386,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 				name: spell.name,
 				img: spell.img,
 				system: spell.system,
-				isAdvance,
+				advances: [],
+				isAdvance: advances !== null,
 				tooltip: curseborne.tooltips.createPlaceholder({ uuid: spell.uuid }),
 			};
 
@@ -422,7 +423,11 @@ export class AccursedSheet extends CurseborneActorSheet {
 					);
 			}
 
-			spellsContext[practice].subgroups[subgroup].spells.push(spellContext);
+			if (advances === null) spellsContext[practice].subgroups[subgroup].spells.push(spellContext);
+			else
+				spellsContext[practice].subgroups[subgroup].spells
+					.find((s) => s.system.identifier === advances)
+					.advances.push(spellContext);
 		};
 
 		const spells = this.actor.itemTypes.spell;
@@ -437,7 +442,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 
 			const advancements = spell.system.advancements;
 			for (const advancement of advancements) {
-				prepareSpell(advancement, true);
+				prepareSpell(advancement, spell.system.identifier);
 			}
 		}
 
@@ -445,6 +450,9 @@ export class AccursedSheet extends CurseborneActorSheet {
 		for (const practice of Object.values(spellsContext)) {
 			for (const subgroup of Object.values(practice.subgroups)) {
 				subgroup.spells.sort((a, b) => a.item.sort - b.item.sort);
+				for (const spell of subgroup.spells) {
+					spell.advances.sort((a, b) => a.item.sort - b.item.sort);
+				}
 			}
 		}
 

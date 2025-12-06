@@ -51,6 +51,14 @@ export class Spell extends CurseborneItemBase {
 			},
 		});
 
+		schema.entanglement = new fields.NumberField({
+			required: true,
+			nullable: true,
+			initial: null,
+			integer: true,
+			min: 0,
+		});
+
 		schema.attunements = new fields.SetField(
 			new fields.StringField({
 				required: true,
@@ -126,7 +134,7 @@ export class Spell extends CurseborneItemBase {
 					dice: game.i18n.localize(`CURSEBORNE.${value > 1 ? "CurseDice" : "CurseDie"}`),
 				},
 			);
-			const valueElement = `<i class="${icon} flexshrink"></i> ${valueString}`;
+			const valueElement = `<span class="value flexrow"><i class="${icon} flexshrink"></i> ${valueString}</span>`;
 			context.details.push({
 				label: game.i18n.localize("CURSEBORNE.Item.Spell.FIELDS.cost.type.label"),
 				valueElement,
@@ -143,6 +151,31 @@ export class Spell extends CurseborneItemBase {
 					}),
 				),
 			});
+		}
+
+		// Advances
+		if (this.advances) {
+			const advanceDetail = {
+				label: game.i18n.localize("CURSEBORNE.Item.Spell.FIELDS.advances.details.label"),
+			};
+			const advancedSpell = this.item.collection.find(
+				(spell) => spell.system.identifier === this.advances,
+			);
+			if (advancedSpell) {
+				// If a spell is found, we can create a link with embed tooltip for it; otherwise, just show the identifier
+				const tooltip = curseborne.tooltips.createPlaceholder({ uuid: advancedSpell.uuid });
+				advanceDetail.valueElement = `<span class="value flexrow" data-tooltip-html='${tooltip}'>${advancedSpell.name}</span>`;
+			} else {
+				advanceDetail.value = this.advances;
+			}
+			context.details.push(advanceDetail);
+
+			if (this.entanglement !== null) {
+				context.details.push({
+					label: game.i18n.localize("CURSEBORNE.Entanglement"),
+					value: this.entanglement,
+				});
+			}
 		}
 
 		return context;

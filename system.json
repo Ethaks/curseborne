@@ -55,7 +55,7 @@
 		}
 	],
 	"background": "systems/curseborne/assets/repo.webp",
-	"version": "0.0.2",
+	"version": "0.0.4",
 	"compatibility": {
 		"minimum": "13",
 		"verified": "13"

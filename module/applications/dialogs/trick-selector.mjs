@@ -196,7 +196,6 @@ export class TrickSelector extends ApplicationV2 {
 		elements.push(content);
 
 		// Create one element for each group of tricks, containing a header and an ul of tricks
-		// TODO: Parallelize this with Promise.all
 		for (const { type, label, choices } of context.groups) {
 			if (choices.length === 0) continue;
 			const trickList = document.createElement("ul");
@@ -220,7 +219,7 @@ export class TrickSelector extends ApplicationV2 {
 					uuid: trick.uuid,
 					tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.LEFT,
 				});
-				const dotsInput = trick.system.schema.fields.cost.toInput(config);
+				const dotsInput = curseborne.models.item.Trick.schema.fields.cost.toInput(config);
 				dotsInput.classList.add("flexshrink", "align-right");
 				trickList.insertAdjacentHTML(
 					"beforeend",

@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Sort Advances of Spells under them again instead of purely based on manual sort order
 - Use the configured `FilePicker` for image browsing, allowing users of The Forge to browser their assets
+- Resolved an issue where the Trick Selector could not be opened when Tricks were stored in compendium packs
 
 ## [0.0.4]
 

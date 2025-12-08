@@ -508,7 +508,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 			event.preventDefault();
 			event.stopPropagation();
 			target.dispatchEvent(
-				new Event("contextmenu", {
+				new PointerEvent("contextmenu", {
 					view: window,
 					bubbles: true,
 					cancelable: true,

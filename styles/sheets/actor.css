@@ -141,12 +141,6 @@
 		min-height: 860;
 	}
 
-	legend {
-		font-family: var(--font-header);
-		font-variant: small-caps;
-		font-size: var(--font-size-20);
-	}
-
 	.pip {
 		--pip-size: var(--font-size-13);
 	}

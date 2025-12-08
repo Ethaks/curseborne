@@ -509,7 +509,6 @@
 			"Immobilized": "Immobilized",
 			"Inspired": "Inspired",
 			"Infected": "Infected",
-			"Liar": "Liar",
 			"Loss": "Loss",
 			"MortallyWounded": "Mortally Wounded",
 			"Refreshed": "Refreshed",
@@ -520,7 +519,8 @@
 			"TakenOut": "Taken Out",
 			"Terrified": "Terrified",
 			"UnexpectedFavor": "Unexpected Favor",
-			"Unlucky": "Unlucky"
+			"Unlucky": "Unlucky",
+			"Untrustworthy": "Untrustworthy"
 		},
 
 		"INJURIES": {

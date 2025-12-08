@@ -1,5 +1,6 @@
 {{! Main Tab }}
 <section class="tab main standard-form {{tab.cssClass}}" data-group="primary" data-tab="main">
+	{{! Paths }}
 	<fieldset class="paths grid">
 		<legend class="flexrow">
 			<span>{{localize "CURSEBORNE.Paths"}}</span>
@@ -18,12 +19,20 @@
 					data-tooltip="{{tooltip}}"
 				>
 					<div class="item-name">
-						<img class="item-image align-right flexshrink" src="{{img}}" />
+						{{#if img}}
+							<img
+								class="item-image align-right flexshrink"
+								src="{{img}}"
+								alt="{{name}}"
+								width="30"
+								height="30"
+							>
+						{{/if}}
 						<h4 class="item-name">{{name}}</h4>
 					</div>
 					{{#if @root.editable}}
 						<a class="item-control" data-action="contextMenu">
-							<i class="fa-solid fa-ellipsis-v"></i>
+							<i class="fa-solid fa-fw fa-ellipsis-v"></i>
 						</a>
 					{{/if}}
 				</li>
@@ -52,7 +61,7 @@
 
 						{{#if @root.editable}}
 							<a class="item-control" data-action="contextMenu">
-								<i class="fa-solid fa-ellipsis-v"></i>
+								<i class="fa-solid fa-fw fa-ellipsis-v"></i>
 							</a>
 						{{/if}}
 					</li>
@@ -65,8 +74,15 @@
 			<legend class="flexrow">
 				<span>{{localize "CURSEBORNE.Edges"}}</span>
 				{{#if editable}}
-					<button type="button" class="unbutton add-item" data-action="createDoc" data-type="edge">
-						<i class="fa-solid fa-plus"></i>
+					<button
+						type="button"
+						class="unbutton add-item"
+						data-action="createDoc"
+						data-tooltip
+						data-type="edge"
+						aria-label="{{localize 'DOCUMENT.Create' type=(localize 'TYPES.Item.edge')}}"
+					>
+						<i class="fa-solid fa-fw fa-plus"></i>
 					</button>
 				{{/if}}
 			</legend>
@@ -84,7 +100,7 @@
 						}}
 						{{#if @root.editable}}
 							<a class="item-control" data-action="contextMenu">
-								<i class="fa-solid fa-ellipsis-v"></i>
+								<i class="fa-solid fa-fw fa-ellipsis-v"></i>
 							</a>
 						{{/if}}
 					</li>

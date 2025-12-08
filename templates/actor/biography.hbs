@@ -1,6 +1,6 @@
 {{! Biography Tab }}
 <section
-	class="tab biography {{tab.cssClass}} standard-form"
+	class="tab biography standard-form {{tab.cssClass}}"
 	data-group="primary"
 	data-tab="biography"
 >
@@ -31,16 +31,17 @@
 	{{/if}}
 
 	{{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
-	{{#if editable}}
-		<prose-mirror
-			name="system.biography"
-			data-document-u-u-i-d="{{actor.uuid}}"
-			value="{{system.biography}}"
-			collaborate="true"
-		>
-			{{{enrichedBiography}}}
-		</prose-mirror>
-	{{else}}
+	<div class="biography-content">
 		{{{enrichedBiography}}}
-	{{/if}}
+		<button
+			type="button"
+			class="edit-text"
+			data-action="editText"
+			data-field="biography"
+			data-tooltip
+			aria-label="{{localize 'CURSEBORNE.Edit'}}"
+		>
+			<i class="fa-solid fa-fw fa-edit"></i>
+		</button>
+	</div>
 </section>

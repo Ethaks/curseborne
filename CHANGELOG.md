@@ -23,6 +23,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Known Issues
 -->
 
+## [0.1.0]
+
+### Added
+
+### Changed
+
+- Use `TextEditor` applications for biography tabs
+
 ## [0.0.5]
 
 ### Added

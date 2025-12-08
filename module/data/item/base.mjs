@@ -31,7 +31,7 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 	 * @type {boolean}
 	 */
 	get isPackItem() {
-		return this.pack && !this.isEmbedded;
+		return this.parent.pack && !this.isEmbedded;
 	}
 
 	/** @inheritDoc */

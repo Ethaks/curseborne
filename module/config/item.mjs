@@ -162,3 +162,12 @@ export const attunements = {
 		label: "CURSEBORNE.Item.Spell.ATTUNEMENTS.Support",
 	},
 };
+
+export const tormentTypes = /** @type {const} */ ({
+	personal: {
+		label: "CURSEBORNE.Item.Torment.FIELDS.type.personal",
+	},
+	lineage: {
+		label: "CURSEBORNE.Item.Torment.FIELDS.type.lineage",
+	},
+});

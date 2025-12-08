@@ -61,6 +61,8 @@ Hooks.once("init", () => {
 		social: models.item.Social,
 		spell: models.item.Spell,
 		equipment: models.item.Equipment,
+		motif: models.item.Motif,
+		torment: models.item.Torment,
 
 		// Adversaries
 		template: models.item.AdversaryTemplate,

@@ -224,6 +224,42 @@
 				}
 			},
 
+			"Torment": {
+				"label": {
+					"one": "Torment",
+					"other": "Torments"
+				},
+
+				"DuplicateError": "Accursed can only have one Torment of each type.",
+				"MismatchWarning": "This Torment's Lineage does not match the actor's Lineage.",
+
+				"FIELDS": {
+					"type": {
+						"label": "Type",
+						"personal": "Personal",
+						"lineage": "Lineage"
+					},
+					"lineage": {
+						"label": "Lineage",
+						"hint": "The identifier of the Lineage with which this Torment is associated."
+					}
+				}
+			},
+
+			"Motif": {
+				"label": {
+					"one": "Motif",
+					"other": "Motifs"
+				},
+				"MismatchWarning": "This Motif's Family does not match the actor's Family.",
+				"FIELDS": {
+					"family": {
+						"label": "Family",
+						"hint": "The identifier of the Family with which this Motif is associated."
+					}
+				}
+			},
+
 			"Quality": {
 				"Qualities": "Qualities"
 			},
@@ -552,7 +588,8 @@
 		},
 
 		"ERROR": {
-			"CannotRollItem": "{type} Items cannot be rolled."
+			"CannotRollItem": "{type} Items cannot be rolled.",
+			"DuplicateItemType": "Actors can only have one {type} Item."
 		},
 
 		"Bonds": "Bonds",
@@ -588,6 +625,7 @@
 		"Duplicate": "Duplicate",
 		"Delete": "Delete",
 		"Submit": "Submit",
-		"Cancel": "Cancel"
+		"Cancel": "Cancel",
+		"None": "None"
 	}
 }

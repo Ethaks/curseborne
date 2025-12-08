@@ -4,8 +4,8 @@ declare module "./base.mjs" {
 	export interface ItemTypeMetadata {
 		/** The Item type this model represents. */
 		type?: string;
-		/** The HBS template used to render this item's details. */
-		details?: string;
+		/** The HBS template used to render this item's details; `false` if no details tab should be displayed. */
+		details?: string | false;
 		/** Actor types this item cannot be embedded in. */
 		invalidActorTypes?: string[];
 		/** A path to a handlebars template used to render embeds of this item. */

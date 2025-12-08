@@ -414,7 +414,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 			}
 
 			const { img } = this.document.constructor.getDefaultArtwork?.(this.document.toObject()) ?? {};
-			const fp = new foundry.applications.apps.FilePicker({
+			const fp = new foundry.applications.apps.FilePicker.implementation({
 				current,
 				type: "image",
 				redirectToRoot: img ? [img] : [],

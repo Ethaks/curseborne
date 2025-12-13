@@ -202,20 +202,14 @@
 							<h3 class="item-name">{{name}}</h3>
 						</div>
 						<div class="item-controls flexrow">
-							{{#if editable}}
-								<button type="button" class="item-control unbutton" data-action="editDoc">
-									<i class="fa-solid fa-edit"></i>
-								</button>
-								<button type="button" class="item-control unbutton" data-action="deleteDoc">
-									<i class="fa-solid fa-trash"></i>
-								</button>
+							{{#if @root.isEditMode}}
 								<button
 									type="button"
 									class="item-control unbutton"
 									data-action="contextMenu"
 									data-tooltip="CURSEBORNE.ContextMenu"
 								>
-									<i class="fa-solid fa-ellipsis-v"></i>
+									<i class="fa-solid fa-fw fa-ellipsis-v"></i>
 								</button>
 							{{/if}}
 						</div>
@@ -242,31 +236,39 @@
 				{{/if}}
 			</legend>
 
-			<ul class="dread-powers items-list unlist grid grid-2col">
+			<ul class="dread-powers items-list unlist">
 				{{#each dreadPowers}}
-					<li class="item dread-power" data-item-id="{{id}}">
-						<div class="item-name" data-tooltip="{{tooltip}}">
-							<img class="item-image" src="{{img}}" title="{{name}}" />
+					<li
+						class="item dread-power flexrow"
+						data-item-id="{{id}}"
+						data-tooltip-html="{{tooltip}}"
+					>
+						{{! Name and Image }}
+						<div class="item-name">
+							<img class="item-image" src="{{img}}" alt="{{name}}" />
 							<h3 class="item-name">{{name}}</h3>
 						</div>
-						<div class="item-controls">
-							{{#if editable}}
-								<button type="button" class="item-control unbutton" data-action="editDoc">
-									<i class="fa-solid fa-edit"></i>
-								</button>
-								<button type="button" class="item-control unbutton" data-action="deleteDoc">
-									<i class="fa-solid fa-trash"></i>
-								</button>
+
+						{{! Uses }}
+						<div class="uses">
+							{{
+								curse-formInput uses.field formGroupOptions value=system.uses max=system.uses.max dataset=uses.dataset
+							}}
+						</div>
+
+						{{! Controls }}
+						{{#if @root.isEditMode}}
+							<div class="item-controls">
 								<button
 									type="button"
 									class="item-control unbutton"
 									data-action="contextMenu"
 									data-tooltip="CURSEBORNE.ContextMenu"
 								>
-									<i class="fa-solid fa-ellipsis-v"></i>
+									<i class="fa-solid fa-fw fa-ellipsis-v"></i>
 								</button>
-							{{/if}}
-						</div>
+							</div>
+						{{/if}}
 					</li>
 				{{/each}}
 			</ul>

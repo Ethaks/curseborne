@@ -1,4 +1,4 @@
-export {};
+import { DotsData } from "@models/fields/dots";
 
 declare module "./dread-power.mjs" {
 	interface DreadPower {
@@ -7,5 +7,6 @@ declare module "./dread-power.mjs" {
 			custom: string;
 		};
 		injuries: keyof typeof curseborne.config.dreadPowerInjuries | null;
+		uses: DotsData;
 	}
 }

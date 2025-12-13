@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implement Torment Items
 - Add Dread Power Type field
 - Add Dread Power Injuries field
+- Add Uses field to Dread Powers to track available and maximum uses per scene
 
 ### Changed
 

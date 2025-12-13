@@ -14,5 +14,13 @@
 		</fieldset>
 	{{/if}}
 
+	{{! Required Injuries Level }}
 	{{curse-formGroup systemFields.injuries formGroupOptions}}
+
+	{{! Uses }}
+	<fieldset class="uses">
+		<legend>{{localize "CURSEBORNE.Item.DreadPower.FIELDS.uses.label"}}</legend>
+		{{curse-formGroup systemFields.uses.fields.value formGroupOptions}}
+		{{curse-formGroup systemFields.uses.fields.max formGroupOptions}}
+	</fieldset>
 </section>

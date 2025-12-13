@@ -766,9 +766,17 @@
 	div.items {
 		li.item {
 			margin: 0;
+			padding: 2px 4px;
+
 			&:hover {
 				background: var(--color-background-lighter);
 			}
+		}
+	}
+
+	ul.dread-powers {
+		.uses {
+			flex: 0 0 75px;
 		}
 	}
 }

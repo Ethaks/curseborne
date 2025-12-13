@@ -299,6 +299,18 @@
 						"Full": "Full",
 						"Half": "Half",
 						"One": "1"
+					},
+
+					"uses": {
+						"label": "Uses",
+						"value": {
+							"label": "Available Uses",
+							"hint": "How many times this Dread Power can be used this scene."
+						},
+						"max": {
+							"label": "Maximum Uses",
+							"hint": "The maximum number of times this Dread Power can be used each scene."
+						}
 					}
 				}
 			}

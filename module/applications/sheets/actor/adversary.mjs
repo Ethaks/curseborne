@@ -145,6 +145,10 @@ export class AdversarySheet extends CurseborneActorSheet {
 					system: dreadPower.system,
 					img: dreadPower.img,
 					name: dreadPower.name,
+					uses: {
+						field: dreadPower.system.schema.getField("uses"),
+						dataset: { action: "updateEmbedded", property: "system.uses.value" },
+					},
 					tooltip: curseborne.tooltips.createPlaceholder({
 						uuid: dreadPower.uuid,
 						tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.RIGHT,

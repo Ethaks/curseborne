@@ -1,4 +1,5 @@
-import { requiredInteger, systemTemplate, toLabelObject } from "@helpers/utils.mjs";
+import { systemTemplate, toLabelObject } from "@helpers/utils.mjs";
+import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class DreadPower extends LimitedActorTypesItem(CurseborneItemBase, "accursed") {
@@ -29,6 +30,12 @@ export class DreadPower extends LimitedActorTypesItem(CurseborneItemBase, "accur
 		schema.injuries = new fields.StringField({
 			blank: true,
 			choices: () => toLabelObject(curseborne.config.dreadPowerInjuries),
+		});
+
+		schema.uses = new DotsField({
+			min: 1,
+			value: { initial: 1 },
+			max: { initial: 1 },
 		});
 
 		return schema;
@@ -64,6 +71,19 @@ export class DreadPower extends LimitedActorTypesItem(CurseborneItemBase, "accur
 			context.details.push({
 				label: game.i18n.localize("CURSEBORNE.Item.DreadPower.FIELDS.injuries.label"),
 				value: game.i18n.localize(curseborne.config.dreadPowerInjuries[this.injuries].label),
+			});
+		}
+
+		// Add uses dots if number of maximum uses is defined
+		if (this.uses.max > 0) {
+			context.details.push({
+				label: game.i18n.localize("CURSEBORNE.Item.DreadPower.FIELDS.uses.label"),
+				valueElement: this.schema.fields.uses.toInput({
+					value: this.uses,
+					max: this.uses.max,
+					classes: "value",
+					disabled: true,
+				}).outerHTML,
 			});
 		}
 

@@ -261,11 +261,15 @@
 			},
 
 			"Quality": {
-				"Qualities": "Qualities"
+				"label": {
+					"other": "Qualities"
+				}
 			},
 
 			"DreadPower": {
-				"DreadPowers": "Dread Powers"
+				"label": {
+					"other": "Dread Powers"
+				}
 			}
 		},
 

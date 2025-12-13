@@ -106,11 +106,12 @@ export class CurseborneTypeDataModel extends foundry.abstract.TypeDataModel {
 		};
 
 		// Add subtype to the subtitle, if available
-		if (this.type) {
+		if (this.type && typeof this.type === "string") {
 			const field = this.schema.fields.type;
 			let choices = field.choices;
 			if (choices instanceof Function) choices = choices();
-			if (choices?.[this.type]) context.subtitle += ` — ${game.i18n.localize(choices[this.type])}`;
+			if (choices?.[this.type])
+				context.subtitle += ` — ${game.i18n.localize(choices[this.type].label ?? choices[this.type])}`;
 		}
 
 		return context;

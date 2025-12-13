@@ -118,6 +118,9 @@ export class CurseborneTooltips {
 	 * defering the actual tooltip content loading until the tooltip is activated.
 	 *
 	 * @param {object} data - Additional data placed in the placeholder element's dataset
+	 * @param {string} [data.uuid] - The UUID of the Document to load when the tooltip is activated
+	 * @param {keyof typeof TooltipManager.TOOLTIP_DIRECTIONS} [data.tooltipDirection] - The preferred tooltip direction
+	 * @param {boolean} [data.descriptionOnly] - Whether to show only the description in the embed tooltip
 	 */
 	createPlaceholder(data) {
 		const loading = document.createElement("section");

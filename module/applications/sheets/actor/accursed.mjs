@@ -288,6 +288,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 				mismatchedFamily: motif.system.family !== family?.system.identifier,
 				tooltip: curseborne.tooltips.createPlaceholder({
 					uuid: motif.uuid,
+					descriptionOnly: true,
 					tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.DOWN,
 				}),
 			}))

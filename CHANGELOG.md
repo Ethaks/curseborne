@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Implement Motif Items
 - Implement Torment Items
+- Add Dread Power Type field
+- Add Dread Power Injuries field
 
 ### Changed
 

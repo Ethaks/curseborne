@@ -1,4 +1,4 @@
-import { systemTemplate } from "@helpers/utils.mjs";
+import { requiredInteger, systemTemplate, toLabelObject } from "@helpers/utils.mjs";
 import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class DreadPower extends LimitedActorTypesItem(CurseborneItemBase, "accursed") {
@@ -10,19 +10,63 @@ export class DreadPower extends LimitedActorTypesItem(CurseborneItemBase, "accur
 	});
 
 	/** @inheritDoc */
+	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.DreadPower"];
+
+	/** @inheritDoc */
 	static defineSchema() {
 		const fields = foundry.data.fields;
 		const schema = super.defineSchema();
 
-		// TODO: Move to config
-		schema.type = new fields.StringField({
-			required: true,
+		schema.type = new fields.SchemaField({
+			value: new fields.StringField({
+				required: true,
+				initial: () => Object.keys(curseborne.config.dreadPowerTypes)[0],
+				choices: () => toLabelObject(curseborne.config.dreadPowerTypes),
+			}),
+			custom: new fields.StringField({ required: true, nullable: false }),
 		});
 
-		schema.prerequisite = new fields.SetField(new fields.StringField(), {
-			required: true,
+		schema.injuries = new fields.StringField({
+			blank: true,
+			choices: () => toLabelObject(curseborne.config.dreadPowerInjuries),
 		});
 
 		return schema;
+	}
+
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                       Embed Preparation                                       */
+	/* --------------------------------------------------------------------------------------------- */
+
+	/** @inheritDoc */
+	async _prepareEmbedContext(config, options) {
+		const context = await super._prepareEmbedContext(config, options);
+
+		// Add dread power group to subtitle
+		if (this.type.value !== "custom") {
+			const typeGroup = game.i18n.localize(
+				curseborne.config.dreadPowerTypes[this.type.value].group,
+			);
+			context.subtitle += ` — ${typeGroup}`;
+		}
+		// Add full (possibly longer) type label to details
+		const typeLabel =
+			this.type.value === "custom"
+				? this.type.custom
+				: game.i18n.localize(curseborne.config.dreadPowerTypes[this.type.value].label);
+		context.details.push({
+			label: game.i18n.localize("CURSEBORNE.Item.DreadPower.FIELDS.type.value.label"),
+			value: typeLabel,
+		});
+
+		// Required Injuries level
+		if (this.injuries) {
+			context.details.push({
+				label: game.i18n.localize("CURSEBORNE.Item.DreadPower.FIELDS.injuries.label"),
+				value: game.i18n.localize(curseborne.config.dreadPowerInjuries[this.injuries].label),
+			});
+		}
+
+		return context;
 	}
 }

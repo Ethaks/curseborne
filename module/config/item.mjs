@@ -190,3 +190,58 @@ export const tormentTypes = /** @type {const} */ ({
 		label: "CURSEBORNE.Item.Torment.FIELDS.type.lineage",
 	},
 });
+
+/* ---------------------------------------------------------------------------------------------- */
+/*                                          Adversaries                                           */
+/* ---------------------------------------------------------------------------------------------- */
+
+export const dreadPowerTypes = /** @type {const} */ ({
+	// Actions
+	simple: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.type.simple",
+		group: "CURSEBORNE.Item.DreadPower.FIELDS.type.Action",
+	},
+	reflexive: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.type.reflexive",
+		group: "CURSEBORNE.Item.DreadPower.FIELDS.type.Action",
+	},
+
+	//Reactions
+	complicationAny: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.type.complicationAny",
+		group: "CURSEBORNE.Item.DreadPower.FIELDS.type.Reaction",
+	},
+	complicationAttack: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.type.complicationAttack",
+		group: "CURSEBORNE.Item.DreadPower.FIELDS.type.Reaction",
+	},
+	complicationMelee: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.type.complicationMelee",
+		group: "CURSEBORNE.Item.DreadPower.FIELDS.type.Reaction",
+	},
+	complicationGrapple: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.type.complicationGrapple",
+		group: "CURSEBORNE.Item.DreadPower.FIELDS.type.Reaction",
+	},
+	complicationInfluence: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.type.complicationInfluence",
+		group: "CURSEBORNE.Item.DreadPower.FIELDS.type.Reaction",
+	},
+
+	// Custom Text for anything not covered above
+	custom: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.type.custom.label",
+	},
+});
+
+export const dreadPowerInjuries = /** @type {const} */ ({
+	full: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.injuries.Full",
+	},
+	half: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.injuries.Half",
+	},
+	one: {
+		label: "CURSEBORNE.Item.DreadPower.FIELDS.injuries.One",
+	},
+});

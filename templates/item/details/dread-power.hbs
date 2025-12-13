@@ -1,2 +1,18 @@
-<section class="tab {{tab.id}} {{tab.cssClass}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+<section
+	class="tab standard-form {{tab.id}} {{tab.cssClass}}"
+	data-group="{{tab.group}}"
+	data-tab="{{tab.id}}"
+>
+	{{! Dread Power Type }}
+	{{#if (ne system.type.value "custom")}}
+		{{curse-formGroup systemFields.type.fields.value formGroupOptions}}
+	{{else}}
+		<fieldset class="type">
+			<legend>{{localize "CURSEBORNE.Item.DreadPower.FIELDS.type.label"}}</legend>
+			{{curse-formGroup systemFields.type.fields.value formGroupOptions}}
+			{{curse-formGroup systemFields.type.fields.custom formGroupOptions}}
+		</fieldset>
+	{{/if}}
+
+	{{curse-formGroup systemFields.injuries formGroupOptions}}
 </section>

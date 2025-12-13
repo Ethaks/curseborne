@@ -269,6 +269,37 @@
 			"DreadPower": {
 				"label": {
 					"other": "Dread Powers"
+				},
+				"FIELDS": {
+					"type": {
+						"label": "Dread Power Type",
+						"value": {
+							"label": "Type",
+							"hint": "Whether the Dread Power is an Action or a Reaction."
+						},
+						"custom": {
+							"label": "Custom Type",
+							"hint": "A custom type for this Dread Power."
+						},
+						"Action": "Action",
+						"simple": "Simple Action",
+						"reflexive": "Reflexive Action",
+
+						"Reaction": "Reaction",
+						"complicationAny": "Complication (Any Action)",
+						"complicationAttack": "Complication (Attack)",
+						"complicationMelee": "Complication (Melee)",
+						"complicationGrapple": "Complication (Grapple)",
+						"complicationInfluence": "Complication (Influence)"
+					},
+
+					"injuries": {
+						"label": "Injuries",
+						"hint": "The Injuries level required to activate this Dread Power.",
+						"Full": "Full",
+						"Half": "Half",
+						"One": "1"
+					}
 				}
 			}
 		},

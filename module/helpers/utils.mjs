@@ -8,7 +8,7 @@ export const SYSTEM_ID = "curseborne";
  * @param {boolean} [options.localize=true] - Whether to localize the values
  * @param {string} [options.labelAttribute="label"] - The attribute to use as the label
  * @param {boolean} [options.sort=false] - Whether to sort the object by the label
- * @returns {Recod<string, string>} - The converted object
+ * @returns {Recod<string, {label: string, group?: string}>} - The converted object
  */
 export function toLabelObject(
 	obj,
@@ -21,15 +21,24 @@ export function toLabelObject(
 
 	const result = entries.map(([key, value]) => {
 		if (foundry.utils.getType(value) === "string") {
-			return [key, localize ? game.i18n.localize(value) : value];
+			return [key, { label: localize ? game.i18n.localize(value) : value }];
+			// return [key, localize ? game.i18n.localize(value) : value];
 		}
 		if (foundry.utils.getType(value) === "Object") {
-			return [key, localize ? game.i18n.localize(value[labelAttribute]) : value[labelAttribute]];
+			return [
+				key,
+				{
+					...value,
+					label: localize ? game.i18n.localize(value[labelAttribute]) : value[labelAttribute],
+					group: localize ? game.i18n.localize(value.group) : value.group,
+				},
+			];
+			// return [key, localize ? game.i18n.localize(value[labelAttribute]) : value[labelAttribute]];
 		}
 		return [];
 	});
 
-	if (sort) result.sort((a, b) => a[1].localeCompare(b[1]));
+	if (sort) result.sort((a, b) => a[1].label.localeCompare(b[1].label));
 	return Object.fromEntries(result);
 }
 

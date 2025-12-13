@@ -34,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Use `TextEditor` applications for biography tabs
+- Use `TextEditor` applications for biography tabs and Adversary Drive
 
 ### Fixed
 

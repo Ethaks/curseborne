@@ -125,18 +125,17 @@
 					{{localize "CURSEBORNE.Actor.Adversary.FIELDS.drive.label"}}
 				</span>
 			</legend>
-
-			{{#if editable}}
-				{{
-					curse-formInput
-					systemFields.drive
-					formGroupOptions
-					enriched=drive
-					compact=true
-				}}
-			{{else}}
-				{{{drive}}}
-			{{/if}}
+			{{{drive}}}
+			<button
+				type="button"
+				class="edit-text"
+				data-action="editText"
+				data-field="drive"
+				data-tooltip
+				aria-label="{{localize 'CURSEBORNE.Edit'}}"
+			>
+				<i class="fa-solid fa-fw fa-edit"></i>
+			</button>
 		</fieldset>
 
 		{{! Pools }}

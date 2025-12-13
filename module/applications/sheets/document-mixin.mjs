@@ -435,6 +435,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 			const { documentClass = "Item", action, ...data } = target.dataset ?? {};
 			if (!documentClass) return console.error("No item type specified for creation");
 			const docCls = getDocumentClass(documentClass);
+			const parent = this.document.isEmbedded ? this.document.parent : this.document;
 			for (const [key, value] of Object.entries(data)) {
 				if (key.startsWith("system")) {
 					data.system ??= {};
@@ -445,10 +446,10 @@ export function CurseborneDocumentSheetMixin(Base) {
 			}
 			const createData = {
 				...foundry.utils.expandObject(data),
-				name: docCls.defaultName({ type: data.type, parent: this.document }),
+				name: docCls.defaultName({ type: data.type, parent }),
 			};
 			return docCls.create([createData], {
-				parent: this.document,
+				parent,
 				renderSheet: true,
 			});
 		}
@@ -508,7 +509,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 			event.preventDefault();
 			event.stopPropagation();
 			target.dispatchEvent(
-				new Event("contextmenu", {
+				new PointerEvent("contextmenu", {
 					view: window,
 					bubbles: true,
 					cancelable: true,
@@ -566,7 +567,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 			// Item IDs are for embedded items for actors, or for sibling items in case of containers
 			if (itemId) {
 				if (this.document instanceof foundry.documents.Item)
-					return this.document.getContainedItem(itemId);
+					return this.document.collection.get(itemId);
 				return this.document.items.get(itemId);
 			}
 

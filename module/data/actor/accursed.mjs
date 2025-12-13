@@ -2,7 +2,7 @@ import { ROLL_TYPE } from "@config/dice.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneActorBase } from "./base.mjs";
 
-/** @import { ActorRollResult } from "@dice/roll" */
+/** @import { ActorRollResult, ActorRollOptions } from "@dice/roll" */
 
 export class Accursed extends CurseborneActorBase {
 	/** @inheritDoc */
@@ -58,6 +58,25 @@ export class Accursed extends CurseborneActorBase {
 		return schema;
 	}
 
+	/** @type {LineageItem | undefined} */
+	get lineage() {
+		return this.parent.itemTypes.lineage[0];
+	}
+
+	/** @type {FamilyItem | undefined} */
+	get family() {
+		return this.parent.itemTypes.family[0];
+	}
+
+	/** @type {RoleItem | undefined} */
+	get role() {
+		return this.parent.itemTypes.role[0];
+	}
+
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                       Lifecycle Events                                        */
+	/* --------------------------------------------------------------------------------------------- */
+
 	/** @inheritDoc */
 	async _preCreate(data, options, user) {
 		const allowed = await super._preCreate(data, options, user);
@@ -97,6 +116,10 @@ export class Accursed extends CurseborneActorBase {
 			items: [...this.parent.items.map((i) => i.toObject()), ...skills],
 		});
 	}
+
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                       Data Preparation                                        */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/** @inheritDoc */
 	prepareBaseData() {
@@ -140,25 +163,9 @@ export class Accursed extends CurseborneActorBase {
 		}
 	}
 
-	/** @type {LineageItem} */
-	get lineage() {
-		return this.parent.itemTypes.lineage[0];
-	}
-
-	/** @type {FamilyItem} */
-	get family() {
-		return this.parent.itemTypes.family[0];
-	}
-
-	/** @type {RoleItem} */
-	get role() {
-		return this.parent.itemTypes.role[0];
-	}
-
-	getRollData() {
-		const data = {};
-		return data;
-	}
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                            Rolling                                            */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/** @inheritDoc */
 	_prepareCommonRollOptions(options) {
@@ -209,6 +216,18 @@ export class Accursed extends CurseborneActorBase {
 		return this._createRoll(ROLL_TYPE.GENERAL, options);
 	}
 
+	/**
+	 * Create a defense roll for this actor.
+	 *
+	 * @param {ActorRollOptions} options - The options for the roll.
+	 * @returns {Promise<ActorRollResult>} An object containing a roll and a message, if any.
+	 */
+	async rollDefense(options = {}) {
+		options = this._prepareCommonRollOptions(options);
+		options.data.difficulty ??= 0;
+		return this._createRoll(ROLL_TYPE.DEFENSE, options);
+	}
+
 	/** @inheritDoc */
 	_onRollInitialize(roll) {
 		super._onRollInitialize(roll);
@@ -234,11 +253,5 @@ export class Accursed extends CurseborneActorBase {
 			}
 			roll.terms = roll.constructor.parse("", roll.data);
 		}
-	}
-
-	async rollDefense(options = {}) {
-		options = this._prepareCommonRollOptions(options);
-		options.data.difficulty ??= 0;
-		return this._createRoll(ROLL_TYPE.DEFENSE, options);
 	}
 }

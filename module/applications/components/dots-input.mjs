@@ -128,7 +128,7 @@ export class DotsInput extends foundry.applications.elements.AbstractFormInputEl
 		if (!this.editable) return;
 
 		// Raw index of the pip clicked.
-		const index = Number.parseInt(event.currentTarget.dataset.index);
+		const index = Number.parseInt(event.currentTarget.dataset.index, 10);
 		const newValue = index + 1;
 		const currentValue = this._getValue();
 
@@ -153,7 +153,7 @@ export class DotsInput extends foundry.applications.elements.AbstractFormInputEl
 	_onMouseOverPip(event) {
 		const pip = event.target.closest(".pip");
 		if (!pip) return;
-		const index = Number.parseInt(pip.dataset.index);
+		const index = Number.parseInt(pip.dataset.index, 10);
 		const currentValue = this._getValue();
 		const wouldBeZero = index === 0 && currentValue === 1;
 		for (let i = 0; i < this.#pips.length; i++) {
@@ -180,6 +180,12 @@ export class DotsInput extends foundry.applications.elements.AbstractFormInputEl
 		}
 	}
 
+	/**
+	 * Create a DotsInput element from a configuration.
+	 *
+	 * @param {foundry.data.types.FormInputConfig} config - The configuration object.
+	 * @returns {InstanceType<this>} The created input element.
+	 */
 	static create(config) {
 		const input = document.createElement(this.tagName);
 		input.name = config.name;
@@ -195,6 +201,7 @@ export class DotsInput extends foundry.applications.elements.AbstractFormInputEl
 		if (config.disabledPips !== undefined) {
 			input.dataset.disabledPips = config.disabledPips;
 		}
+		foundry.applications.fields.setInputAttributes(input, config);
 		return input;
 	}
 }

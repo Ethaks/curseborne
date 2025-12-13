@@ -7,4 +7,63 @@
     systemFields.skills
     formGroupOptions
     options=skills.options}}
+
+	{{! Motifs; if the item is embedded, these can be shown without having to deal with compendium shenanigans }}
+	{{#if item.isEmbedded}}
+		<fieldset class="motifs">
+			<legend class="flexrow">
+				<span> {{localize "CURSEBORNE.Item.Motif.label.other"}} </span>
+				{{#if editable}}
+					<button
+						type="button"
+						class="unbutton add-enhancement"
+						data-action="createDoc"
+						data-tooltip
+						data-type="motif"
+						data-system-family="{{system.identifier}}"
+						aria-label="{{localize 'DOCUMENT.Create' type=(localize 'TYPES.Item.motif')}}"
+					>
+						<i class="fa-solid fa-plus"></i>
+					</button>
+				{{/if}}
+			</legend>
+			<ul class="motifs items-list unlist">
+				{{#each motifs}}
+					{{! Name and Image }}
+					<li class="item motif flexrow" data-item-id="{{item.id}}">
+						<div class="item-name flexrow" data-tooltip="{{tooltip}}">
+							<div class="item-image">
+								<img src="{{item.img}}" alt="{{item.name}}" width="24" height="24">
+							</div>
+							<span>{{item.name}}</span>
+						</div>
+
+						{{! Controls }}
+						<div class="item-controls">
+							{{#if @root.editable}}
+								<button
+									type="button"
+									class="item-control item-delete unbutton"
+									data-action="deleteDoc"
+									data-tooltip
+									aria-label="{{localize 'DOCUMENT.Delete' type=(localize 'TYPES.Item.motif')}}"
+								>
+									<i class="fa-solid fa-fw fa-trash"></i>
+								</button>
+							{{/if}}
+							<button
+								type="button"
+								class="item-control unbutton"
+								data-action="contextMenu"
+								data-tooltip
+								aria-label="{{localize 'CURSEBORNE.ContextMenu'}}"
+							>
+								<i class="fa-solid fa-fw fa-ellipsis-v"></i>
+							</button>
+						</div>
+					</li>
+				{{/each}}
+			</ul>
+		</fieldset>
+	{{/if}}
 </section>

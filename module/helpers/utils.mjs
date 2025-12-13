@@ -154,3 +154,32 @@ export function camelize(str) {
 	// Lowercase the first letter
 	return camelized.charAt(0).toLowerCase() + camelized.slice(1);
 }
+
+/**
+ * Localize/Format a string, optionally replacing variables.
+ * Supports pluralization if the data contains a `_count` property.
+ *
+ * @param {string} stringId - The string ID to localize, or the base path for pluralization
+ * @param {object} [data={}] - The data to replace in the string
+ * @param {number} [data._count] - The count for pluralization
+ * @param {Intl.PluralRulesOptions} [data._pluralRules] - Options for pluralization rules
+ * @returns {string} - The localized/formatted string
+ *
+ * @see {@linkcode game.i18n.localize}
+ * @see {@linkcode game.i18n.format}
+ */
+export function localize(stringId, { _count: count, _pluralRules: pluralOptions, ...data } = {}) {
+	if (count === undefined) return game.i18n.format(stringId, data);
+
+	// If a count is given, the stringId will be used as path to which the pluralization suffix is appended
+	const pluralRules = new Intl.PluralRules(game.i18n.lang, pluralOptions);
+	const pluralCategory = pluralRules.select(count);
+	// Since languages might not have all plural forms, we need to find the first available one
+	const possibleCategories = [pluralCategory, "other", "one"];
+	const path = possibleCategories.reduce((foundPath, category) => {
+		if (foundPath) return foundPath;
+		const testPath = `${stringId}.${category}`;
+		return game.i18n.has(testPath) ? testPath : null;
+	});
+	return game.i18n.format(path ?? `${stringId}.${pluralCategory}`, data);
+}

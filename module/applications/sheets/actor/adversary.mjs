@@ -114,7 +114,7 @@ export class AdversarySheet extends CurseborneActorSheet {
 		return context;
 	}
 
-	async _prepareQualities(context) {
+	async _prepareQualities(_context) {
 		const qualities = [];
 		await Promise.all(
 			this.actor.itemTypes.quality.map(async (quality) => {
@@ -135,7 +135,7 @@ export class AdversarySheet extends CurseborneActorSheet {
 		return qualities;
 	}
 
-	async _prepareDreadPowers(context) {
+	async _prepareDreadPowers(_context) {
 		const dreadPowers = [];
 		await Promise.all(
 			this.actor.itemTypes.dreadPower.map(async (dreadPower) => {
@@ -147,6 +147,7 @@ export class AdversarySheet extends CurseborneActorSheet {
 					name: dreadPower.name,
 					tooltip: curseborne.tooltips.createPlaceholder({
 						uuid: dreadPower.uuid,
+						tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.RIGHT,
 					}),
 				};
 				dreadPowers.push(dreadPowerContext);
@@ -156,7 +157,7 @@ export class AdversarySheet extends CurseborneActorSheet {
 		return dreadPowers;
 	}
 
-	async _prepareInjuries(context) {
+	async _prepareInjuries(_context) {
 		const healthContext = {};
 
 		// Cover

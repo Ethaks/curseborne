@@ -1,9 +1,66 @@
 {{! Biography Tab }}
 <section
-	class="tab biography {{tab.cssClass}} standard-form"
+	class="tab biography standard-form {{tab.cssClass}}"
 	data-group="primary"
 	data-tab="biography"
 >
+	{{! Torments }}
+	{{#if torments}}
+		<fieldset class="torments">
+			<legend class="flexrow">
+				<span>{{localize "CURSEBORNE.Item.Torment.label.other"}}</span>
+				{{#if isEditMode}}
+					<button
+						type="button"
+						class="unbutton"
+						data-action="createDoc"
+						data-tooltip
+						data-type="torment"
+						aria-label="{{localize 'DOCUMENT.Create' type=(localize 'TYPES.Item.torment')}}"
+					>
+						<i class="fa-solid fa-plus"></i>
+					</button>
+				{{/if}}
+			</legend>
+
+			<ul class="motifs items-list unlist grid grid-3col">
+				{{#each torments}}
+					<li
+						class="motif item flexrow"
+						data-item-id="{{item.id}}"
+						data-drag
+						data-tooltip="{{tooltip}}"
+					>
+						<div class="item-name">
+							{{#if mismatchedLineage}}
+								<i
+									class="fa-solid fa-fw fa-link-slash"
+									data-tooltip='{{localize "CURSEBORNE.Item.Lineage.MismatchWarning"}}'
+									aria-label='{{localize "CURSEBORNE.Item.Lineage.MismatchWarning"}}'
+								>
+								</i>
+							{{else}}
+								<img
+									class="item-image align-right flexshrink"
+									src="{{img}}"
+									alt="{{item.name}}"
+									width="30"
+									height="30"
+								>
+							{{/if}}
+							<h4 class="item-name">{{item.name}}</h4>
+						</div>
+						{{#if @root.editable}}
+							<a class="item-control" data-action="contextMenu">
+								<i class="fa-solid fa-fw fa-ellipsis-v"></i>
+							</a>
+						{{/if}}
+					</li>
+				{{/each}}
+			</ul>
+		</fieldset>
+	{{/if}}
+
 	{{! Aspirations }}
 	{{#if aspirations}}
 		<fieldset class="aspirations">
@@ -31,16 +88,17 @@
 	{{/if}}
 
 	{{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
-	{{#if editable}}
-		<prose-mirror
-			name="system.biography"
-			data-document-u-u-i-d="{{actor.uuid}}"
-			value="{{system.biography}}"
-			collaborate="true"
-		>
-			{{{enrichedBiography}}}
-		</prose-mirror>
-	{{else}}
+	<div class="biography-content">
 		{{{enrichedBiography}}}
-	{{/if}}
+		<button
+			type="button"
+			class="edit-text"
+			data-action="editText"
+			data-field="biography"
+			data-tooltip
+			aria-label="{{localize 'CURSEBORNE.Edit'}}"
+		>
+			<i class="fa-solid fa-fw fa-edit"></i>
+		</button>
+	</div>
 </section>

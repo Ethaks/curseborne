@@ -1,3 +1,5 @@
+import { systemTemplate } from "@helpers/utils.mjs";
+
 /**
  * A type model providing common functionality for the system's data models.
  *
@@ -65,13 +67,19 @@ export class CurseborneTypeDataModel extends foundry.abstract.TypeDataModel {
 	}
 
 	/** @inheritDoc */
-	async toEmbed(config, options) {
+	async toEmbed(config = {}, options = {}) {
+		// Use the default template unless a leaner embed with only the description is requested
+		config.template = config.descriptionOnly
+			? systemTemplate("item/tooltips/description-only")
+			: this.embedTemplate;
 		const context = await this._prepareEmbedContext(config, options);
-		const template = this.embedTemplate;
 
 		const embed = document.createElement("div");
 		embed.classList.add("curseborne", "tooltip", "item-tooltip", "curseborne-tooltip");
-		embed.innerHTML = await foundry.applications.handlebars.renderTemplate(template, context);
+		embed.innerHTML = await foundry.applications.handlebars.renderTemplate(
+			config.template,
+			context,
+		);
 		return embed;
 	}
 
@@ -82,6 +90,7 @@ export class CurseborneTypeDataModel extends foundry.abstract.TypeDataModel {
 	 * @param {object} options - Additional options for rendering.
 	 * @returns {Promise<EmbedContext>}
 	 */
+	// biome-ignore lint/correctness/noUnusedFunctionParameters: keep original names for better documentation of semi-abstract/base method
 	async _prepareEmbedContext(config, options) {
 		const context = {
 			doc: this.parent,

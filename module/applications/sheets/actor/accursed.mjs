@@ -2,6 +2,7 @@ import { SessionSetting } from "@helpers/session-setting.mjs";
 import { staticID, systemTemplate } from "@helpers/utils.mjs";
 import { Flip } from "../../scripts/greensock/esm/Flip.js";
 import { CurseborneActorSheet } from "./base.mjs";
+import { CurseborneItem } from "@documents/item.mjs";
 
 export class AccursedSheet extends CurseborneActorSheet {
 	/** @override */
@@ -119,11 +120,13 @@ export class AccursedSheet extends CurseborneActorSheet {
 		Object.assign(context, { armor, injuries, cover });
 
 		context.paths = await this._preparePaths(context);
+		context.motifs = await this._prepareMotifs(context);
 		context.skills = await this._prepareSkills(context);
 		context.edges = await this._prepareEdges(context);
 		context.attributes = await this._prepareAttributes(context);
 		context.practices = await this._prepareSpells(context);
 		context.equipment = await this._prepareEquipment(context);
+		context.torments = await this._prepareTorments(context);
 		context.aspirations = await this._prepareAspirations(context);
 
 		const { bonds, contacts } = await this._prepareSocials(context);
@@ -275,6 +278,20 @@ export class AccursedSheet extends CurseborneActorSheet {
 			}
 		}
 		return paths;
+	}
+
+	async _prepareMotifs(_context) {
+		const family = this.actor.system.family;
+		return this.actor.itemTypes.motif
+			.map((motif) => ({
+				item: motif,
+				mismatchedFamily: motif.system.family !== family?.system.identifier,
+				tooltip: curseborne.tooltips.createPlaceholder({
+					uuid: motif.uuid,
+					tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.DOWN,
+				}),
+			}))
+			.sort((a, b) => a.item.sort - b.item.sort);
 	}
 
 	async _prepareSkills(context) {
@@ -576,6 +593,35 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return equipmentContext;
 	}
 
+	async _prepareTorments(_context) {
+		const torments = [];
+		const lineage = this.actor.lineage;
+		for (const torment of this.actor.itemTypes.torment) {
+			// Use actor/lineage image instead of default
+			let itemImage;
+			const { img: defaultImg } = CurseborneItem.implementation.getDefaultArtwork(torment);
+			if (torment.system.type === "personal" && torment.img === defaultImg) {
+				itemImage = this.actor.img;
+			} else if (torment.system.type === "lineage" && lineage && torment.img === defaultImg) {
+				itemImage = lineage.img;
+			} else itemImage = torment.img;
+
+			torments.push({
+				item: torment,
+				img: itemImage,
+				mismatchedLineage:
+					lineage &&
+					torment.system.type === "lineage" &&
+					torment.system.lineage !== lineage.system.identifier,
+				tooltip: curseborne.tooltips.createPlaceholder({
+					uuid: torment.uuid,
+					tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.DOWN,
+				}),
+			});
+		}
+		return torments.sort((a, b) => a.item.sort - b.item.sort);
+	}
+
 	async _prepareAspirations(context) {
 		const aspirations = Object.entries(this.actor.system.aspirations);
 		return Promise.all(
@@ -600,8 +646,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 	}
 
 	/** @inheritDoc */
-	_onRender(context, options) {
-		super._onRender(context, options);
+	async _onRender(context, options) {
+		await super._onRender(context, options);
 
 		const isSidebarCollapsed = this.#sidebarSetting.get();
 		this.element.classList.toggle("sidebar-collapsed", isSidebarCollapsed);

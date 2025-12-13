@@ -65,6 +65,24 @@ export class Path extends LimitedActorTypesItem(CurseborneItemBase) {
 
 	static getAllPathsSync(actor) {}
 
+	/** @inheritDoc */
+	async _preCreate(data, options, user) {
+		if ((await super._preCreate(data, options, user)) === false) return false;
+
+		// Prevent creation of a second path of a given type within an actor
+		if (this.item.isEmbedded) {
+			const existing = this.actor.itemTypes.path.find((p) => p.type === this.parent.type);
+			if (existing) {
+				ui.notifications?.error(
+					game.i18n.format("CURSEBORNE.ERROR.DuplicateItemType", {
+						type: game.i18n.localize(`TYPES.Item.${this.parent.type}`),
+					}),
+				);
+				return false;
+			}
+		}
+	}
+
 	/** @override */
 	async prepareSheetContext(context) {
 		const choices = this.actor

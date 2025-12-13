@@ -170,11 +170,6 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		img: "",
 		system: { complications: { infected: { value: COMPLICATION.MODERATE } } },
 	},
-	liar: {
-		name: "CURSEBORNE.STATUS_EFFECTS.Liar",
-		img: "",
-		system: { label: "social" },
-	},
 	loss: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Loss",
 		img: "",
@@ -234,5 +229,10 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		name: "CURSEBORNE.STATUS_EFFECTS.Unlucky",
 		img: "",
 		system: { complications: { unlucky: { value: COMPLICATION.MINOR } } },
+	},
+	untrustworthy: {
+		name: "CURSEBORNE.STATUS_EFFECTS.Untrustworthy",
+		img: "",
+		system: { label: "social" },
 	},
 });

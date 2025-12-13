@@ -33,14 +33,64 @@
 				</a>
 			{{/if}}
 			<a class="item-control" data-action="contextMenu" data-tooltip="CURSEBORNE.ContextMenu">
-				<i class="fa-solid fa-ellipsis-v"></i>
+				<i class="fa-solid fa-fw fa-ellipsis-v"></i>
 			</a>
 		</div>
 	</li>
 {{/inline}}
 
 {{! Spells Tab }}
-<section class="tab spells {{tab.cssClass}}" data-group="primary" data-tab="spells">
+<section class="tab spells standard-form {{tab.cssClass}}" data-group="primary" data-tab="spells">
+	{{! Motifs }}
+	<fieldset class="motifs grid grid-3col">
+		<legend class="flexrow">
+			<span>
+				{{localize "CURSEBORNE.Item.Motif.label.other"}}
+			</span>
+			{{#if isEditMode}}
+				<button
+					type="button"
+					class="unbutton"
+					data-action="createDoc"
+					data-tooltip
+					data-type="motif"
+					data-system-family="{{system.family.system.identifier}}"
+					aria-label="{{localize 'DOCUMENT.Create' type=(localize 'TYPES.Item.motif')}}"
+				>
+					<i class="fa-solid fa-plus"></i>
+				</button>
+			{{/if}}
+		</legend>
+		<ul class="motifs items-list unlist grid grid-3col">
+			{{#each motifs}}
+				<li
+					class="motif item flexrow"
+					data-item-id="{{item.id}}"
+					data-drag
+					data-tooltip="{{tooltip}}"
+				>
+					<div class="item-name">
+						{{#if mismatchedFamily}}
+							<i
+								class="fa-solid fa-fw fa-link-slash"
+								data-tooltip='{{localize "CURSEBORNE.Item.Motif.MismatchWarning"}}'
+								aria-label='{{localize "CURSEBORNE.Item.Motif.MismatchWarning"}}'
+							>
+							</i>
+							&nbsp
+						{{/if}}
+						<h4 class="item-name">{{item.name}}</h4>
+					</div>
+					{{#if @root.editable}}
+						<a class="item-control" data-action="contextMenu">
+							<i class="fa-solid fa-fw fa-ellipsis-v"></i>
+						</a>
+					{{/if}}
+				</li>
+			{{/each}}
+		</ul>
+	</fieldset>
+
 	{{! Spell Search Bar }}
 	<search class="flexrow" data-search="spells">
 		{{! Search Mode Toggle}}

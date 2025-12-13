@@ -2,6 +2,8 @@ import { CurseborneModifiersMixin } from "@applications/common/modifiers.mjs";
 import { systemTemplate } from "../../../helpers/utils.mjs";
 import { TabsMixin } from "../../common/tabs.mjs";
 import { CurseborneDocumentSheetMixin } from "../document-mixin.mjs";
+import { DragDropMixin } from "@applications/_module.mjs";
+import { CurseborneItem } from "@documents/item.mjs";
 
 const { api } = foundry.applications;
 
@@ -10,13 +12,11 @@ const { api } = foundry.applications;
  */
 export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 	CurseborneDocumentSheetMixin(
-		TabsMixin(api.HandlebarsApplicationMixin(foundry.applications.sheets.ItemSheetV2)),
+		TabsMixin(
+			DragDropMixin(api.HandlebarsApplicationMixin(foundry.applications.sheets.ItemSheetV2)),
+		),
 	),
 ) {
-	constructor(options = {}) {
-		super(options);
-	}
-
 	/** @override */
 	static DEFAULT_OPTIONS = {
 		classes: ["curseborne", "item"],
@@ -31,6 +31,7 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 				},
 			],
 		},
+		dragDrop: [{ dragSelector: ".items-list .item" }],
 		position: {
 			height: 600,
 		},
@@ -40,7 +41,7 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 		},
 	};
 
-	/* -------------------------------------------- */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/** @override */
 	static PARTS = {
@@ -74,6 +75,8 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 		},
 	};
 
+	/* --------------------------------------------------------------------------------------------- */
+
 	/** @override */
 	_configureRenderOptions(options) {
 		super._configureRenderOptions(options);
@@ -85,11 +88,17 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 		}
 	}
 
+	/** @inheritDoc */
 	_configureRenderParts(options) {
 		const parts = super._configureRenderParts(options);
-		parts.details.template =
-			this.document.system.constructor?.metadata?.details ??
-			systemTemplate(`item/details/${this.document.type}`);
+
+		// Allow item types to opt out of details part; by default, use given template or infer one
+		const metadataDetails = this.document.system.constructor?.metadata?.details;
+		if (metadataDetails === false) delete parts.details;
+		else if (metadataDetails || !parts.details.template)
+			parts.details.template =
+				metadataDetails ?? systemTemplate(`item/details/${this.document.type}`);
+
 		return parts;
 	}
 
@@ -107,7 +116,7 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 		return controls;
 	}
 
-	/* -------------------------------------------- */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/** @override */
 	async _prepareContext(options) {
@@ -158,11 +167,9 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 		super._onRender(context, options);
 	}
 
-	/**************
-	 *
-	 *   ACTIONS
-	 *
-	 **************/
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                            Actions                                            */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/**
 	 * Determines effect parent to pass to helper
@@ -181,10 +188,10 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 	 * Show the artwork for an item
 	 *
 	 * @this {CurseborneItemSheet}
-	 * @param {PointerEvent} event   The originating click event
-	 * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+	 * @param {PointerEvent} _event   The originating click event
+	 * @param {HTMLElement} _target   The capturing HTML element which defined a [data-action]
 	 */
-	static async _showArtwork(event, target) {
+	static async _showArtwork(_event, _target) {
 		const { img, name, uuid } = this.item;
 		new foundry.applications.apps.ImagePopout({
 			src: img,
@@ -195,7 +202,7 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 		});
 	}
 
-	/* -------------------------------------------- */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/**
 	 * Handle the dropping of ActiveEffect data onto an Actor Sheet
@@ -250,7 +257,7 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 		return this.item.updateEmbeddedDocuments("ActiveEffect", updateData);
 	}
 
-	/* -------------------------------------------- */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/**
 	 * Handle dropping of an Actor data onto another Actor sheet
@@ -264,20 +271,30 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 		if (!this.item.isOwner) return false;
 	}
 
-	/* -------------------------------------------- */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/**
 	 * Handle dropping of an item reference or item data onto an Actor Sheet
-	 * @param {DragEvent} event            The concluding DragEvent which contains drop data
+	 * @param {DragEvent} _event            The concluding DragEvent which contains drop data
 	 * @param {object} data                The data transfer extracted from the event
 	 * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
 	 * @protected
 	 */
-	async _onDropItem(event, data) {
+	async _onDropItem(_event, data) {
 		if (!this.item.isOwner) return false;
+
+		const doc = await CurseborneItem.implementation.fromDropData(data);
+
+		// Create dropped motifs with this family as their associated family
+		if (this.document.isEmbedded && this.document.type === "family" && doc.type === "motif") {
+			const keepId = !this.document.parent.items.has(doc._id);
+			const data = game.items.fromCompendium(doc, { keepId, clearFolder: true });
+			data.system.family = this.document.system.identifier;
+			return CurseborneItem.implementation.create(data, { parent: this.item.parent });
+		}
 	}
 
-	/* -------------------------------------------- */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/**
 	 * Handle dropping of a Folder on an Actor Sheet.

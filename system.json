@@ -20,11 +20,11 @@
 		"Item": {
 			"lineage": { "htmlFields": ["description"] },
 			"family": { "htmlFields": ["description"] },
-			"motif": {},
+			"motif": { "htmlFields": ["description"] },
 			"role": { "htmlFields": ["description"] },
 			"skill": { "htmlFields": ["description"] },
 			"edge": { "htmlFields": ["description"] },
-			"torment": {},
+			"torment": { "htmlFields": ["description"] },
 			"spell": { "htmlFields": ["description"] },
 			"trick": { "htmlFields": ["description"] },
 			"social": { "htmlFields": ["description"] },

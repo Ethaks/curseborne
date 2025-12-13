@@ -128,3 +128,28 @@
 		}
 	}
 }
+
+/* Lineage Sheet */
+.curseborne.sheet.item.lineage .form-group.torment {
+	.form-fields:has(button.add-item) {
+		justify-content: left;
+	}
+
+	.item {
+		border-radius: 8px;
+		padding: 4px;
+		transition: background 0.3s ease-in-out;
+
+		&:hover {
+			background: var(--color-background-lighter);
+			cursor: pointer;
+		}
+	}
+
+	.item-image {
+		width: 24px;
+		height: 24px;
+		max-width: max-content;
+		padding-right: 4px;
+	}
+}

@@ -230,6 +230,7 @@ export class Social extends CurseborneItemBase {
 					value: this.bond.dots.value,
 					max: this.bond.dots.max,
 					disabled: true,
+					classes: "value",
 				}).outerHTML,
 			});
 		}
@@ -242,6 +243,7 @@ export class Social extends CurseborneItemBase {
 					value: this.bond.uses.value,
 					max: this.bond.uses.max,
 					disabled: true,
+					classes: "value",
 				}).outerHTML,
 			});
 		}

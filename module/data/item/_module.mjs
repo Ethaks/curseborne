@@ -13,6 +13,8 @@ export * from "./role.mjs";
 export * from "./spell.mjs";
 export * from "./social.mjs";
 export * from "./equipment.mjs";
+export * from "./torment.mjs";
+export * from "./motif.mjs";
 
 // Adversary Items
 export * from "./quality.mjs";

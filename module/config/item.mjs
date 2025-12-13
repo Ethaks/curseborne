@@ -1,26 +1,32 @@
-export const spellCostTypes = {
-	bleed: {
-		label: "CURSEBORNE.Item.Spell.FIELDS.cost.Bleed",
-		icon: "fa-solid fa-droplet",
-	},
-	hold: {
-		label: "CURSEBORNE.Item.Spell.FIELDS.cost.Hold",
-		icon: "fa-solid fa-hand-holding-magic",
-	},
+/* ---------------------------------------------------------------------------------------------- */
+/*                                             Common                                             */
+/* ---------------------------------------------------------------------------------------------- */
+
+export const durations = {
+	turn: { label: "CURSEBORNE.DURATION.Turn" },
+	round: { label: "CURSEBORNE.DURATION.Round" },
+	scene: { label: "CURSEBORNE.DURATION.Scene" },
+	session: { label: "CURSEBORNE.DURATION.Session" },
+	story: { label: "CURSEBORNE.DURATION.Story" },
+	campaign: { label: "CURSEBORNE.DURATION.Campaign" },
 };
 
-export const trickCostTypes = {
+/* ---------------------------------------------------------------------------------------------- */
+/*                                             Tricks                                             */
+/* ---------------------------------------------------------------------------------------------- */
+
+export const trickCostTypes = /** @type {const} */ ({
 	fixed: "CURSEBORNE.Item.Trick.FIELDS.cost.Fixed",
 	variable: "CURSEBORNE.Item.Trick.FIELDS.cost.Variable",
-};
+});
 
-export const trickCostFixedLabels = {
+export const trickCostFixedLabels = /** @type {const} */ ({
 	1: "CURSEBORNE.Item.Trick.FIELDS.cost.Fixed.1",
 	2: "CURSEBORNE.Item.Trick.FIELDS.cost.Fixed.2",
 	3: "CURSEBORNE.Item.Trick.FIELDS.cost.Fixed.3",
-};
+});
 
-export const trickTypes = {
+export const trickTypes = /** @type {const} */ ({
 	general: { label: "CURSEBORNE.Item.Trick.FIELDS.type.General" },
 	curseDice: { label: "CURSEBORNE.Item.Trick.FIELDS.type.CurseDice" },
 
@@ -32,7 +38,11 @@ export const trickTypes = {
 	influence: { label: "CURSEBORNE.Item.Trick.FIELDS.type.Influence" },
 	integrity: { label: "CURSEBORNE.Item.Trick.FIELDS.type.Integrity" },
 	investigation: { label: "CURSEBORNE.Item.Trick.FIELDS.type.Investigation" },
-};
+});
+
+/* ---------------------------------------------------------------------------------------------- */
+/*                                           Equipment                                            */
+/* ---------------------------------------------------------------------------------------------- */
 
 export const equipmentTypes = /** @type {const} */ ({
 	weapon: {
@@ -46,13 +56,17 @@ export const equipmentTypes = /** @type {const} */ ({
 	},
 });
 
+/* ---------------------------------------------------------------------------------------------- */
+/*                                             Skills                                             */
+/* ---------------------------------------------------------------------------------------------- */
+
 /**
  * A record of default skills to be added to new actors.
  * Entries can contain a `uuid` to reference an existing item; otherwise, the skill will be created with
  * the given data.
  * An `id` can be provided to determine the skill's `system.identifier`, defaulting back to the property key.
  *
- * @type {Record<string, { uuid?: string, id?: string, name?: string }>}
+ * @satisfies {Record<string, { uuid?: string, id?: string, name?: string }>}
  */
 export const skills = {
 	artistry: { id: "artistry", name: "CURSEBORNE.SKILLS.Artistry" },
@@ -72,6 +86,10 @@ export const skills = {
 	survival: { id: "survival", name: "CURSEBORNE.SKILLS.Survival" },
 	technology: { id: "technology", name: "CURSEBORNE.SKILLS.Technology" },
 };
+
+/* ---------------------------------------------------------------------------------------------- */
+/*                                             Spells                                             */
+/* ---------------------------------------------------------------------------------------------- */
 
 export const practices = {
 	haunting: {
@@ -123,15 +141,16 @@ export const practices = {
 	ritual: { label: "CURSEBORNE.PRACTICES.Ritual" },
 };
 
-export const durations = {
-	turn: { label: "CURSEBORNE.DURATION.Turn" },
-	round: { label: "CURSEBORNE.DURATION.Round" },
-	scene: { label: "CURSEBORNE.DURATION.Scene" },
-	session: { label: "CURSEBORNE.DURATION.Session" },
-	story: { label: "CURSEBORNE.DURATION.Story" },
-	campaign: { label: "CURSEBORNE.DURATION.Campaign" },
+export const spellCostTypes = {
+	bleed: {
+		label: "CURSEBORNE.Item.Spell.FIELDS.cost.Bleed",
+		icon: "fa-solid fa-droplet",
+	},
+	hold: {
+		label: "CURSEBORNE.Item.Spell.FIELDS.cost.Hold",
+		icon: "fa-solid fa-hand-holding-magic",
+	},
 };
-
 /**
  * A record of attunements that spells can have, as well as the type of target they might have.
  */

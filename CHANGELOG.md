@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Renamed _Liar_ Status Effect to _Untrustworthy_
+- Determine Altered Outcome according to updates rules (#22)
 
 ## [0.0.5]
 

@@ -106,7 +106,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 	}
 
 	/**
-	 * Whether this roll is a cruel failure, i.e. a failure with at least one curse die not being a hit.
+	 * Whether this roll is a cruel failure, i.e. a failure with at least one curse die being a hit.
 	 *
 	 * @returns {undefined | boolean}
 	 */
@@ -115,7 +115,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		return (
 			this.isFailure &&
 			this.data.alteredOutcome &&
-			this.curseTerm.results.some((r) => r.result < this.data.target)
+			this.curseTerm.results.some((r) => r.result >= this.data.target)
 		);
 	}
 

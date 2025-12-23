@@ -141,9 +141,14 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 			for (const type of ["enhancements", "complications", "difficulties"]) {
 				this.options.modifiers[type] ??= {};
 				for (const value of Object.values(this.options.modifiers?.[type] ?? {})) {
-					value.hint = await foundry.applications.ux.TextEditor.enrichHTML(value.hint, {
-						rollData: this.rollData,
-					});
+					value.hint = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+						value.hint,
+						{
+							rollData: this.rollData,
+							relativeTo: this.actor,
+							secrets: this.actor?.isOwner ?? false,
+						},
+					);
 				}
 			}
 		}

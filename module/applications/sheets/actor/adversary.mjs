@@ -1,6 +1,8 @@
 import { staticID, systemTemplate } from "@helpers/utils.mjs";
 import { CurseborneActorSheet } from "./base.mjs";
 
+const { TextEditor } = foundry.applications.ux;
+
 export class AdversarySheet extends CurseborneActorSheet {
 	/** @inheritDoc */
 	static DEFAULT_OPTIONS = {
@@ -36,7 +38,8 @@ export class AdversarySheet extends CurseborneActorSheet {
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
 		context.rollData ??= this.actor.getRollData();
-		context.drive = await foundry.applications.ux.TextEditor.enrichHTML(this.actor.system.drive, {
+		context.drive = await TextEditor.implementation.enrichHTML(this.actor.system.drive, {
+			relativeTo: this.actor,
 			rollData: context.rollData,
 			secrets: this.actor.isOwner,
 		});
@@ -58,14 +61,11 @@ export class AdversarySheet extends CurseborneActorSheet {
 			const field = this.actor.system.schema.getField(`pools.${pool}`);
 			const categories = context.editable
 				? context.source.system.pools[pool].categories
-				: await foundry.applications.ux.TextEditor.enrichHTML(
-						this.actor.system.pools[pool].categories,
-						{
-							relativeTo: this.actor,
-							secrets: this.actor.isOwner,
-							rollData: context.rollData,
-						},
-					);
+				: await TextEditor.implementation.enrichHTML(this.actor.system.pools[pool].categories, {
+						relativeTo: this.actor,
+						secrets: this.actor.isOwner,
+						rollData: context.rollData,
+					});
 			context.pools[pool] = {
 				id: pool,
 				label: game.i18n.localize(`CURSEBORNE.Actor.Adversary.FIELDS.pools.${pool}.short`),

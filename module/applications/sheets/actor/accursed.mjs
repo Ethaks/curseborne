@@ -4,6 +4,8 @@ import { Flip } from "../../scripts/greensock/esm/Flip.js";
 import { CurseborneActorSheet } from "./base.mjs";
 import { CurseborneItem } from "@documents/item.mjs";
 
+const { TextEditor } = foundry.applications.ux;
+
 export class AccursedSheet extends CurseborneActorSheet {
 	/** @override */
 	static DEFAULT_OPTIONS = {
@@ -494,7 +496,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 						rootId: `${context.formGroupOptions.rootId}-${social.system.type}-${social.id}`,
 					},
 					description: Handlebars.escapeExpression(
-						await foundry.applications.ux.TextEditor.enrichHTML(social.system.description, {
+						await TextEditor.implementation.enrichHTML(social.system.description, {
+							relativeTo: social,
 							secrets: this.document.isOwner,
 							rollData: social.getRollData(),
 						}),
@@ -628,7 +631,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return Promise.all(
 			aspirations.map(async ([key, aspiration]) => {
 				const field = this.actor.system.schema.getField(`aspirations.${key}`);
-				const value = await foundry.applications.ux.TextEditor.enrichHTML(aspiration, {
+				const value = await TextEditor.implementation.enrichHTML(aspiration, {
 					relativeTo: this.actor,
 					secrets: this.actor.isOwner,
 					rollData: context.rollData,

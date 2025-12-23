@@ -39,7 +39,7 @@ export class TextEditorApplication extends CurseborneDocumentSheetMixin(
 		context.fieldPath = this.options.fieldPath ?? this.field.fieldPath;
 		const value = foundry.utils.getProperty(this.document, context.fieldPath);
 		context.value = this.isPlayMode
-			? await foundry.applications.ux.TextEditor.enrichHTML(value, {
+			? await foundry.applications.ux.TextEditor.implementation.enrichHTML(value, {
 					relativeTo: this.document,
 					rollData: context.rollData ?? this.document.getRollData(),
 					secrets: this.document.isOwner,

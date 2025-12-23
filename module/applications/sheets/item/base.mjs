@@ -135,17 +135,18 @@ export class CurseborneItemSheet extends CurseborneModifiersMixin.mixin(
 				context.tab = context.tabs[partId];
 				// Enrich description info for display
 				// Enrichment turns text like `[[/r 1d20]]` into buttons
-				context.enrichedDescription = await foundry.applications.ux.TextEditor.enrichHTML(
-					this.item.system.description,
-					{
-						// Whether to show secret blocks in the finished html
-						secrets: this.document.isOwner,
-						// Data to fill in for inline rolls
-						rollData: this.item.getRollData(),
-						// Relative UUID resolution
-						relativeTo: this.item,
-					},
-				);
+				context.enrichedDescription =
+					await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+						this.item.system.description,
+						{
+							// Whether to show secret blocks in the finished html
+							secrets: this.document.isOwner,
+							// Data to fill in for inline rolls
+							rollData: this.item.getRollData(),
+							// Relative UUID resolution
+							relativeTo: this.item,
+						},
+					);
 				break;
 			case "effects":
 				context.tab = context.tabs[partId];

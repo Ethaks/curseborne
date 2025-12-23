@@ -4,6 +4,8 @@ import { DotsField } from "@models/fields/dots.mjs";
 import { IdentifierMixin } from "@models/fields/identifier.mjs";
 import { CurseborneTypeDataModel } from "../base.mjs";
 
+const { TextEditor } = foundry.applications.ux;
+
 export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel) {
 	/**
 	 * Data relating to all instances of this item type model.
@@ -76,7 +78,7 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 
 		// Fall back to description as common tooltip content
 		if (typeof this.description === "string" && this.description.length > 0) {
-			context.description = await foundry.applications.ux.TextEditor.enrichHTML(this.description, {
+			context.description = await TextEditor.implementation.enrichHTML(this.description, {
 				relativeTo: this.parent,
 				secrets: this.parent.isOwner,
 				rollData: context.rollData ?? this.parent.getRollData(),

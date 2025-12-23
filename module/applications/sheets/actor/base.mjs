@@ -55,14 +55,15 @@ export class CurseborneActorSheet extends CurseborneDocumentSheetMixin(
 	async _preparePartContext(partId, context) {
 		context = await super._preparePartContext(partId, context);
 		if (partId === "biography") {
-			context.enrichedBiography = await foundry.applications.ux.TextEditor.enrichHTML(
-				this.actor.system.biography,
-				{
-					secrets: this.document.isOwner,
-					rollData: context.rollData ?? this.actor.getRollData(),
-					relativeTo: this.actor,
-				},
-			);
+			context.enrichedBiography =
+				await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+					this.actor.system.biography,
+					{
+						secrets: this.document.isOwner,
+						rollData: context.rollData ?? this.actor.getRollData(),
+						relativeTo: this.actor,
+					},
+				);
 		}
 		return context;
 	}

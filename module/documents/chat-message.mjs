@@ -46,21 +46,22 @@ export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 	async _prepareHTML(options) {
 		options.canDelete ??= game.user.isGM; // By default, GM users have the trash-bin icon in the chat log itself
 
-		// Determine some metadata
-		const data = this.toObject(false);
-		data.content =
-			this.system._prepareHTML instanceof Function
-				? await this.system._prepareHTML(data)
-				: await foundry.applications.ux.TextEditor.enrichHTML(this.content, {
-						rollData: this.getRollData(),
-					});
-
 		let actor;
 		if (this.speaker.scene && this.speaker.token) {
 			const scene = game.scenes.get(this.speaker.scene);
 			const token = scene?.tokens.get(this.speaker.token);
 			if (token) actor = token.actor;
 		} else actor = game.actors.get(this.speaker.actor);
+
+		// Determine some metadata
+		const data = this.toObject(false);
+		data.content =
+			this.system._prepareHTML instanceof Function
+				? await this.system._prepareHTML(data)
+				: await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.content, {
+						relativeTo: actor,
+						rollData: this.getRollData(),
+					});
 
 		const avatar =
 			(this.isContentVisible

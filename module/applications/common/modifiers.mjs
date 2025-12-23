@@ -76,7 +76,8 @@ export class CurseborneModifiersMixin {
 						const source = this.isEditMode ? modifier.toObject() : modifier;
 						const hint = this.isEditMode
 							? modifier.hint
-							: await foundry.applications.ux.TextEditor.enrichHTML(modifier.hint, {
+							: await foundry.applications.ux.TextEditor.implementation.enrichHTML(modifier.hint, {
+									relativeTo: this.document,
 									secrets: this.document.isOwner,
 									rollData,
 								});

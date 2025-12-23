@@ -120,6 +120,30 @@ export class CurseborneRoll extends foundry.dice.Roll {
 	}
 
 	/**
+	 * Whether the {@linkcode CurseborneRollContext.alteredOutcome} option would affect the outcome of this roll.
+	 *
+	 * @returns {undefined | boolean}
+	 */
+	get canBeAlteredOutcome() {
+		if (!this._evaluated) return undefined;
+
+		const current = this.isWickedSuccess || this.isCruelFailure;
+		// If the roll already has alteredOutcome set and _is_ altered, return that
+		if (current) return current;
+
+		// If the option is not set, temporarily set it to true to see if it would change the outcome
+		if (this.data.alteredOutcome === false) {
+			this.data.alteredOutcome = true;
+			const altered = this.isWickedSuccess || this.isCruelFailure;
+			this.data.alteredOutcome = false;
+			return altered;
+		}
+
+		// Assume that alteredOucome would not change the outcome
+		return false;
+	}
+
+	/**
 	 * The number of hits available to be spent on buying off complications or adding tricks.
 	 *
 	 * @type {number}

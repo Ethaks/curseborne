@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Dread Power Type field
 - Add Dread Power Injuries field
 - Add Uses field to Dread Powers to track available and maximum uses per scene
+- Add button for Storyguides to toggle a roll's Altered Outcome flag (#23)
 
 ### Changed
 

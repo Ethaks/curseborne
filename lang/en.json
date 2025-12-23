@@ -92,6 +92,7 @@
 				}
 			}
 		},
+
 		"Item": {
 			"Tabs": {
 				"attributes": "Attributes",
@@ -415,6 +416,7 @@
 			"DeleteComplication": "Remove Complication",
 			"BuyOffComplication": "Buy Off Complication",
 			"PurchaseTrick": "Purchase Trick",
+			"ToggleAlteredOutcome": "Toggle Altered Outcome",
 
 			"Success": "Success",
 			"SuccessWithConsequence": "Success with Consequence",

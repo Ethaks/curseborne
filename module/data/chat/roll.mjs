@@ -12,7 +12,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	/**
 	 * The CurseborneRoll instance which is being displayed in this message.
 	 *
-	 * @type {CurseborneRoll}
+	 * @type {InstanceType<typeof curseborne.dice.CurseborneRoll>}
 	 */
 	get roll() {
 		return this.parent.rolls[0];
@@ -25,10 +25,10 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	/**
 	 * Prepare the inner HTML contents of the chat message, displaying the singular roll result.
 	 *
-	 * @param {object} data - Additional data to render
+	 * @param {object} _data - Additional data to render
 	 * @returns {Promise<string>} - The rendered HTML
 	 */
-	async _prepareHTML(data) {
+	async _prepareHTML(_data) {
 		const isGM = game.user.isGM;
 		const message = this.parent;
 		const isOwner = message.isOwner;
@@ -83,7 +83,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 					(roll.data.autoHits ?? 0),
 		};
 
-		const getTermData = (term, index) => {
+		const getTermData = (term, _index) => {
 			if (term instanceof foundry.dice.terms.ParentheticalTerm) return term.terms.map(getTermData);
 			const flavor = term.flavor || term.formula;
 			return {
@@ -174,6 +174,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 		const canBuyEnhancement =
 			isOwner && roll.total > 0 && roll.data.momentum < 3 && !roll.data.forcedSuccess;
 		const canRemoveEnhancement = isGM && roll.data.momentum > 0;
+		const canToggleAlteredOutcome = isGM && roll.canBeAlteredOutcome;
 
 		const surplusLabel =
 			roll.data.difficulty === null
@@ -211,6 +212,9 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 			canRemoveSuccess,
 			canBuyEnhancement,
 			canRemoveEnhancement,
+
+			canToggleAlteredOutcome,
+			alteredOutcome: roll.data.alteredOutcome,
 
 			showComplications: game.user.isGM || (complications.length > 0 && !isPrivate),
 			canBuyComplications: game.user.isGM,
@@ -261,6 +265,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 		buyTrick: this._onBuyTrick,
 		setTrickCost: this._onSetTrickCost,
 		deleteTrick: this._onDeleteTrick,
+		toggleAlteredOutcome: this._onToggleAlteredOutcome,
 	};
 
 	/**
@@ -273,7 +278,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	 */
 	static async _onAddEnhancement(_event, target) {
 		let { change = "1" } = target.dataset;
-		change = Number.parseInt(change);
+		change = Number.parseInt(change, 10);
 
 		// If change is positive, only act when there is momentum
 		if (change > 0) {
@@ -470,6 +475,18 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	static async _onDeleteTrick(_event, target) {
 		const trickId = target.closest("[data-trick-id]").dataset.trickId;
 		this.roll.data.updateSource({ [`tricks.-=${trickId}`]: null });
+		return this.parent.update({ rolls: [this.roll] });
+	}
+
+	/**
+	 * Toggle the Altered Outcome state of a roll.
+	 *
+	 * @this {CurseborneRollMessage}
+	 * @param {Event} _event - The originating click event
+	 * @param {HTMLElement} _target - The target element
+	 */
+	static async _onToggleAlteredOutcome(_event, _target) {
+		this.roll.data.updateSource({ alteredOutcome: !this.roll.data.alteredOutcome });
 		return this.parent.update({ rolls: [this.roll] });
 	}
 }

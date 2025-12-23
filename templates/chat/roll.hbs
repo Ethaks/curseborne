@@ -43,6 +43,21 @@
 				{{difficulty}}
 			</span>
 		</div>
+
+		{{! Altered Outcome }}
+		{{#if canToggleAlteredOutcome}}
+			<div class="buttons top right flexrow">
+				<button
+					type="button"
+					class="toggle-altered-outcome"
+					data-action="toggleAlteredOutcome"
+					data-tooltip
+					aria-label='{{localize "CURSEBORNE.DICE.ToggleAlteredOutcome"}}'
+				>
+					<i class="fa-solid fa-fw fa-eye-evil"></i>
+				</button>
+			</div>
+		{{/if}}
 	</div>
 
 	{{! Core Breakdown/Details}}

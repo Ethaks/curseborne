@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { COMPLICATION, DIFFICULTY, ROLL_TYPE } from "@config/dice.mjs";
 import { requiredInteger } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import * as fs from "node:fs";
 import path from "node:path";
 import browserslist from "browserslist";

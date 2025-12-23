@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 export const attributeGroups = {
 	mental: {
 		label: "CURSEBORNE.ATTRIBUTE_GROUPS.Mental",

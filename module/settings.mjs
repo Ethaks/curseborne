@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { requiredInteger } from "./helpers/utils.mjs";
 
 export function registerSettings() {

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { CurseborneItemBase } from "./base.mjs";
 
 export class Gear extends CurseborneItemBase {

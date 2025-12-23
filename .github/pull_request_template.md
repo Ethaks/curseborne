@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+
+SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+-->
+
 ## Contribution Agreement
 
 Please confirm the following before submitting this pull request:

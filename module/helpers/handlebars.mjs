@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { DotsField } from "../data/fields/dots.mjs";
 
 /** @import { FormGroupConfig } from "@foundry/common/data/_types.mjs" */

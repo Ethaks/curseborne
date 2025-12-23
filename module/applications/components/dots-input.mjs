@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 /**
  * An element displaying number, consisting of multiple dots/pips that are filled in to the present value,
  * and empty otherwise.

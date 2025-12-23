@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 /**
  * A custom HTML element that represents a checkbox-like input that is displayed as a slide toggle.
  * @fires change

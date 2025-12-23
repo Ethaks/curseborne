@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { staticID } from "@helpers/utils.mjs";
 
 export class CurseborneActiveEffect extends foundry.documents.ActiveEffect {

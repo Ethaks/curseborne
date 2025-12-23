@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { DotsInput } from "../../applications/components/dots-input.mjs";
 
 /** @import { DataFieldOptions, DataFieldContext } from "@common/data/_types.mjs"; */

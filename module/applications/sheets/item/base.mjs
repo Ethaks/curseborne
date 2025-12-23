@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { CurseborneModifiersMixin } from "@applications/common/modifiers.mjs";
 import { systemTemplate } from "../../../helpers/utils.mjs";
 import { TabsMixin } from "../../common/tabs.mjs";

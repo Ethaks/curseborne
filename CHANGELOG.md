@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+
+SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+-->
+
 # Changelog
 
 All notable changes to this project will be documented in this file.

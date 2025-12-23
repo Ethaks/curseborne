@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { systemTemplate, toLabelObject } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+ *
+ * SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+ */
+
 .application.curseborne.text-editor {
 	&:not(.minimizing, .minimized, .maximizing) {
 		min-height: 200px;

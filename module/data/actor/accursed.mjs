@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneActorBase } from "./base.mjs";

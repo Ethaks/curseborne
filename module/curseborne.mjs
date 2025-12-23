@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+// SPDX-FileCopyrightText: Copyright (C) 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { CurseborneTooltips } from "@applications/tooltip.mjs";
 import { SocketHandler } from "@helpers/socket.mjs";
 import * as applications from "./applications/_module.mjs";

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { CurseborneDocumentSheetMixin } from "@applications/sheets/document-mixin.mjs";
 import { SYSTEM_ID } from "@helpers/utils.mjs";
 

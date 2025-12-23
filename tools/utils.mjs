@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 /**
  * Wrap a callback in a debounced timeout.
  * Delay execution of the callback function until the function has not been called for delay milliseconds

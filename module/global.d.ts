@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { gsap as _gsap } from "../foundry/public/scripts/greensock/esm/index";
 import * as _curseborne from "./curseborne.mjs";
 import * as _client from "@foundry/client/client.mjs";

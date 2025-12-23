@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+
+SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+-->
+
 # Curseborne System for Foundry VTT
 
 The Curseborne system for Foundry VTT provides the necessary framework to play Curseborne, a dark urban horror fantasy tabletop role-playing game. This system includes character mechanics, dice rolling, and other essential gameplay features to bring Curseborne to life in Foundry VTT.

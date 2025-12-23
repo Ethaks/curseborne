@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { CurseborneRollDialog } from "../applications/dialogs/roll.mjs";
 import { DIFFICULTY } from "../config/dice.mjs";
 import { CurseborneRollContext, CurseborneRollContextData } from "./data.mjs";

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+ *
+ * SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+ */
+
 li.chat-message {
 	--font-large: var(--font-size-20);
 	--font-medium: var(--font-size-18);

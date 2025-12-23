@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+ *
+ * SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+ */
+
 /* General tooltip styling */
 :is(#tooltip, .locked-tooltip) {
 	--color-border: var(--color-primary);

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { DragDropMixin } from "@applications/common/drag-drop.mjs";
 import { staticID } from "@helpers/utils.mjs";
 import { TabsMixin } from "../../common/tabs.mjs";

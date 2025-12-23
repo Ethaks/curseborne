@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+ *
+ * SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+ */
+
 @import "./variables.css" layer(variables);
 @import "./utils.css" layer(system);
 @import "./components.css" layer(system);

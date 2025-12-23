@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { TextEditorApplication } from "@applications/dialogs/text-editor.mjs";
 import { CurseborneActiveEffect } from "@documents/active-effect.mjs";
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";

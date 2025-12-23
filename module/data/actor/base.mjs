@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { CurseborneRollContext } from "@dice/data.mjs";
 import { toLabelObject } from "@helpers/utils.mjs";

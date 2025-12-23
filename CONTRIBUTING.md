@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+
+SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+-->
+
 # Contributing to the Curseborne Game System
 
 Code contributions to `ethaks/curseborne` are accepted subject to the following conditions and expectations.

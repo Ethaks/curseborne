@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 /**
  * Registers a double success modifier for {@link foundry.dice.terms.Die} that counts results over a certain threshold
  * as two successes.

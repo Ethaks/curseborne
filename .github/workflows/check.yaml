@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+#
+# SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 name: Checks
 
 on:
@@ -28,11 +32,5 @@ jobs:
       - name: style
         uses: dprint/check@v2.3
 
-  # licensecheck:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: checkout code
-  #       uses: actions/checkout@v4
-  #
-  #     - name: check licenses
-  #       uses: fsfe/reuse-action@v5
+      - name: check licenses
+        uses: fsfe/reuse-action@v6

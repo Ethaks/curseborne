@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { systemTemplate } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";

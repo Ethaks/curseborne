@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { TrickSelector } from "@applications/dialogs/trick-selector.mjs";
 import { Momentum } from "@applications/momentum.mjs";
 import { randomID, systemTemplate } from "@helpers/utils.mjs";

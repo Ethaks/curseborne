@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { DieSourceField } from "@models/fields/die-source.mjs";
 import { CurseborneRollDialog } from "../applications/dialogs/roll.mjs";
 import { ROLL_TYPE } from "../config/dice.mjs";

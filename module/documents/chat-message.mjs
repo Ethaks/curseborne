@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { SessionSetting } from "@helpers/session-setting.mjs";
 import { ValidatedObjectField } from "@models/fields/object.mjs";
 

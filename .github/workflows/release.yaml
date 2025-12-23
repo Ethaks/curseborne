@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+#
+# SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 name: Release
 
 on:
@@ -27,16 +31,8 @@ jobs:
       - name: lint
         run: bun run lint
 
-  # TODO: Add reuse once licensing is determined
-  #
-  # licensecheck:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: checkout code
-  #       uses: actions/checkout@v4
-  #
-  #     - name: check licenses
-  #       uses: fsfe/reuse-action@v5
+      - name: check licenses
+        uses: fsfe/reuse-action@v6
 
   build:
     runs-on: ubuntu-latest
@@ -107,6 +103,7 @@ jobs:
             templates/ \
             lang/ \
             assets/ \
+            LICENSES/ \
             CHANGELOG.md \
             system.json
 

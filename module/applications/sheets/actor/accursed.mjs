@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { SessionSetting } from "@helpers/session-setting.mjs";
 import { staticID, systemTemplate } from "@helpers/utils.mjs";
 import { Flip } from "../../scripts/greensock/esm/Flip.js";

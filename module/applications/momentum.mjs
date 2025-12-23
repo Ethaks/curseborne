@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { SYSTEM_ID } from "../helpers/utils.mjs";
 
 const { ApplicationV2 } = foundry.applications.api;

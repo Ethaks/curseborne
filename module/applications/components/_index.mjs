@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { DotsInput } from "./dots-input.mjs";
 import { ModifierSelectElement } from "./modifier-select.mjs";
 import { SlideToggleElement } from "./slide-toggle.mjs";

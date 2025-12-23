@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import * as models from "../data/item/_module.mjs";
 import { CurseborneItem } from "./item.mjs";
 

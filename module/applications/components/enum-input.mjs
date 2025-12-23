@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 /**
  * An input element for selecting a single value.
  * Multiple choices are presented, but the number is not limited to them; given choices can have

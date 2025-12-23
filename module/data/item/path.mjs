@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { toLabelObject } from "@helpers/utils.mjs";
 import { CollectionField } from "@models/fields/object.mjs";
 import { Complication, Enhancement } from "@models/modifiers.mjs";

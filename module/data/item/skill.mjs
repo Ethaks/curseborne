@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { camelize } from "@helpers/utils.mjs";
 import { IdentifierField } from "@models/fields/identifier.mjs";

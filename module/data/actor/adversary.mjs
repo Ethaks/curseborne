@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { DotsField } from "../fields/dots.mjs";

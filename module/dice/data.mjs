@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { Complication, DifficultyChange, Enhancement } from "@models/modifiers.mjs";
 import { CollectionField, DieSourceField } from "../data/fields/_module.mjs";

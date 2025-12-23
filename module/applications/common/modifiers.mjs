@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: © 2025 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { randomID, systemTemplate } from "@helpers/utils.mjs";
 
 export class CurseborneModifiersMixin {

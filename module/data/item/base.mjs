@@ -22,7 +22,7 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 		const fields = foundry.data.fields;
 		const schema = {};
 
-		schema.description = new fields.HTMLField({ trim: true });
+		schema.description = new fields.HTMLField({ trim: true, textSearch: true });
 
 		return schema;
 	}

@@ -6,5 +6,5 @@
 	},
 	"includes": ["**/*.{hbs}"],
 	"excludes": [],
-	"plugins": ["https://plugins.dprint.dev/g-plane/markup_fmt-v0.25.1.wasm"]
+	"plugins": ["https://plugins.dprint.dev/g-plane/markup_fmt-v0.25.3.wasm"]
 }

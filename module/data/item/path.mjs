@@ -96,9 +96,9 @@ export class Path extends LimitedActorTypesItem(CurseborneItemBase) {
 			: toLabelObject(curseborne.config.skills);
 
 		context.skills = {
-			options: Object.entries(choices).map(([value, label]) => ({
-				value,
-				label,
+			options: Object.entries(choices).map(([id, value]) => ({
+				value: id,
+				...value,
 			})),
 		};
 	}

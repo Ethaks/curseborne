@@ -29,6 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Known Issues
 -->
 
+## [0.1.1]
+
+### Fixed
+
+- Resolve Skills in Path sheets again
+
 ## [0.1.0]
 
 ### Added

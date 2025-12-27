@@ -197,7 +197,7 @@
 						"value.label": "Cost Value"
 					},
 					"practice": { "label": "Practice" },
-					"subgroup": { "label": "Subgroup" },
+					"group": { "label": "Spell Group" },
 					"attunements": {
 						"label": "Attunements"
 					},
@@ -213,6 +213,7 @@
 						"hint": "The Entanglement level required to purchase this spell."
 					}
 				},
+
 				"ATTUNEMENTS": {
 					"Elemental": "Elemental",
 					"Emotional": "Emotional",
@@ -222,6 +223,11 @@
 					"Physical": "Physical",
 					"Psychic": "Psychic",
 					"Support": "Support"
+				},
+
+				"SORTING": {
+					"grouped": "Grouped by Practice and Group",
+					"flat": "Flat List"
 				}
 			},
 

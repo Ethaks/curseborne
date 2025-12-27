@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-export {};
+import type { Practice, SpellGroup } from "@config/config";
 
 declare module "./spell.mjs" {
 	interface Spell {
@@ -18,8 +18,8 @@ declare module "./spell.mjs" {
 			value: number;
 		};
 
-		/** The spell's practice, akin to spell schools from other systems. */
-		practice: string;
+		practice: Practice;
+		group: SpellGroup;
 
 		/** Tags pointing to the spell's qualities, as well as other lineages that can access it. */
 		attunements: Set<string>;

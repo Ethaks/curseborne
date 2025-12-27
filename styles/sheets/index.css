@@ -79,3 +79,26 @@
 	font-variant: small-caps;
 	font-size: var(--font-size-20);
 }
+
+/* Description Lists */
+.curseborne.sheet dl {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 10px;
+	margin: 10px 0px;
+
+	&.wide {
+		grid-template-columns: 1fr 2fr;
+	}
+
+	dt,
+	dd {
+		margin: 0;
+		color: inherit;
+	}
+
+	dt {
+		text-shadow: none;
+		font-weight: bold;
+	}
+}

@@ -29,6 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Known Issues
 -->
 
+## [0.2.0]
+
+### Added
+
+- Allow Spells in Accursed sheets to be grouped by Practice/Group or as flat list
+
 ## [0.1.2]
 
 ### Fixed

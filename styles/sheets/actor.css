@@ -471,6 +471,34 @@
 				border-top-left-radius: 0;
 				border-bottom-left-radius: 0;
 			}
+
+			.sorting {
+				flex: 0 0 max-content;
+				padding: 0 4px;
+				background: var(--color-background-lighter);
+				height: 100%;
+				display: flex;
+				border-radius: inherit;
+
+				.sort-option {
+					input[type="radio"] {
+						display: none;
+					}
+					label {
+						padding: 0 4px;
+						cursor: pointer;
+
+						&:not(.disabled):hover {
+							color: var(--color-text);
+							text-shadow: 0 0 5px var(--color-text);
+						}
+					}
+
+					&:not(:has(input[type="radio"]:checked)) {
+						color: var(--color-text-subtle);
+					}
+				}
+			}
 		}
 
 		.items-header {
@@ -547,7 +575,7 @@
 			}
 		}
 
-		.subgroup > .header {
+		.group > .header {
 			margin: 0 0 5px 0;
 			h4 {
 				font-size: var(--font-size-18);

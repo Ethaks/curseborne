@@ -7,7 +7,7 @@
 	"formatter": {
 		"lineWidth": 100
 	},
-	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"assist": { "actions": { "source": { "organizeImports": "on", "recommended": true } } },
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",

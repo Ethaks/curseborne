@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { IdentifierField } from "@models/fields/identifier.mjs";
-import { camelize, requiredInteger, toLabelObject } from "../../helpers/utils.mjs";
+import { requiredInteger, toLabelObject } from "../../helpers/utils.mjs";
 import { CurseborneItemBase } from "./base.mjs";
 
 export class Spell extends CurseborneItemBase {
@@ -34,17 +34,17 @@ export class Spell extends CurseborneItemBase {
 
 		schema.identifier = new IdentifierField({ required: true });
 
-		schema.practice = new fields.StringField({
+		schema.group = new fields.StringField({
 			required: true,
 			blank: false,
 			initial: "emotionalManipulation",
 			choices: () => {
-				// Generate a Record<SubGroup, Label>, where subgroup is the key of a practice's subgroup, and label is the localized label for that subgroup.
+				// Generate a Record<Group, Label>, where group is the key of a practice's group, and label is the localized label for that group.
 				const practices = {};
-				for (const [practiceId, { label: practiceLabel, subgroups = {} }] of Object.entries(
+				for (const [practiceId, { label: practiceLabel, groups = {} }] of Object.entries(
 					curseborne.config.practices,
 				)) {
-					for (const [groupId, { label }] of Object.entries(subgroups)) {
+					for (const [groupId, { label }] of Object.entries(groups)) {
 						practices[groupId] = {
 							label: game.i18n?.localize(label) ?? label,
 							group: game.i18n?.localize(practiceLabel) ?? practiceId,
@@ -83,6 +83,17 @@ export class Spell extends CurseborneItemBase {
 		return schema;
 	}
 
+	/** @inheritDoc */
+	static migrateData(source) {
+		// Migrate old `practice` field to `group` field
+		/** TODO: @deprecated since vNEXT */
+		if (source.practice && !source.group) {
+			source.group = source.practice;
+			delete source.practice;
+		}
+		return super.migrateData(source);
+	}
+
 	/**
 	 * The spell's currently active advancements, i.e. advancements in the same collection.
 	 *
@@ -97,13 +108,24 @@ export class Spell extends CurseborneItemBase {
 		}, new foundry.utils.Collection());
 	}
 
+	/**
+	 * The overall practice of the spell, i.e. which practice its group belongs to.
+	 *
+	 * @type {keyof typeof curseborne.config.practices}
+	 */
+	get practice() {
+		return Object.entries(curseborne.config.practices).find(
+			([_, practice]) => this.group in practice.groups,
+		)?.[0];
+	}
+
 	static get practices() {
-		// Generate a Record<SubGroup, Label>, where subgroup is the key of a practice's subgroup, and label is the localized label for that subgroup.
+		// Generate a Record<Group, Label>, where Group is the key of a practice's group, and label is the localized label for that group.
 		const practices = {};
-		for (const [practiceId, { label: practiceLabel, subgroups = {} }] of Object.entries(
+		for (const [practiceId, { label: practiceLabel, groups = {} }] of Object.entries(
 			curseborne.config.practices,
 		)) {
-			for (const [groupId, { label }] of Object.entries(subgroups)) {
+			for (const [groupId, { label }] of Object.entries(groups)) {
 				practices[groupId] = {
 					label: game.i18n?.localize(label) ?? label,
 					group: game.i18n?.localize(practiceLabel) ?? practiceId,
@@ -114,12 +136,25 @@ export class Spell extends CurseborneItemBase {
 	}
 
 	/** @inheritDoc */
+	async prepareSheetContext(context) {
+		await super.prepareSheetContext(context);
+
+		context.practice = {
+			field: new foundry.data.fields.StringField({
+				label: "CURSEBORNE.Item.Spell.FIELDS.practice.label",
+				choices: toLabelObject(curseborne.config.practices),
+			}),
+			value: game.i18n.localize(curseborne.config.practices[this.practice]?.label ?? this.practice),
+		};
+	}
+
+	/** @inheritDoc */
 	async _prepareEmbedContext(config, options) {
 		const context = await super._prepareEmbedContext(config, options);
 
-		// Add the spell's practice and subgroup as details
-		if (this.practice) {
-			const { label, group } = this.constructor.practices[this.practice];
+		// Add the spell's practice and group as details
+		if (this.group) {
+			const { label, group } = this.constructor.practices[this.group];
 			const value = [group, label].join(" — ");
 			context.details.push({
 				label: game.i18n.localize("CURSEBORNE.Item.Spell.FIELDS.practice.label"),

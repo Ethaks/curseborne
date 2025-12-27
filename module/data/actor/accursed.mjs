@@ -57,6 +57,15 @@ export class Accursed extends CurseborneActorBase {
 		// Optional UI flags persisted on the character
 		schema.ui = new fields.SchemaField({
 			showToken: new fields.BooleanField({ initial: false }),
+			spellSorting: new fields.StringField({
+				required: true,
+				blank: false,
+				initial: "grouped",
+				choices: {
+					grouped: "CURSEBORNE.Item.Spell.SORTING.grouped",
+					flat: "CURSEBORNE.Item.Spell.SORTING.flat",
+				},
+			}),
 		});
 
 		return schema;

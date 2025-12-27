@@ -95,10 +95,15 @@ export const skills = {
 /*                                             Spells                                             */
 /* ---------------------------------------------------------------------------------------------- */
 
-export const practices = {
+/**
+ * Spell Practices and their groups.
+ *
+ * @satisfies {Record<string, { label: string, groups: Record<string, { label: string }> }>}
+ */
+export const practices = /** @type {const} */ ({
 	haunting: {
 		label: "CURSEBORNE.PRACTICES.Haunting",
-		subgroups: {
+		groups: {
 			emotionalManipulation: {
 				label: "CURSEBORNE.PRACTICES.EmotionalManipulation",
 			},
@@ -108,7 +113,7 @@ export const practices = {
 	},
 	predation: {
 		label: "CURSEBORNE.PRACTICES.Predation",
-		subgroups: {
+		groups: {
 			vitalForce: { label: "CURSEBORNE.PRACTICES.VitalForce" },
 			ironEdict: { label: "CURSEBORNE.PRACTICES.IronEdict" },
 			smokeAndShadow: { label: "CURSEBORNE.PRACTICES.SmokeAndShadow" },
@@ -116,7 +121,7 @@ export const practices = {
 	},
 	maelstrom: {
 		label: "CURSEBORNE.PRACTICES.Maelstrom",
-		subgroups: {
+		groups: {
 			mutableForm: { label: "CURSEBORNE.PRACTICES.MutableForm" },
 			depthlessFury: { label: "CURSEBORNE.PRACTICES.DepthlessFury" },
 			stranger: { label: "CURSEBORNE.PRACTICES.Stranger" },
@@ -124,7 +129,7 @@ export const practices = {
 	},
 	manifestation: {
 		label: "CURSEBORNE.PRACTICES.Manifestation",
-		subgroups: {
+		groups: {
 			mayhem: { label: "CURSEBORNE.PRACTICES.Mayhem" },
 			summoning: { label: "CURSEBORNE.PRACTICES.Summoning" },
 			physicalPerfection: { label: "CURSEBORNE.PRACTICES.PhysicalPerfection" },
@@ -132,7 +137,7 @@ export const practices = {
 	},
 	invocation: {
 		label: "CURSEBORNE.PRACTICES.Invocation",
-		subgroups: {
+		groups: {
 			acquisition: { label: "CURSEBORNE.PRACTICES.Acquisition" },
 			biomancy: { label: "CURSEBORNE.PRACTICES.Biomancy" },
 			consumingSiphon: { label: "CURSEBORNE.PRACTICES.ConsumingSiphon" },
@@ -142,8 +147,7 @@ export const practices = {
 			thaumaturgy: { label: "CURSEBORNE.PRACTICES.Thaumaturgy" },
 		},
 	},
-	ritual: { label: "CURSEBORNE.PRACTICES.Ritual" },
-};
+});
 
 export const spellCostTypes = {
 	bleed: {

@@ -110,37 +110,94 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 			class="spell-search"
 			placeholder='{{localize "Search"}}'
 		>
-	</search>
 
-	{{#each practices}}
-		{{! Each Practice gets its own box }}
-		<section class="items-section practice boxed-list">
-			{{! Practice Header }}
-			<div class="items-header header">
-				<h3 class="item-name">{{localize label}}</h3>
+		{{! Sort Options }}
+		<div class="sorting flexrow">
+			<div class="sort-option">
+				<input
+					type="radio"
+					id="{{@root.rootId}}.ui.spellSorting"
+					value="grouped"
+					{{disabled (not isEditable)}}
+					name="system.ui.spellSorting"
+					{{checked (eq spells.sorting "grouped")}}
+				>
+				<label
+					for="{{@root.rootId}}.ui.spellSorting"
+					class='{{ifThen (not isEditable) "disabled" ""}}'
+					data-tooltip
+					aria-label='{{localize "CURSEBORNE.Item.Spell.SORTING.grouped"}}'
+				>
+					<i class="fa-solid fa-layer-group"></i>
+				</label>
 			</div>
 
-			{{! Practice Spells, sorted by subgroup }}
-			{{#each subgroups}}
-				<ol class="items-list unlist subgroup">
-					{{! Subgroup Header }}
-					<div class="items-header header">
-						<h4 class="item-name subgroup-header">{{localize label}}</h4>
-					</div>
+			<div class="sort-option">
+				<input
+					type="radio"
+					id="{{@root.rootId}}.ui.spellSorting.flat"
+					value="flat"
+					name="system.ui.spellSorting"
+					{{disabled (not isEditable)}}
+					{{checked (eq spells.sorting "flat")}}
+				>
+				<label
+					for="{{@root.rootId}}.ui.spellSorting.flat"
+					class='{{ifThen (not isEditable) "disabled" ""}}'
+					data-tooltip
+					aria-label='{{localize "CURSEBORNE.Item.Spell.SORTING.flat"}}'
+				>
+					<i class="fa-solid fa-list"></i>
+				</label>
+			</div>
+		</div>
+	</search>
 
-					{{#each spells}}
-						{{! Core Spell }}
-						{{> spell this}}
+	{{! Spells }}
+	{{#if (eq spells.sorting "grouped")}}
+		{{#each spells.practices}}
+			{{! Each Practice gets its own box }}
+			<section class="items-section practice boxed-list">
+				{{! Practice Header }}
+				<div class="items-header header">
+					<h3 class="item-name">{{localize label}}</h3>
+				</div>
 
-						{{#each advances}}
-							{{! Spell Advances }}
+				{{! Practice Spells, sorted by group }}
+				{{#each groups}}
+					<ol class="items-list unlist group">
+						{{! Group Header }}
+						<div class="items-header header">
+							<h4 class="item-name group-header">{{localize label}}</h4>
+						</div>
+
+						{{#each spells}}
+							{{! Core Spell }}
 							{{> spell this}}
+
+							{{#each advances}}
+								{{! Spell Advances }}
+								{{> spell this}}
+							{{/each}}
 						{{/each}}
-					{{/each}}
-				</ol>
+					</ol>
+				{{/each}}
+			</section>
+		{{/each}}
+	{{/if}}
+
+	{{#if (eq spells.sorting "flat")}}
+		<ol class="items-list unlist">
+			{{#each spells.spells}}
+				{{> spell this}}
+
+				{{#each advances}}
+					{{! Spell Advances }}
+					{{> spell this}}
+				{{/each}}
 			{{/each}}
-		</section>
-	{{/each}}
+		</ol>
+	{{/if}}
 
 	{{#if editable}}
 		<button type="button" class="item-create" data-action="createDoc" data-type="spell">

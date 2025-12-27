@@ -130,7 +130,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		context.skills = await this._prepareSkills(context);
 		context.edges = await this._prepareEdges(context);
 		context.attributes = await this._prepareAttributes(context);
-		context.practices = await this._prepareSpells(context);
+		context.spells = await this._prepareSpells(context);
 		context.equipment = await this._prepareEquipment(context);
 		context.torments = await this._prepareTorments(context);
 		context.aspirations = await this._prepareAspirations(context);
@@ -176,6 +176,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 			},
 		}),
 	});
+
+	/* --------------------------------------------------------------------------------------------- */
 
 	async _prepareInjuries(_context) {
 		const healthContext = {};
@@ -244,6 +246,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return healthContext;
 	}
 
+	/* --------------------------------------------------------------------------------------------- */
+
 	async _prepareSidebarContext(_context) {
 		const sidebar = {};
 		sidebar.expanded = this.#sidebarSetting.get();
@@ -260,6 +264,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 
 		return sidebar;
 	}
+
+	/* --------------------------------------------------------------------------------------------- */
 
 	async _preparePaths(_context) {
 		const paths = {};
@@ -286,6 +292,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return paths;
 	}
 
+	/* --------------------------------------------------------------------------------------------- */
+
 	async _prepareMotifs(_context) {
 		const family = this.actor.system.family;
 		return this.actor.itemTypes.motif
@@ -300,6 +308,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 			}))
 			.sort((a, b) => a.item.sort - b.item.sort);
 	}
+
+	/* --------------------------------------------------------------------------------------------- */
 
 	async _prepareSkills(context) {
 		const skills = [];
@@ -336,6 +346,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return skills;
 	}
 
+	/* --------------------------------------------------------------------------------------------- */
+
 	async _prepareEdges(context) {
 		const edges = [];
 
@@ -362,6 +374,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return edges.sort((a, b) => a.sort - b.sort);
 	}
 
+	/* --------------------------------------------------------------------------------------------- */
+
 	async _prepareAttributes(context) {
 		const groups = Object.entries(curseborne.config.attributeGroups).reduce(
 			(acc, [id, { label }]) => {
@@ -385,25 +399,43 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return groups;
 	}
 
-	async _prepareSpells(_context) {
-		// The result object for the context;
-		const spellsContext = {};
+	/* --------------------------------------------------------------------------------------------- */
 
+	/**
+	 * Prepare the context for the spells tab.
+	 *
+	 * The resulting context either contains the spell items as a `spells` array for `flat` sorting,
+	 * or a `practices` property containing the spells grouped by practice and group for `grouped` sorting.
+	 */
+	async _prepareSpells(_context) {
+		const result = {};
+		// The result object for the context;
+		const practices = foundry.utils.deepClone(curseborne.config.practices);
+
+		const sorting = this.actor.system.ui?.spellSorting;
+		result.sorting = sorting;
+		result.sortChoices = this.actor.system.schema.fields.ui.fields.spellSorting.choices;
+		if (sorting === "flat") result.spells = [];
+		else result.practices = practices;
+
+		/**
+		 * Inner helper preparing a single spell.
+		 *
+		 * @param {SpellItem} spell - The spell to prepare
+		 * @param {string|null} advances - The identifier of the spell this is an advancement for, or null for base spells
+		 */
 		const prepareSpell = (spell, advances = null) => {
-			// The subgroup ID for the spell's practice
-			const subgroup = spell.system.practice;
-			// Find practice to which subgroup belongs
-			const [practice, { label, subgroups }] = Object.entries(curseborne.config.practices).find(
-				(p) => p[1].subgroups?.[subgroup],
-			);
-			spellsContext[practice] ??= {
-				label,
-				subgroups: {},
-			};
-			spellsContext[practice].subgroups[subgroup] ??= {
-				label: subgroups[subgroup].label,
-				spells: [],
-			};
+			// The group ID for the spell's practice
+			const { practice, group } = spell.system;
+
+			let targetArray;
+			if (sorting === "grouped") {
+				result.practices[practice].groups[group].spells ??= [];
+				targetArray = result.practices[practice].groups[group].spells;
+			} else if (sorting === "flat") {
+				targetArray = result.spells;
+			}
+
 			const spellContext = {
 				id: spell.id,
 				item: spell,
@@ -418,8 +450,6 @@ export class AccursedSheet extends CurseborneActorSheet {
 			// Cost label, consisting of type and value, localized, and with the value in bold, with a die icon before it;
 			const { type: costType, value: costValue } = spell.system.cost;
 			if (costType && costValue) {
-				// TODO: Determine whether dice make sense or just clutter the UI
-				// spellContext.cost = `<i class="fa-light fa-dice-d10"></i> ${costValue}`;
 				spellContext.cost = spell.system.cost.value;
 				spellContext.costIcon = curseborne.config.spellCostTypes[costType].icon;
 				spellContext.costLong = game.i18n.format(
@@ -447,11 +477,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 					);
 			}
 
-			if (advances === null) spellsContext[practice].subgroups[subgroup].spells.push(spellContext);
-			else
-				spellsContext[practice].subgroups[subgroup].spells
-					.find((s) => s.system.identifier === advances)
-					.advances.push(spellContext);
+			if (advances === null) targetArray.push(spellContext);
+			else targetArray.find((s) => s.system.identifier === advances).advances.push(spellContext);
 		};
 
 		const spells = this.actor.itemTypes.spell;
@@ -470,18 +497,40 @@ export class AccursedSheet extends CurseborneActorSheet {
 			}
 		}
 
-		// Sort spells by their sort value within each subgroup
-		for (const practice of Object.values(spellsContext)) {
-			for (const subgroup of Object.values(practice.subgroups)) {
-				subgroup.spells.sort((a, b) => a.item.sort - b.item.sort);
-				for (const spell of subgroup.spells) {
-					spell.advances.sort((a, b) => a.item.sort - b.item.sort);
+		// Sort all spells by their sort, and then their advances by their sort
+		if (sorting === "flat") {
+			result.spells.sort((a, b) => a.item.sort - b.item.sort);
+			for (const spell of result.spells) {
+				spell.advances.sort((a, b) => a.item.sort - b.item.sort);
+			}
+		} else if (sorting === "grouped") {
+			// Sort spells by their sort value within each group
+			for (const practiceId of Object.keys(curseborne.config.practices)) {
+				const practice = result.practices[practiceId] ?? {};
+				for (const groupId of Object.keys(curseborne.config.practices[practiceId].groups)) {
+					const group = practice.groups[groupId] ?? {};
+					// Delete empty groups to avoid cluttering the UI
+					if (group.spells == null || group.spells.length === 0) {
+						delete practice.groups[groupId];
+						continue;
+					}
+
+					group.spells?.sort((a, b) => a.item.sort - b.item.sort);
+					for (const spell of group.spells ?? []) {
+						spell.advances.sort((a, b) => a.item.sort - b.item.sort);
+					}
+				}
+
+				if (Object.keys(practice.groups).length === 0) {
+					delete result.practices[practiceId];
 				}
 			}
 		}
 
-		return spellsContext;
+		return result;
 	}
+
+	/* --------------------------------------------------------------------------------------------- */
 
 	async _prepareSocials(context) {
 		const bonds = [];
@@ -570,6 +619,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return { bonds, contacts };
 	}
 
+	/* --------------------------------------------------------------------------------------------- */
+
 	async _prepareEquipment(_context) {
 		const equipmentContext = {};
 		const items = this.actor.itemTypes.equipment;
@@ -601,6 +652,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 		return equipmentContext;
 	}
 
+	/* --------------------------------------------------------------------------------------------- */
+
 	async _prepareTorments(_context) {
 		const torments = [];
 		const lineage = this.actor.lineage;
@@ -629,6 +682,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 		}
 		return torments.sort((a, b) => a.item.sort - b.item.sort);
 	}
+
+	/* --------------------------------------------------------------------------------------------- */
 
 	async _prepareAspirations(context) {
 		const aspirations = Object.entries(this.actor.system.aspirations);
@@ -923,8 +978,8 @@ export class AccursedSheet extends CurseborneActorSheet {
 	}
 
 	/**
-	 * Filter displayed spells based on a search query, using practice/subgroup/spell name/(optionally, spell description).
-	 * When the practice/subgroup is matched, all spells within it are displayed.
+	 * Filter displayed spells based on a search query, using practice/group/spell name/(optionally, spell description).
+	 * When the practice/group is matched, all spells within it are displayed.
 	 * Otherwise, only spells whose name (and description) match the query are displayed.
 	 *
 	 * @this {AccursedSheet}
@@ -940,51 +995,69 @@ export class AccursedSheet extends CurseborneActorSheet {
 			200,
 		);
 		const searchMode = this.#searchModesSetting.get().spells;
+		const sortMode = this.actor.system.ui.spellSorting;
 
 		// Store state for animation
 		let state;
+		// NOTE: "Enter" KeyboardEvents are passed when the filter callback is initially triggered by a (re)render
 		if (!(event instanceof KeyboardEvent))
-			state = Flip.getState(
-				html.querySelectorAll("search, section.practice, ol.subgroup, li.spell"),
-				{ props: "padding" },
-			);
+			state = Flip.getState(html.querySelectorAll("search, section.practice, ol.group, li.spell"), {
+				props: "padding",
+			});
 
-		const practices = html.querySelectorAll("section.practice");
-		for (const practice of practices) {
-			let practiceMatches = false;
-			let practiceVisible = false;
-			const practiceName = practice.querySelector(".header").textContent;
-			if (rgx.test(practiceName)) {
-				practiceVisible = practiceMatches = true;
-			}
-			const subgroups = practice.querySelectorAll("ol.subgroup");
-			for (const subgroup of subgroups) {
-				let subgroupMatches = false;
-				let subgroupVisible = practiceMatches || false;
-				const subgroupName = subgroup.querySelector(".subgroup-header").textContent;
-				if (rgx.test(subgroupName)) {
-					subgroupVisible = subgroupMatches = true;
+		if (sortMode === "grouped") {
+			const practices = html.querySelectorAll("section.practice");
+			for (const practice of practices) {
+				let practiceMatches = false;
+				let practiceVisible = false;
+				const practiceName = practice.querySelector(".header").textContent;
+				if (rgx.test(practiceName)) {
+					practiceVisible = practiceMatches = true;
 				}
-				const spells = subgroup.querySelectorAll("li.spell");
-				for (const spell of spells) {
-					const name = spell.querySelector(".item-name").textContent;
-
-					const item = this.actor.items.get(spell.dataset.itemId);
-					const description = item.system.description;
-					const attunements = spell.querySelector(".spell-attunements")?.textContent ?? "";
-					const fullSearchMatches =
-						searchMode === CONST.DIRECTORY_SEARCH_MODES.FULL &&
-						(rgx.test(attunements) || rgx.test(description));
-
-					const matches = practiceMatches || subgroupMatches || rgx.test(name) || fullSearchMatches;
-					spell.style.display = matches || subgroupMatches ? "" : "none";
-					if (matches) {
-						subgroupVisible = practiceVisible = true;
+				const groups = practice.querySelectorAll("ol.group");
+				for (const group of groups) {
+					let groupMatches = false;
+					let groupVisible = practiceMatches || false;
+					const groupName = group.querySelector(".group-header").textContent;
+					if (rgx.test(groupName)) {
+						groupVisible = groupMatches = true;
 					}
+					const spells = group.querySelectorAll("li.spell");
+					for (const spell of spells) {
+						const name = spell.querySelector(".item-name").textContent;
+
+						const item = this.actor.items.get(spell.dataset.itemId);
+						const description = item.system.description;
+						const attunements = spell.querySelector(".spell-attunements")?.textContent ?? "";
+						const fullSearchMatches =
+							searchMode === CONST.DIRECTORY_SEARCH_MODES.FULL &&
+							(rgx.test(attunements) || rgx.test(description));
+
+						const matches = practiceMatches || groupMatches || rgx.test(name) || fullSearchMatches;
+						spell.style.display = matches || groupMatches ? "" : "none";
+						if (matches) {
+							groupVisible = practiceVisible = true;
+						}
+					}
+					group.style.display = groupVisible ? "" : "none";
 				}
-				subgroup.style.display = subgroupVisible ? "" : "none";
+				practice.style.display = practiceVisible ? "" : "none";
 			}
-			practice.style.display = practiceVisible ? "" : "none";
+		} else if (sortMode === "flat") {
+			const spells = html.querySelectorAll("li.spell");
+			for (const spell of spells) {
+				const name = spell.querySelector(".item-name").textContent;
+
+				const item = this.actor.items.get(spell.dataset.itemId);
+				const description = item.system.description;
+				const attunements = spell.querySelector(".spell-attunements")?.textContent ?? "";
+				const fullSearchMatches =
+					searchMode === CONST.DIRECTORY_SEARCH_MODES.FULL &&
+					(rgx.test(attunements) || rgx.test(description));
+
+				const matches = rgx.test(name) || fullSearchMatches;
+				spell.style.display = matches ? "" : "none";
+			}
 		}
 
 		// Animate the changes unless the callback is triggered by a re-render

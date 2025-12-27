@@ -75,7 +75,9 @@ export class Path extends LimitedActorTypesItem(CurseborneItemBase) {
 
 		// Prevent creation of a second path of a given type within an actor
 		if (this.item.isEmbedded) {
-			const existing = this.actor.itemTypes.path.find((p) => p.type === this.parent.type);
+			const existing = this.actor.itemTypes[this.constructor.metadata.type].find(
+				(p) => p.type === this.parent.type,
+			);
 			if (existing) {
 				ui.notifications?.error(
 					game.i18n.format("CURSEBORNE.ERROR.DuplicateItemType", {

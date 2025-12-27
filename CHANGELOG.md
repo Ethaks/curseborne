@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Resolve Skills in Path sheets again
+- Fix detection of already present Paths in Accursed to prevent doubled-up creation
 
 ## [0.1.0]
 

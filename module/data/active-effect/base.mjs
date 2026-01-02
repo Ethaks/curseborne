@@ -33,14 +33,14 @@ export class CurseborneActiveEffectModel extends CurseborneTypeDataModel {
 					choices: () => {
 						const seconds = {
 							group: "CURSEBORNE.DURATION.RealTime",
-							label: game.i18n.localize("TIME.Seconds"),
+							label: game.i18n.localize("TIME.Second.other"),
 						};
 						const durations = toLabelObject(curseborne.config.durations);
 						delete durations.turn;
 						delete durations.round;
 						for (const key in durations) {
 							durations[key] = {
-								label: durations[key],
+								label: durations[key].label,
 								group: "CURSEBORNE.DURATION.ActionTime",
 							};
 						}

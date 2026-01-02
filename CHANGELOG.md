@@ -29,6 +29,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Known Issues
 -->
 
+## [0.1.2]
+
+### Fixed
+
+- Fix error preventing Active Effect sheets from opening
+- Use translated string for "Seconds" as Real Time unit again
+
 ## [0.1.1]
 
 ### Fixed

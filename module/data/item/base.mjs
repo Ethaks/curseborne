@@ -22,9 +22,12 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 	});
 
 	/** @inheritDoc */
+	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Base"];
+
+	/** @inheritDoc */
 	static defineSchema() {
 		const fields = foundry.data.fields;
-		const schema = {};
+		const schema = super.defineSchema();
 
 		schema.description = new fields.HTMLField({ trim: true, textSearch: true });
 
@@ -54,6 +57,16 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 		}
 	}
 
+	/** @inheritDoc */
+	prepareBaseData() {
+		super.prepareBaseData();
+
+		// While embedded items get their identifier prepared by the containing actor (ensuring uniqueness within the collection),
+		// non-embedded items need to prepare their own identifier.
+		// WARN: This results in non-embedded items potentially having non-unique identifiers within their collection.
+		if (!this.parent.isEmbedded) this._prepareIdentifier();
+	}
+
 	/* -------------------------------------------- */
 	/*  Sheet Rendering                             */
 	/* -------------------------------------------- */
@@ -64,7 +77,9 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 	 * @param {object} context - The rendering context to be mutated
 	 * @returns {Promise<void>}
 	 */
-	async prepareSheetContext(context) {}
+	async prepareSheetContext(context) {
+		context.identifier = { value: this._source.identifier ?? "", placeholder: this.identifier };
+	}
 
 	/* -------------------------------------------- */
 	/* Embed Preparation                            */

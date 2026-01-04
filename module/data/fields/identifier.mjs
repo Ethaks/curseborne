@@ -42,8 +42,17 @@ export function IdentifierMixin(Base) {
 		static metadata = Object.freeze({ ...super.metadata, hasIdentifier: true });
 
 		/** @inheritDoc */
+		static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES];
+
+		/** @inheritDoc */
 		static defineSchema() {
-			return Object.assign(super.defineSchema(), {
+			let schema;
+			try {
+				schema = super.defineSchema();
+			} catch {
+				schema = {};
+			}
+			return Object.assign(schema, {
 				identifier: new IdentifierField(),
 			});
 		}
@@ -68,7 +77,7 @@ export function IdentifierMixin(Base) {
 			if (!name) throw new Error("Cannot prepare an identifier without a name");
 
 			/**
-			 * The systerm-internal identifier of this model, which can be set independently of its user-entered/facing name.
+			 * The system-internal identifier of this model, which can be set independently of its user-entered/facing name.
 			 *
 			 * @type {string}
 			 */

@@ -91,6 +91,8 @@ export class Path extends LimitedActorTypesItem(CurseborneItemBase) {
 
 	/** @override */
 	async prepareSheetContext(context) {
+		await super.prepareSheetContext(context);
+
 		const choices = this.actor
 			? toLabelObject(
 					this.actor.itemTypes.skill.map((skill) => [skill.system.identifier, skill.name]),

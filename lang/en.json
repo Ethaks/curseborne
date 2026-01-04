@@ -102,6 +102,16 @@
 				"effects": "Effects"
 			},
 
+			"Base": {
+				"FIELDS": {
+					"description": { "label": "Description" },
+					"identifier": {
+						"label": "Identifier",
+						"hint": "A unique identifier for this item used for referencing it in other items or effects."
+					}
+				}
+			},
+
 			"Equipment": {
 				"FIELDS": {
 					"type": {
@@ -185,7 +195,7 @@
 			},
 
 			"Spell": {
-				"Advance": "Advance",
+				"Advance": "Spell Advance",
 
 				"FIELDS": {
 					"cost": {

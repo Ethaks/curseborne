@@ -13,6 +13,12 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 	{{curse-formGroup systemFields.group formGroupOptions labelAttr="label"}}
 	{{curse-formGroup systemFields.attunements formGroupOptions}}
 
+	<fieldset class="cost">
+		<legend>{{localize "CURSEBORNE.Item.Spell.FIELDS.cost.type.label"}}</legend>
+		{{curse-formGroup systemFields.cost.fields.type formGroupOptions}}
+		{{curse-formGroup systemFields.cost.fields.value formGroupOptions}}
+	</fieldset>
+
 	<fieldset class="advance">
 		<legend>{{localize "CURSEBORNE.Item.Spell.Advance"}}</legend>
 		{{curse-formGroup systemFields.advances formGroupOptions}}
@@ -20,9 +26,11 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 		{{curse-formGroup systemFields.cost.fields.additional formGroupOptions}}
 	</fieldset>
 
-	<fieldset class="cost">
-		<legend>{{localize "CURSEBORNE.Item.Spell.FIELDS.cost.type.label"}}</legend>
-		{{curse-formGroup systemFields.cost.fields.type formGroupOptions}}
-		{{curse-formGroup systemFields.cost.fields.value formGroupOptions}}
+	{{! Advanced Fields }}
+	<fieldset class="advanced">
+		<legend>{{localize "CURSEBORNE.Advanced"}}</legend>
+		{{
+			curse-formGroup systemFields.identifier formGroupOptions value=identifier.value placeholder=identifier.placeholder
+		}}
 	</fieldset>
 </section>

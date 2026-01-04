@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Allow Spells in Accursed sheets to be grouped by Practice/Group or as flat list
 - Enable Spell Advances to mark their cost as additional to the advanced Spell's
+- Add input fields for system `identifier`s to sheets of relevant Items
 
 ## [0.1.2]
 

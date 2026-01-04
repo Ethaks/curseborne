@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { IdentifierField } from "@models/fields/identifier.mjs";
 import { localize, requiredInteger, toLabelObject } from "../../helpers/utils.mjs";
 import { CurseborneItemBase } from "./base.mjs";
 
 export class Spell extends CurseborneItemBase {
 	/** @inheritDoc */
-	static LOCALIZATION_PREFIXES = ["CURSEBORNE.Item.base", "CURSEBORNE.Item.Spell"];
+	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Spell"];
 
 	/** @inheritDoc */
 	static defineSchema() {
@@ -32,8 +31,6 @@ export class Spell extends CurseborneItemBase {
 			}),
 			additional: new fields.BooleanField({ required: true, initial: false }),
 		});
-
-		schema.identifier = new IdentifierField({ required: true });
 
 		schema.group = new fields.StringField({
 			required: true,

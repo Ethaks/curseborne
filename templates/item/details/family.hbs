@@ -72,4 +72,15 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 			</ul>
 		</fieldset>
 	{{/if}}
+
+	{{! Advanced Fields }}
+	<fieldset class="advanced">
+		<legend>{{localize "CURSEBORNE.Advanced"}}</legend>
+		{{
+			curse-formGroup
+			systemFields.identifier
+			formGroupOptions
+			value=identifier.value placeholder=identifier.placeholder
+		}}
+	</fieldset>
 </section>

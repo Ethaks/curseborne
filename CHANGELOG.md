@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix roll dialogs trying to match the position of minimized sheets
+- Allow adversaries' maximum injuries and armor modifiers to be negative
 
 ## [0.1.2]
 

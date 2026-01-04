@@ -53,8 +53,16 @@ export class Adversary extends CurseborneActorBase {
 			initial: 0,
 			min: 0,
 		});
-		schema.injuries = new DotsField({});
-		schema.armor = new DotsField({});
+		schema.injuries = new DotsField({
+			value: { initial: 0 },
+			// Allow negative min value to enable injuries lower than what the template provides
+			max: { initial: 0, min: -10 },
+		});
+		schema.armor = new DotsField({
+			value: { initial: 0 },
+			// Allow negative min value to enable armor lower than what the template provides
+			max: { initial: 0, min: -10 },
+		});
 		schema.initiative = new fields.NumberField({
 			...requiredInteger,
 			initial: 0,

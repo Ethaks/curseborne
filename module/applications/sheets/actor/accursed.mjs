@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { SessionSetting } from "@helpers/session-setting.mjs";
-import { staticID, systemTemplate } from "@helpers/utils.mjs";
+import { localize, staticID, systemTemplate } from "@helpers/utils.mjs";
 import { Flip } from "../../scripts/greensock/esm/Flip.js";
 import { CurseborneActorSheet } from "./base.mjs";
 import { CurseborneItem } from "@documents/item.mjs";
@@ -262,6 +262,21 @@ export class AccursedSheet extends CurseborneActorSheet {
 			sidebar.image = this.actor.img;
 			sidebar.imageLabel = "CURSEBORNE.ShowTokenImage";
 		}
+
+		// Initiative
+		const { skill, attribute, dice, injuryDice } = this.actor.system.initiative;
+		const labels = [
+			`${this.actor.system.skills[skill]?.name ?? localize(curseborne.config.skills[skill]?.name)} +${this.actor.system.skills[skill]?.dots.value ?? 0}`,
+			`${localize(curseborne.config.attributes[attribute]?.label)} +${this.actor.system.attributes[attribute].value}`,
+		];
+		if (injuryDice) {
+			labels.push(`${localize("CURSEBORNE.InjuryDice")} +${injuryDice}`);
+		}
+		const formatter = game.i18n.getListFormatter({ type: "conjunction", style: "narrow" });
+		sidebar.initiative = {
+			dice,
+			tooltip: formatter.format(labels),
+		};
 
 		return sidebar;
 	}

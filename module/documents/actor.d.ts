@@ -2,14 +2,16 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { Accursed } from "@models/actor/accursed.mjs";
 import { CurseborneActor } from "./actor.mjs";
+import { Adversary } from "@models/actor/adversary.mjs";
 
 declare global {
 	type CurseborneBaseActor<
 		Type extends string = "",
 		Model extends foundry.abstract.TypeDataModel = foundry.abstract.TypeDataModel,
 	> = CurseborneActor & { type: Type; system: Model };
-	type AccursedActor = CurseborneBaseActor<"accursed", foundry.abstract.TypeDataModel> & {
+	type AccursedActor = CurseborneBaseActor<"accursed", Accursed> & {
 		itemTypes: {
 			edge: EdgeItem[];
 			skill: SkillItem[];
@@ -23,7 +25,7 @@ declare global {
 			torment: TormentItem[];
 		};
 	};
-	type AdversaryActor = CurseborneBaseActor<"adversary", foundry.abstract.TypeDataModel> & {
+	type AdversaryActor = CurseborneBaseActor<"adversary", Adversary> & {
 		itemTypes: {
 			template: TemplateItem[];
 			quality: QualityItem[];

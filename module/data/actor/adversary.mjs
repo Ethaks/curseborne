@@ -6,6 +6,7 @@ import { ROLL_TYPE } from "@config/dice.mjs";
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { DotsField } from "../fields/dots.mjs";
 import { CurseborneActorBase } from "./base.mjs";
+import { localize } from "@helpers/utils.mjs";
 
 /** @import {ActorRollOptions} from "@dice/roll" */
 
@@ -72,6 +73,7 @@ export class Adversary extends CurseborneActorBase {
 		return schema;
 	}
 
+	/** @inheritDoc */
 	prepareDerivedData() {
 		super.prepareDerivedData();
 
@@ -109,5 +111,22 @@ export class Adversary extends CurseborneActorBase {
 		return this._createRoll(ROLL_TYPE.POOL, {
 			...options,
 		});
+	}
+
+	/**
+	 * @inheritDoc
+	 * @type {CurseborneActorBase["rollInitiative()"]}
+	 */
+	async rollInitiative(options = {}) {
+		options = this._prepareCommonRollOptions(options);
+
+		options.data.sources ??= {};
+		options.data.sources.initiative = {
+			type: "",
+			value: "@initiative",
+			label: localize("CURSEBORNE.Actor.base.FIELDS.initiative.label"),
+		};
+
+		return super.rollInitiative(options);
 	}
 }

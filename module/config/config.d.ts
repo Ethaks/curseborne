@@ -6,6 +6,8 @@ import { CURSEBORNE } from "./_module.mjs";
 
 export type AttributeGroup = keyof typeof CURSEBORNE.attributeGroups;
 export type Attribute = keyof typeof CURSEBORNE.attributes;
+export type InjuryLevel = keyof typeof CURSEBORNE.injuryLevels;
+export type CoverType = keyof typeof CURSEBORNE.coverTypes;
 
 export type Practice = keyof typeof CURSEBORNE.practices;
 export type SpellGroup = (typeof CURSEBORNE.practices)[Practice]["groups"] extends infer G

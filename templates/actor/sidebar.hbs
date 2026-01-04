@@ -57,9 +57,9 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 			<div class="initiative flexrow">
 				<div class="form-group">
 					<label>{{localize "CURSEBORNE.Actor.base.FIELDS.initiative.label"}}</label>
-					<span class="form-fields value">{{initiative.value}}<i
-							class="fa-solid fa-dice-d10"
-						></i></span>
+					<span class="form-fields value" data-tooltip aria-label="{{sidebar.initiative.tooltip}}">
+						{{sidebar.initiative.dice}}
+					</span>
 				</div>
 				<button type="button" data-action="rollInitiative" data-tooltip="CURSEBORNE.RollInitiative">
 					<i class="fa-solid fa-dice-d10"></i>

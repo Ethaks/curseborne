@@ -16,7 +16,7 @@ export class CurseborneTypeDataModel extends foundry.abstract.TypeDataModel {
 	/**
 	 * The actor this model is associated with, if any.
 	 *
-	 * @type {curseborne.documents.CurseborneActor | undefined}
+	 * @type {AccursedActor | AdversaryActor | undefined}
 	 */
 	get actor() {
 		if (this.parent instanceof foundry.documents.Actor) return this.parent;

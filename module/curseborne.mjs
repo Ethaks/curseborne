@@ -94,6 +94,9 @@ Hooks.once("init", () => {
 	);
 	documents.CurseborneActiveEffect._configureStatusEffects();
 
+	CONFIG.Combat.documentClass = documents.CurseborneCombat;
+	CONFIG.Combatant.documentClass = documents.CurseborneCombatant;
+
 	// Register sheet application classes
 	foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
 	registerSystemSheet(foundry.documents.Actor, applications.sheets.CurseborneActorSheet);

@@ -21,6 +21,8 @@ declare global {
 	type EquipmentItem = CurseborneBaseItem<"equipment", models.Equipment>;
 	type MotifItem = CurseborneBaseItem<"motif", models.Motif>;
 	type TormentItem = CurseborneBaseItem<"torment", models.Torment>;
+	// Union type for different Path implementations
+	type PathItem = LineageItem | FamilyItem | RoleItem;
 
 	// Adversaries
 	type TemplateItem = CurseborneBaseItem<"template", models.AdversaryTemplate>;

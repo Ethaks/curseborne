@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { CurseborneRollDialog } from "../applications/dialogs/roll.mjs";
-import { DIFFICULTY } from "../config/dice.mjs";
+import { DIFFICULTY, ROLL_TYPE } from "../config/dice.mjs";
 import { CurseborneRollContext, CurseborneRollContextData } from "./data.mjs";
 import { CurseborneRoll } from "./roll.mjs";
 
@@ -11,6 +12,7 @@ export {};
 
 declare module "./data.mjs" {
 	interface CurseborneRollContextData {
+		type: ROLL_TYPE;
 		/** Data related to the sources contributing to the roll */
 		sources: foundry.utils.Collection<string, DieSource>;
 
@@ -89,6 +91,6 @@ declare module "./roll.mjs" {
 
 	export interface ActorRollResult {
 		roll: CurseborneRoll;
-		message?: ChatMessage;
+		message?: CurseborneChatMessage;
 	}
 }

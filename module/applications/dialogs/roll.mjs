@@ -3,8 +3,9 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { TabsMixin } from "@applications/common/tabs.mjs";
-import { systemTemplate } from "../../helpers/utils.mjs";
+import { localize, systemTemplate } from "../../helpers/utils.mjs";
 import { FormDialog } from "./form.mjs";
+import { ROLL_TYPE } from "@config/dice.mjs";
 
 /** @import { CurseborneRollContext } from "@dice/data.mjs" */
 
@@ -65,7 +66,7 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 	/**
 	 * The actor making this roll, if any.
 	 *
-	 * @type {Actor | undefined}
+	 * @type {AccursedActor | AdversaryActor | undefined}
 	 */
 	get actor() {
 		return this.options.actor;
@@ -73,8 +74,25 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 
 	/** @inheritDoc */
 	get title() {
-		// TODO: Adjust for type or use roll option?
-		return game.i18n.localize("CURSEBORNE.DICE.Roll");
+		// If a custom title was specified, use that.
+		if (this.options.window.title) return this.options.window.title;
+
+		let title = game.i18n.localize("CURSEBORNE.DICE.Roll");
+
+		switch (this.rollContext.type) {
+			case ROLL_TYPE.INITIATIVE: {
+				title += `: ${localize("CURSEBORNE.Actor.base.FIELDS.initiative.label")}`;
+				break;
+			}
+			case ROLL_TYPE.DEFENSE: {
+				title += `: ${localize("CURSEBORNE.Actor.base.FIELDS.defense.label")}`;
+				break;
+			}
+		}
+
+		if (this.actor) title += ` — ${this.actor.name}`;
+
+		return title;
 	}
 
 	/** @inheritDoc */
@@ -130,7 +148,7 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 					name: `sources.${source.id}`,
 					field: dataSourceField,
 					value: source,
-					label: DieSourceField.getLabel(source.type),
+					label: DieSourceField.getLabel(source),
 				};
 				if (choices.length) {
 					sourceContext.choices = choices;

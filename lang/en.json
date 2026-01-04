@@ -452,6 +452,7 @@
 			"Enhancement": "Enhancement",
 			"Complication": "Complication",
 			"ReducedBy": "Reduced by {value}",
+			"CustomDieSource": "Custom Die Source",
 
 			"BuySuccess": "Change Failure into Success",
 			"RemoveSuccess": "Revert Change of Failure into Success",

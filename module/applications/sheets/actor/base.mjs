@@ -29,6 +29,7 @@ export class CurseborneActorSheet extends CurseborneDocumentSheetMixin(
 			toggleStatusEffect: this._toggleStatusEffect,
 			setTrack: this._onSetTrack,
 			addItem: this._onAddItem,
+			rollInitiative: this._onRollInitiative,
 		},
 	};
 
@@ -238,5 +239,17 @@ export class CurseborneActorSheet extends CurseborneDocumentSheetMixin(
 	static async _toggleEffect(event, target) {
 		const effect = await this.getDocument(target);
 		await effect.update({ disabled: !effect.disabled });
+	}
+
+	/**
+	 * Roll initiative for the actor.
+	 *
+	 * @this {CurseborneActorSheet}
+	 * @param {PointerEvent} event - The originating click event
+	 * @param {HTMLElement} target - The capturing HTML element which defined a [data-action]
+	 * @returns {Promise<void>}
+	 */
+	static async _onRollInitiative(event, target) {
+		return this.actor.rollInitiative({ createCombatants: true });
 	}
 }

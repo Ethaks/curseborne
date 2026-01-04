@@ -30,7 +30,7 @@ export class Accursed extends CurseborneActorBase {
 		);
 
 		// Treat injuries like a vector, derive injury level from value
-		schema.injuries = new DotsField({ max: 7 }, { required: true });
+		schema.injuries = new DotsField({ value: { initial: 7 }, max: 7 }, { required: true });
 
 		schema.aspirations = new fields.SchemaField({
 			short1: new fields.HTMLField({ required: true, blank: true }),
@@ -180,6 +180,34 @@ export class Accursed extends CurseborneActorBase {
 				this.armor.max += item.system.armor;
 			}
 		}
+
+		// Prepare Initiative data
+		this.initiative ??= {};
+		// Determine pool: higher of either (Athletics + Cunning) or (Empathy + Dexterity);
+		// if a skill is a path skill, add injury dice for comparison (and separately as boolean to data)
+		const athleticsSkill = this.skills.athletics;
+		const athletics = {
+			dice: athleticsSkill?.dots.value || 0,
+			injury: athleticsSkill?.isPathSkill ? this.injuries.dice : 0,
+		};
+		athletics.total = athletics.dice + athletics.injury;
+
+		const empathySkill = this.skills.empathy;
+		const empathy = {
+			dice: empathySkill?.dots.value || 0,
+			injury: empathySkill?.isPathSkill ? this.injuries.dice : 0,
+		};
+		empathy.total = empathy.dice + empathy.injury;
+
+		const cunning = this.attributes.cunning?.value || 0;
+		const dexterity = this.attributes.dexterity?.value || 0;
+
+		const pool = athletics.total + cunning >= empathy.total + dexterity ? "athletics" : "empathy";
+		this.initiative.skill = pool === "athletics" ? "athletics" : "empathy";
+		this.initiative.attribute = pool === "athletics" ? "cunning" : "dexterity";
+		this.initiative.injuryDice = pool === "athletics" ? athletics.injury : empathy.injury;
+		this.initiative.dice =
+			pool === "athletics" ? athletics.total + cunning : empathy.total + dexterity;
 	}
 
 	/* --------------------------------------------------------------------------------------------- */
@@ -248,11 +276,39 @@ export class Accursed extends CurseborneActorBase {
 	}
 
 	/** @inheritDoc */
+	async rollInitiative(options = {}) {
+		options = this._prepareCommonRollOptions(options);
+
+		// Add initiative skill and attribute
+		options.data.sources = options.data.sources || {};
+
+		if (this.initiative.skill) {
+			options.data.sources.skill ??= {
+				id: "skill",
+				type: "skill",
+				value: `@skills.${this.initiative.skill}.dots.value`,
+			};
+		}
+		if (this.initiative.attribute) {
+			options.data.sources.attribute ??= {
+				id: "attribute",
+				type: "attribute",
+				value: `@attributes.${this.initiative.attribute}.value`,
+			};
+		}
+
+		return super.rollInitiative(options);
+	}
+
+	/**
+	 * @inheritDoc
+	 * @type {CurseborneActorBase["_onRollInitialize"]}
+	 */
 	_onRollInitialize(roll) {
 		super._onRollInitialize(roll);
 
 		// Add injury dice source to the roll if applicable, or remove if present and not applicable
-		if (roll.data.type === ROLL_TYPE.GENERAL) {
+		if (roll.data.type === ROLL_TYPE.GENERAL || roll.data.type === ROLL_TYPE.INITIATIVE) {
 			const skillSource =
 				roll.data.sources.get("skill") ?? roll.data.sources.find((s) => s.type === "skill");
 			const { dice, level } = this.injuries;
@@ -260,6 +316,7 @@ export class Accursed extends CurseborneActorBase {
 			const isPathSkill = this.skills[skillIdentifier]?.isPathSkill;
 
 			if (level && dice > 0 && isPathSkill) {
+				// TODO: When Maimed: add possible enhancement of +2 stacking and status effect enricher for aggravated wound
 				roll.data.updateSource({
 					"sources.injury": {
 						id: "injury",

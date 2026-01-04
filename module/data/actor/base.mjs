@@ -4,7 +4,7 @@
 
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { CurseborneRollContext } from "@dice/data.mjs";
-import { toLabelObject } from "@helpers/utils.mjs";
+import { localize, toLabelObject } from "@helpers/utils.mjs";
 import { DieSourceField } from "@models/fields/die-source.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { prepareIdentifiers } from "@models/fields/identifier.mjs";
@@ -228,5 +228,23 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 		}
 
 		return choices;
+	}
+
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                      Initiative Rolling                                       */
+	/* --------------------------------------------------------------------------------------------- */
+
+	/**
+	 * Roll initiative for this actor.
+	 *
+	 * @abstract
+	 * @param {ActorRollOptions} [options={}] - Additional options for the roll.
+	 */
+	async rollInitiative(options) {
+		options ??= this._prepareCommonRollOptions(options || {});
+		options.data.difficulty ??= null;
+		options.messageData.flavor ??= localize("CURSEBORNE.Actor.base.FIELDS.initiative.label");
+		const result = await this._createRoll(ROLL_TYPE.INITIATIVE, options);
+		return result;
 	}
 }

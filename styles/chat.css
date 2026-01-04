@@ -131,7 +131,11 @@ li.chat-message {
 					text-align: center;
 					white-space: nowrap;
 					flex-grow: 1;
-					padding-left: 30px;
+					padding-left: 40px;
+
+					&:last-child {
+						padding-right: 40px;
+					}
 
 					.auto-hits,
 					.bonuses {

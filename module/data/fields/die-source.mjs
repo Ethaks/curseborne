@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-const { StringField, NumberField, BooleanField, ArrayField, ObjectField } = foundry.data.fields;
+import { localize } from "@helpers/utils.mjs";
+
+const { StringField, ObjectField } = foundry.data.fields;
 
 export class DieSourceField extends foundry.data.fields.SchemaField {
 	constructor(fields = {}, options = {}, context = {}) {
@@ -20,6 +22,12 @@ export class DieSourceField extends foundry.data.fields.SchemaField {
 		super(fields, options, context);
 	}
 
+	/**
+	 * Get the field label for a given die source.
+	 *
+	 * @param {DieSource | string} source The die source or type string.
+	 * @returns {string} The localized label for the die source.
+	 */
 	static getLabel(source) {
 		source = typeof source === "string" ? { type: source } : source;
 		switch (source.type) {
@@ -33,11 +41,19 @@ export class DieSourceField extends foundry.data.fields.SchemaField {
 			case "contactPool":
 				return "CURSEBORNE.Item.Contact.Pool";
 			default:
-				return "";
+				return source.label || localize("CURSEBORNE.DICE.CustomDieSource");
 		}
 	}
 
-	static getChoices(source, actor, options = {}) {
+	/**
+	 * Get the available choices for a given die source and actor.
+	 *
+	 * @param {DieSource | string} source The die source or type string.
+	 * @param {AccursedActor | AdversaryActor | null} actor The actor to retrieve choices from.
+	 * @param {object} _options Additional options.
+	 * @returns {{ choices: Array<{ label: string, value: string, group?: string }>, groups: string[] }} The available choices and groups.
+	 */
+	static getChoices(source, actor, _options = {}) {
 		const choices = [];
 		const groups = [];
 

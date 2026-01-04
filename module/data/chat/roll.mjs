@@ -4,13 +4,15 @@
 
 import { TrickSelector } from "@applications/dialogs/trick-selector.mjs";
 import { Momentum } from "@applications/momentum.mjs";
+import { ROLL_TYPE } from "@config/dice.mjs";
 import { randomID, systemTemplate } from "@helpers/utils.mjs";
 
 export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	/** @inheritDoc */
 	static defineSchema() {
-		// No extra data; the class exists to provide specialised rendering and action handlers
-		return {};
+		return {
+			combatant: new foundry.data.fields.DocumentUUIDField({ required: false, type: "Combatant" }),
+		};
 	}
 
 	/**
@@ -22,9 +24,29 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 		return this.parent.rolls[0];
 	}
 
-	/* -------------------------------------------- */
-	/*  Rendering                                   */
-	/* -------------------------------------------- */
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                       Lifecycle Events                                        */
+	/* --------------------------------------------------------------------------------------------- */
+
+	/** @inheritDoc */
+	async _onUpdate(changed, options, userId) {
+		await super._onUpdate(changed, options, userId);
+
+		// If this is an initiative roll, and there is an associated combatant, and the combat has not started yet,
+		// update the combatant's initiative to the roll's surplus
+		if (this.roll.data.type === ROLL_TYPE.INITIATIVE && this.combatant) {
+			const combatant = foundry.utils.fromUuidSync(this.combatant);
+			const combat = combatant?.combat;
+
+			if (combatant && !combat?.started) {
+				await combatant.update({ initiative: this.roll.surplus });
+			}
+		}
+	}
+
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                           Rendering                                           */
+	/* --------------------------------------------------------------------------------------------- */
 
 	/**
 	 * Prepare the inner HTML contents of the chat message, displaying the singular roll result.

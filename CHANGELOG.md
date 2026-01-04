@@ -37,6 +37,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enable Spell Advances to mark their cost as additional to the advanced Spell's
 - Add input fields for system `identifier`s to sheets of relevant Items
 
+### Changed
+
+- Display no roll difficulty for non-private rolls without a set difficulty
+
 ### Fixed
 
 - Fix roll dialogs trying to match the position of minimized sheets

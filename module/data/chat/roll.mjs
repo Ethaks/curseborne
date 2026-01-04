@@ -203,7 +203,8 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 			hits: isPrivate ? "???" : roll.total,
 			surplusLabel,
 			surplusDisplayValue: Math.abs(surplus),
-			difficulty: isPrivate ? "?" : roll.data.difficulty === null ? "?" : roll.data.difficulty,
+			hasDifficulty: roll.data.difficulty !== null && !isPrivate,
+			difficulty: isPrivate ? "?" : roll.data.difficulty,
 			difficultyLabel: isPrivate
 				? ""
 				: (game.i18n.localize(curseborne.config.difficulties[roll.data.difficulty]?.label) ??

@@ -41,13 +41,15 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 				<span class="total">{{hits}}</span>
 			</div>
 
-			<span
-				class='difficulty {{ifThen difficulties.length "increased" "" }}'
-				data-tooltip="{{difficultyLabel}}"
-			>
-				<i class="fa fa-bullseye"></i>
-				{{difficulty}}
-			</span>
+			{{#if hasDifficulty}}
+				<span
+					class='difficulty {{ifThen difficulties.length "increased" "" }}'
+					data-tooltip="{{difficultyLabel}}"
+				>
+					<i class="fa fa-bullseye"></i>
+					{{difficulty}}
+				</span>
+			{{/if}}
 		</div>
 
 		{{! Altered Outcome }}

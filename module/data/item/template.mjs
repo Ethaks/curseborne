@@ -2,9 +2,13 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { localize } from "@helpers/utils.mjs";
 import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class AdversaryTemplate extends LimitedActorTypesItem(CurseborneItemBase, "accursed") {
+	/** @inheritDoc */
+	static metadata = Object.freeze({ ...super.metadata, type: "template" });
+
 	/** @inheritDoc */
 	static defineSchema() {
 		const fields = foundry.data.fields;
@@ -56,13 +60,38 @@ export class AdversaryTemplate extends LimitedActorTypesItem(CurseborneItemBase,
 		return schema;
 	}
 
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                       Lifecycle Events                                        */
+	/* --------------------------------------------------------------------------------------------- */
+
+	/** @inheritDoc */
+	async _preCreate(data, options, user) {
+		if ((await super._preCreate(data, options, user)) === false) return false;
+
+		// Prevent creation of template item if the actor already has one
+		if (this.item.isEmbedded && this.actor.itemTypes.template.length > 0) {
+			ui.notifications.error(
+				localize("CURSEBORNE.ERROR.DuplicateItemType", { type: localize("TYPES.Item.template") }),
+			);
+			return false;
+		}
+	}
+
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                       Data Preparation                                        */
+	/* --------------------------------------------------------------------------------------------- */
+
 	/** @inheritDoc */
 	prepareBaseData() {
 		this.#applyTemplate();
 	}
 
+	/**
+	 * Apply the adversary template to its actor.
+	 */
 	#applyTemplate() {
 		if (!this.actor) return;
+
 		for (const key of [
 			"pools.primary",
 			"pools.secondary",
@@ -73,6 +102,7 @@ export class AdversaryTemplate extends LimitedActorTypesItem(CurseborneItemBase,
 			"armor",
 			"initiative",
 		]) {
+			// Templates only determine maximum injuries and armor
 			if (key === "injuries") this.actor.system.injuries.max += this.injuries;
 			else if (key === "armor") this.actor.system.armor.max += this.armor;
 			else if (key.startsWith("pools.")) {
@@ -86,6 +116,10 @@ export class AdversaryTemplate extends LimitedActorTypesItem(CurseborneItemBase,
 			}
 		}
 	}
+
+	/* ---------------------------------------------------------------------------------------------- */
+	/*                                        Sheet Rendering                                         */
+	/* ---------------------------------------------------------------------------------------------- */
 
 	/** @inheritDoc */
 	async prepareSheetContext(context) {

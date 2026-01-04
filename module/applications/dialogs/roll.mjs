@@ -224,7 +224,7 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 	_matchSheetPosition() {
 		/** @type {AccursedSheet} */
 		const actorSheet = this.actor.sheet;
-		if (!actorSheet?.rendered) return;
+		if (!actorSheet?.rendered || actorSheet?.minimized) return;
 		// HACK: This results in multiple setPosition calls, but determining the desired position requires
 		// the dialog to have been resized first.
 		this.setPosition();

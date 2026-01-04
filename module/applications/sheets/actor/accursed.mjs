@@ -132,6 +132,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		context.attributes = await this._prepareAttributes(context);
 		context.spells = await this._prepareSpells(context);
 		context.equipment = await this._prepareEquipment(context);
+		context.hasTorments = true;
 		context.torments = await this._prepareTorments(context);
 		context.aspirations = await this._prepareAspirations(context);
 

@@ -529,7 +529,7 @@
 		}
 
 		.spell-cost {
-			flex: 0 0 50px;
+			flex: 0 0 64px;
 			font-size: var(--font-size-16);
 			text-align: end;
 			padding-right: 10px;

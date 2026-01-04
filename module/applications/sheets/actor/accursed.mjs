@@ -452,15 +452,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 			if (costType && costValue) {
 				spellContext.cost = spell.system.cost.value;
 				spellContext.costIcon = curseborne.config.spellCostTypes[costType].icon;
-				spellContext.costLong = game.i18n.format(
-					`CURSEBORNE.Item.Spell.FIELDS.cost.${costType.capitalize()}X`,
-					{
-						value: costValue,
-						dice: game.i18n.localize(
-							costValue === 1 ? "CURSEBORNE.CurseDie" : "CURSEBORNE.CurseDice",
-						),
-					},
-				);
+				spellContext.costLong = spell.system.costLabel;
 			}
 
 			if (spell.system.attunements.size) {

@@ -44,7 +44,10 @@ export class Accursed extends CurseborneActorBase {
 			{ required: true, label: "CURSEBORNE.Entanglement" },
 		);
 
-		schema.curseDice = new DotsField({ max: 5 }, { required: true, label: "CURSEBORNE.CurseDice" });
+		schema.curseDice = new DotsField(
+			{ max: 5 },
+			{ required: true, label: "CURSEBORNE.CurseDice.other" },
+		);
 
 		schema.xp = new fields.SchemaField({
 			current: new fields.NumberField({

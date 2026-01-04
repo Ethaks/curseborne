@@ -191,10 +191,28 @@
 					"cost": {
 						"type": { "label": "Cost" },
 						"Bleed": "Bleed",
-						"BleedX": "Bleed {value} {dice}",
+						"BleedX": {
+							"one": "Bleed {value} Curse Die",
+							"other": "Bleed {value} Curse Dice"
+						},
+						"BleedXAdditional": {
+							"one": "Bleed {value} additional Curse Die",
+							"other": "Bleed {value} additional Curse Dice"
+						},
 						"Hold": "Hold",
-						"HoldX": "Hold {value} {dice}",
-						"value.label": "Cost Value"
+						"HoldX": {
+							"one": "Hold {value} Curse Die",
+							"other": "Hold {value} Curse Dice"
+						},
+						"HoldXAdditional": {
+							"one": "Hold {value} additional Curse Die",
+							"other": "Hold {value} additional Curse Dice"
+						},
+						"value.label": "Cost Value",
+						"additional": {
+							"label": "Cost is Additional",
+							"hint": "Whether this advance's cost adds to the advanced spell's cost."
+						}
 					},
 					"practice": { "label": "Practice" },
 					"group": { "label": "Spell Group" },
@@ -397,7 +415,7 @@
 			}
 		},
 
-		"Dice": "Dice",
+		"Dice": { "one": "Die", "other": "Dice" },
 		"InjuryDice": "Injury Dice",
 		"DICE": {
 			"Roll": "Roll",
@@ -664,8 +682,10 @@
 
 		"TheCurse": "The Curse",
 		"Entanglement": "Entanglement",
-		"CurseDie": "Curse Die",
-		"CurseDice": "Curse Dice",
+		"CurseDice": {
+			"one": "Curse Die",
+			"other": "Curse Dice"
+		},
 
 		"Tricks": "Tricks",
 		"SelectTrick": "Select a Trick",

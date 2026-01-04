@@ -6,6 +6,7 @@ import { DieSourceField } from "@models/fields/die-source.mjs";
 import { CurseborneRollDialog } from "../applications/dialogs/roll.mjs";
 import { ROLL_TYPE } from "../config/dice.mjs";
 import { CurseborneRollContext } from "./data.mjs";
+import { localize } from "@helpers/utils.mjs";
 
 /**
  * The roll class for the Curseborne system, implementing the base SPU behaviour and its specific additions.
@@ -210,7 +211,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		 * @returns {string} - The dice pool formula
 		 */
 		const dicePool = (dice, label) =>
-			`${dice}d10cs>=${data.target}cd>=${data.double}[${game.i18n.localize(label)}]`;
+			`${dice}d10cs>=${data.target}cd>=${data.double}[${localize(label, { _count: dice })}]`;
 
 		parts.push(
 			dicePool(normalDice, "CURSEBORNE.Dice"),

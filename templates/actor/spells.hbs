@@ -22,6 +22,9 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 		{{! Cost }}
 		<div class="spell-cost" data-tooltip="{{costLong}}">
+			{{#if item.system.cost.additional}}
+				<i class="fa-solid fa-plus"></i>
+			{{/if}}
 			{{#if item.system.cost.value}}
 				<i class="{{costIcon}}"></i>
 				<span class="cost-value">{{{cost}}}</span>

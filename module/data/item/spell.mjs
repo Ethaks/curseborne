@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { IdentifierField } from "@models/fields/identifier.mjs";
-import { requiredInteger, toLabelObject } from "../../helpers/utils.mjs";
+import { localize, requiredInteger, toLabelObject } from "../../helpers/utils.mjs";
 import { CurseborneItemBase } from "./base.mjs";
 
 export class Spell extends CurseborneItemBase {
@@ -30,6 +30,7 @@ export class Spell extends CurseborneItemBase {
 				...requiredInteger,
 				initial: 0,
 			}),
+			additional: new fields.BooleanField({ required: true, initial: false }),
 		});
 
 		schema.identifier = new IdentifierField({ required: true });
@@ -109,6 +110,24 @@ export class Spell extends CurseborneItemBase {
 	}
 
 	/**
+	 * Get the complete cost label for this spell.
+	 *
+	 * @type {string}
+	 */
+	get costLabel() {
+		const { type, value, additional } = this.cost;
+		const stringPath =
+			type === "hold"
+				? additional
+					? "HoldXAdditional"
+					: "HoldX"
+				: additional
+					? "BleedXAdditional"
+					: "BleedX";
+		return localize(`CURSEBORNE.Item.Spell.FIELDS.cost.${stringPath}`, { value, _count: value });
+	}
+
+	/**
 	 * The overall practice of the spell, i.e. which practice its group belongs to.
 	 *
 	 * @type {keyof typeof curseborne.config.practices}
@@ -164,16 +183,8 @@ export class Spell extends CurseborneItemBase {
 
 		// Add cost
 		if (this.cost.value) {
-			const { type, value } = this.cost;
 			const icon = curseborne.config.spellCostTypes[this.cost.type].icon;
-			const valueString = game.i18n.format(
-				`CURSEBORNE.Item.Spell.FIELDS.cost.${type === "hold" ? "HoldX" : "BleedX"}`,
-				{
-					value,
-					dice: game.i18n.localize(`CURSEBORNE.${value > 1 ? "CurseDice" : "CurseDie"}`),
-				},
-			);
-			const valueElement = `<span class="value flexrow"><i class="${icon} flexshrink"></i> ${valueString}</span>`;
+			const valueElement = `<span class="value flexrow"><i class="${icon} flexshrink"></i> ${this.costLabel}</span>`;
 			context.details.push({
 				label: game.i18n.localize("CURSEBORNE.Item.Spell.FIELDS.cost.type.label"),
 				valueElement,

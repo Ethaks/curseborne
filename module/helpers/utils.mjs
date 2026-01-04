@@ -188,11 +188,12 @@ export function localize(stringId, { _count: count, _pluralRules: pluralOptions,
 	const pluralRules = new Intl.PluralRules(game.i18n.lang, pluralOptions);
 	const pluralCategory = pluralRules.select(count);
 	// Since languages might not have all plural forms, we need to find the first available one
-	const possibleCategories = [pluralCategory, "other", "one"];
+	const possibleCategories = [pluralCategory, "other", "one", null];
 	const path = possibleCategories.reduce((foundPath, category) => {
 		if (foundPath) return foundPath;
-		const testPath = `${stringId}.${category}`;
+		// Test plural categories, but allow falling back to non-pluralised string (if only that exists)
+		const testPath = category ? `${stringId}.${category}` : stringId;
 		return game.i18n.has(testPath) ? testPath : null;
-	});
+	}, null);
 	return game.i18n.format(path ?? `${stringId}.${pluralCategory}`, data);
 }

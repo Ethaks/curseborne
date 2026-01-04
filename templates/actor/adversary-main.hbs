@@ -44,20 +44,24 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 			{{! Armor; raw input when editable, boxes for play mode }}
 			{{#if editable}}
-				<div class="form-group">
+				<div class="form-group armor">
 					<label for="{{@root.rootId}}-system.armor.value">
 						{{localize "CURSEBORNE.Actor.base.FIELDS.armor.value.label"}}
 					</label>
 					<div class="form-fields">
-						{{curse-formInput
-							systemFields.armor.fields.value
-							@root.formGroupOptions}}
-						/
 						{{
-							curse-formInput
+							curse-formGroup
+							systemFields.armor.fields.value
+							@root.formGroupOptions
+							classes="label-top"
+						}}
+						<span class="separator">/</span>
+						{{
+							curse-formGroup
 							systemFields.armor.fields.max
 							@root.formGroupOptions
 							type="number"
+							classes="label-top"
 						}}
 					</div>
 				</div>
@@ -83,23 +87,25 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 			{{! Injuries; raw input when editable, boxes for play mode }}
 			{{#if editable}}
-				<div class="form-group">
+				<div class="form-group injuries">
 					<label for="{{@root.rootId}}-system.injuries.value">{{
 							localize "CURSEBORNE.Actor.base.FIELDS.injuries.value.label"
 						}}</label>
 					<div class="form-fields">
 						{{
-							curse-formInput
+							curse-formGroup
 							systemFields.injuries.fields.value
 							@root.formGroupOptions
+							classes="label-top"
 						}}
-						/
+						<span class="separator">/</span>
 						{{
-							curse-formInput
+							curse-formGroup
 							systemFields.injuries.fields.max
 							@root.formGroupOptions
 							max=100
 							type="number"
+							classes="label-top"
 						}}
 					</div>
 				</div>

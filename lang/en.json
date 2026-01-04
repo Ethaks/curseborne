@@ -78,6 +78,20 @@
 
 			"Adversary": {
 				"FIELDS": {
+					"armor": {
+						"value": { "label": "Current" },
+						"max": {
+							"label": "Max",
+							"hint": "This number is added to the maximum armor provided by the template."
+						}
+					},
+					"injuries": {
+						"value": { "label": "Current" },
+						"max": {
+							"label": "Max",
+							"hint": "This number is added to the maximum injuries provided by the template."
+						}
+					},
 					"drive": { "label": "Drive" },
 					"combat": { "label": "Combat" },
 					"pools": {

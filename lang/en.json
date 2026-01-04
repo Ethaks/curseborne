@@ -689,6 +689,10 @@
 			"DuplicateItemType": "Actors can only have one {type} Item."
 		},
 
+		"WARNING": {
+			"NoMomentum": "Not enough Momentum"
+		},
+
 		"Bonds": "Bonds",
 
 		"Contacts": "Contacts",

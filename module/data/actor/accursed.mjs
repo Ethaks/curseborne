@@ -20,7 +20,10 @@ export class Accursed extends CurseborneActorBase {
 
 		schema.attributes = new fields.SchemaField(
 			Object.entries(curseborne.config.attributes).reduce((attributes, [id, attribute]) => {
-				attributes[id] = new DotsField({ max: 5 }, { label: attribute.label });
+				attributes[id] = new DotsField(
+					{ max: 5, value: { initial: 1 } },
+					{ label: attribute.label },
+				);
 				return attributes;
 			}, {}),
 			{ required: true },

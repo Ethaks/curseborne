@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Display no roll difficulty for non-private rolls without a set difficulty
 - Prevent creation of adversary templates on actors that already have a template
+- Set initial value for attributes to 1 instead of 0
 
 ### Fixed
 

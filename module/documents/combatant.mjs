@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 export class CurseborneCombatant extends foundry.documents.Combatant {
 	/** @inheritDoc */
 	async rollInitiative(options = {}) {

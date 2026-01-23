@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { Attribute, InjuryLevel } from "@config/config";
 import { DotsData } from "@models/fields/dots";
 import { Skill } from "@models/item/skill.mjs";

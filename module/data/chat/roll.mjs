@@ -145,7 +145,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 				max: Math.max(3, c.value),
 				canToggle,
 				label: c.label || game.i18n.localize(curseborne.config.complications[c.value] || ""),
-				tooltip: foundry.utils.cleanHTML(game.i18n.localize(c.tooltip)),
+				tooltip: foundry.utils.cleanHTML(game.i18n.localize(c.hint)),
 			};
 		});
 

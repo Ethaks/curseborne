@@ -209,7 +209,10 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 				<ul class="complications unlist">
 					{{#each complications}}
 						<li class='complication {{ifThen boughtOff "bought" ""}}' data-complication-id="{{id}}">
-							<label>{{label}}</label>
+							<label data-tooltip="{{tooltip}}">
+								{{label}}
+							</label>
+
 							<div class="cost flexrow">
 								{{#if @root.isGM}}
 									<dots-input

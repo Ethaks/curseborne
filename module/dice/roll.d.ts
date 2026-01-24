@@ -59,6 +59,7 @@ declare module "./data.mjs" {
 	export interface RollModifier {
 		label: string;
 		value: string;
+		hint?: string;
 		stacking?: boolean;
 		source?: string;
 	}

@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix roll dialogs trying to match the position of minimized sheets
 - Allow adversaries' maximum injuries and armor modifiers to be negative
 - Display complication hints in chat messages
+- Adjust enhancements and complications applied to contact invokes and rolls according to rules
 
 ## [0.1.2]
 

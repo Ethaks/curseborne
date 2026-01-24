@@ -173,6 +173,7 @@
 				"Invoke": "Invoke Contact",
 				"InvokeName": "Invoke Contact ({name})",
 				"Complication": "Repeat Contact Invoke",
+				"ComplicationHint": "Failure to buy off this complication results in gaining the Unexpected Favor status effect.",
 				"RollName": "Contact Roll ({name})",
 				"Pool": "Contact Pool",
 				"FIELDS": {

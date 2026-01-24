@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { COMPLICATION, DIFFICULTY, ROLL_TYPE } from "@config/dice.mjs";
-import { requiredInteger } from "@helpers/utils.mjs";
+import { localize, requiredInteger } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneItemBase } from "./base.mjs";
 import { Path } from "./path.mjs";
@@ -114,8 +114,15 @@ export class Social extends CurseborneItemBase {
 		if (!this.actor) throw new Error("Contact must be owned by an actor to roll");
 
 		options = this.actor.system._prepareCommonRollOptions(options);
-		const type = (options.type ?? options.event.shiftKey) ? "roll" : "invoke";
+		/** @type {"roll" | "invoke"} */
+		const type = options.type ?? (options.event.shiftKey ? "roll" : "invoke");
 
+		/**
+		 * Add a modifier to both the roll data and dialog options
+		 * @param {"enhancements" | "complications"} type
+		 * @param {string} id
+		 * @param {import("@dice/data.mjs").RollModifier} value
+		 */
 		const addModifier = (type, id, value) => {
 			options.data[type] ??= {};
 			options.data[type][id] = value;
@@ -126,44 +133,31 @@ export class Social extends CurseborneItemBase {
 			options.dialogOptions.modifiers[type][id] = value;
 		};
 
-		addModifier("enhancements", "contact", {
-			value: this.contact.dots.value,
-			label: game.i18n.localize("CURSEBORNE.DotRating"),
-		});
 		options.data.difficulty = DIFFICULTY.ROUTINE;
-
-		if (type === "roll" && this.bond?.uses.value > 0) {
-			addModifier("enhancements", "bond", {
-				value: this.bond.dots.value,
-				stacking: true,
-				label: game.i18n.localize("CURSEBORNE.Item.Bond.Enhancement"),
-			});
-		}
 
 		// Add complication for repeat invokes
 		if (this.contact.invokes > 0) {
-			if (this.contact.invokes === 1) {
-				addModifier("complications", "contact", {
-					value: COMPLICATION.MINOR,
-					label: game.i18n.localize("CURSEBORNE.Item.Contact.Complication"),
-				});
-			} else {
-				addModifier("complications", "contact", {
-					value: COMPLICATION.MAJOR,
-					label: game.i18n.localize("CURSEBORNE.Item.Contact.Complication"),
-				});
-			}
+			addModifier("complications", "contact", {
+				value: this.contact.invokes === 1 ? COMPLICATION.MINOR : COMPLICATION.MAJOR,
+				label: game.i18n.localize("CURSEBORNE.Item.Contact.Complication"),
+				hint: localize("CURSEBORNE.Item.Contact.ComplicationHint"),
+			});
 		}
 
-		// Contacts rolling for themselves do not use curse dice?
+		// Contact is taking action
 		if (type === "roll") {
 			delete options.data.curseDice;
 			options.messageData.flavor = game.i18n.format("CURSEBORNE.Item.Contact.RollName", {
 				name: this.parent.name,
 			});
+
+			addModifier("enhancements", "contact", {
+				value: this.contact.dots.value,
+				label: game.i18n.localize("CURSEBORNE.DotRating"),
+			});
 		}
 
-		// When invoking a contact, the choice of skills is limited to the skills of the path granting the contact
+		// Contact is being asked for favors; the choice of skills is limited to the skills of the path granting the contact
 		if (type === "invoke") {
 			const path = this.actor.items.get(this.contact.path);
 			const skills = Array.from(path?.system.skills ?? []).map(
@@ -181,6 +175,14 @@ export class Social extends CurseborneItemBase {
 			options.messageData.flavor = game.i18n.format("CURSEBORNE.Item.Contact.InvokeName", {
 				name: this.parent.name,
 			});
+
+			if (this.bond?.uses.value > 0) {
+				addModifier("enhancements", "bond", {
+					value: this.bond.dots.value,
+					stacking: true,
+					label: game.i18n.localize("CURSEBORNE.Item.Bond.Enhancement"),
+				});
+			}
 		}
 
 		const roll = await this.actor.system._createRoll(

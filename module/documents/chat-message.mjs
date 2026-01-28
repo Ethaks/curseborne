@@ -172,6 +172,15 @@ export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 			}
 		});
 
+		const expandSetting = this.#expanded.get();
+		html.querySelectorAll("[data-expand-id]").forEach((el) => {
+			const expandId = el.dataset.expandId;
+			if (expandSetting[expandId]) {
+				el.classList.add("expanded");
+				el.style.height = "auto";
+			}
+		});
+
 		return html;
 	}
 

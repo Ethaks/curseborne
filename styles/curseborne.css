@@ -42,6 +42,8 @@
 		--font-h2: var(--font-header);
 		--font-h3: var(--font-header);
 		--font-h4: var(--font-header);
+		--font-h5: var(--font-header);
+		--font-h6: var(--font-header);
 
 		/* default to medium weight due to smaller font sizes */
 		font-weight: 500;

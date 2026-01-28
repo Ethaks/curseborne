@@ -6,9 +6,6 @@
 
 /* General tooltip styling */
 :is(#tooltip, .locked-tooltip) {
-	--color-border: var(--color-primary);
-	--color-border-dark: var(--color-secondary);
-
 	border: 1px solid var(--color-border);
 	border-radius: 6px;
 	box-shadow: inset 0 0 10px 0 var(--color-accent);
@@ -29,6 +26,9 @@
 /* Common fieldset styling for embeds */
 :is(#tooltip, .locked-tooltip).curseborne,
 document-embed .curseborne {
+	--color-border: var(--color-primary);
+	--color-border-dark: var(--color-secondary);
+
 	fieldset {
 		padding: 8px;
 		border-color: var(--color-primary);
@@ -47,8 +47,8 @@ document-embed .curseborne,
 }
 
 /* Embed/Tooltip content styling */
-.content.item-tooltip,
-.content.actor-tooltip {
+.curseborne-tooltip.item-tooltip,
+.curseborne-tooltip.actor-tooltip {
 	gap: 6px;
 	text-align: left;
 	font-size: var(--font-size-14);
@@ -57,10 +57,19 @@ document-embed .curseborne,
 		.name-stacked {
 			padding-left: 2px;
 			padding-right: 2px;
+
+			h5,
+			h6 {
+				font-variant: small-caps;
+				margin-bottom: 0;
+				margin-top: 0;
+			}
+
 			.title {
 				font-size: var(--font-size-20);
 				line-height: var(--font-size-20);
 			}
+
 			.subtitle {
 				font-size: var(--font-size-18);
 				line-height: var(--font-size-18);
@@ -120,5 +129,14 @@ document-embed .curseborne,
 		p:first-child {
 			margin-top: 0;
 		}
+	}
+}
+
+:is(document-embed, .content-embed) .curseborne {
+	.tooltip-header {
+		border: 2px groove;
+		border-color: var(--color-border);
+		border-radius: 8px;
+		padding: 4px;
 	}
 }

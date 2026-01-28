@@ -4,7 +4,6 @@
 
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { CurseborneRollContext } from "@dice/data.mjs";
-import { localize, toLabelObject } from "@helpers/utils.mjs";
 import { localize, SYSTEM_ID, toLabelObject } from "@helpers/utils.mjs";
 import { DieSourceField } from "@models/fields/die-source.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
@@ -66,6 +65,85 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 				acc[id] = model;
 				return acc;
 			}, {});
+		}
+	}
+
+	/* --------------------------------------------------------------------------------------------- */
+	/*                                       Lifecycle Events                                        */
+	/* --------------------------------------------------------------------------------------------- */
+
+	/**
+	 * @inheritDoc
+	 * @type {TypeDataModel["_preUpdate"]}
+	 */
+	async _preUpdate(changes, options, user) {
+		if ((await super._preUpdate(changes, options, user)) === false) return false;
+
+		// Clamp changes to injuries and armor within their max values
+		for (const field of ["injuries", "armor"]) {
+			if (changes.system?.[field]?.value !== undefined) {
+				const max = this[field].max;
+				changes.system[field].value = Math.clamped(changes.system[field].value, 0, max);
+			}
+		}
+
+		// Store previous values of intended token bars
+		for (const field of ["injuries", "curseDice", "armor"]) {
+			if (changes.system?.[field]?.value !== undefined) {
+				options[SYSTEM_ID] ??= {};
+				options[SYSTEM_ID][`previous${field.capitalize()}`] = this[field].value;
+			}
+		}
+	}
+	/**
+	 * @inheritDoc
+	 * @type {TypeDataModel["_onUpdate"]}
+	 */
+	async _onUpdate(changed, options, userId) {
+		await super._onUpdate(changed, options, userId);
+
+		for (const field of ["injuries", "curseDice", "armor"]) {
+			if (options[SYSTEM_ID]?.[`previous${field.capitalize()}`] !== undefined) {
+				const previous = options[SYSTEM_ID][`previous${field.capitalize()}`];
+				const current = this[field];
+
+				// Update token bars if the value changed
+				if (previous.current !== current.current || previous.max !== current.max) {
+					const diff = current.value - previous;
+					const tokens = this.parent.getActiveTokens();
+
+					let displayedDiff;
+					switch (field) {
+						case "curseDice":
+							displayedDiff = `${diff.signedString()} ${localize("CURSEBORNE.CurseDice", { _count: Math.abs(diff) })}`;
+							break;
+						case "armor":
+							displayedDiff = `${diff.signedString()} ${localize("CURSEBORNE.Actor.base.FIELDS.armor.value.label", { _count: Math.abs(diff) })}`;
+							break;
+						case "injuries":
+							displayedDiff = (-1 * diff).signedString();
+							displayedDiff = localize("CURSEBORNE.Enrichers.Damage.Label.injury", {
+								_count: Math.abs(diff),
+								value: displayedDiff,
+							});
+							break;
+					}
+
+					const fill = {
+						curseDice: "blue",
+						armor: "gray",
+						injuries: diff < 0 ? "red" : "lightgreen",
+					}[field];
+					tokens.forEach((token) => {
+						canvas.interface.createScrollingText(token.center, displayedDiff, {
+							fill,
+							fontSize: 32,
+							stroke: 0x000000,
+							strokeThickness: 4,
+						});
+					});
+				}
+			}
 		}
 	}
 

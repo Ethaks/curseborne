@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add complication severity field to adversary templates
 - Indicate status effects provided by custom Active Effects in the effects tabs
 - Add rich tooltips to Active Effects
+- Add scrolling text for updates to curse dice, armor, and injuries
 
 ### Changed
 

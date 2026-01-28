@@ -31,6 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.0]
 
+### Added
+
+- Enable tricks to be purchased multiple times in the same action
+
 ### Changed
 
 - Allow individual enhancements to exceed a value of 3 to account for official content providing such

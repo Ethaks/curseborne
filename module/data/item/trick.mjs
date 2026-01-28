@@ -31,6 +31,8 @@ export class Trick extends LimitedActorTypesItem(CurseborneItemBase, ["accursed"
 			}),
 		});
 
+		schema.multiple = new fields.BooleanField({ initial: false });
+
 		return schema;
 	}
 
@@ -50,7 +52,7 @@ export class Trick extends LimitedActorTypesItem(CurseborneItemBase, ["accursed"
 			.filter((pack) => pack.metadata.type === "Item")
 			.map(async (pack) => {
 				await pack.getIndex({
-					fields: ["system.type", "system.cost", "system.description"],
+					fields: ["system.type", "system.cost", "system.description", "system.multiple"],
 				});
 				return pack.index
 					.filter((e) => e.type === "trick")

@@ -205,6 +205,10 @@
 						"value": { "label": "Trick Cost Value" },
 						"min": { "label": "Minimum Cost" },
 						"max": { "label": "Maximum Cost" }
+					},
+					"multiple": {
+						"label": "Allow Multiple Purchases",
+						"hint": "Whether this trick can be purchased multiple times in the same action."
 					}
 				}
 			},

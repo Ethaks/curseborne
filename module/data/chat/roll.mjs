@@ -454,7 +454,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 
 		const trick = await TrickSelector.wait({
 			filter: (t) => {
-				if (boughtTricks.includes(t.uuid)) return false;
+				if (boughtTricks.includes(t.uuid) && !t.system.multiple) return false;
 				if (this.roll.curseTerm.total < 1 && t.system.type === "curseDice") return false;
 				return true;
 			},

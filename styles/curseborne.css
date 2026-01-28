@@ -85,7 +85,8 @@
 		}
 
 		input[type="search"]::-webkit-search-cancel-button {
-			background: linear-gradient(
+			background:
+				linear-gradient(
 					45deg,
 					transparent 0%,
 					transparent 43%,

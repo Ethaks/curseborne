@@ -5,6 +5,7 @@
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneActorBase } from "./base.mjs";
+import { localize } from "@helpers/utils.mjs";
 
 /** @import { ActorRollResult, ActorRollOptions } from "@dice/roll" */
 
@@ -168,6 +169,17 @@ export class Accursed extends CurseborneActorBase {
 
 		// Set injury dice based on level
 		this.injuries.dice = curseborne.config.injuryLevels[this.injuries.level]?.dice || 0;
+
+		// If Near Death, add a stacking enhancement of +2 to all rolls; dice are handled in roll initialization
+		if (this.injuries.level === "nearDeath") {
+			this.modifiers.enhancements.set("nearDeath", {
+				id: "nearDeath",
+				value: 2,
+				stacking: true,
+				label: localize("CURSEBORNE.INJURIES.NearDeath"),
+				active: true,
+			});
+		}
 	}
 
 	/** @inheritDoc */
@@ -324,10 +336,18 @@ export class Accursed extends CurseborneActorBase {
 						value: "@injuries.dice",
 					},
 				});
+			} else if (level === "nearDeath" && dice) {
+				// Near Death: add 3 dice regardless of path skill; enhancement is handled in modifiers
+				roll.data.updateSource({
+					"sources.injury": {
+						id: "injury",
+						type: "injury",
+						value: "@injuries.dice",
+					},
+				});
 			} else if (roll.data.sources.has("injury") && !(isPathSkill && level)) {
 				roll.data.updateSource({ "sources.-=injury": null });
 			}
-			roll.terms = roll.constructor.parse("", roll.data);
 		}
 	}
 }

@@ -55,6 +55,12 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 	prepareBaseData() {
 		super.prepareBaseData();
 
+		// Prepare collections for data prep derived modifiers affecting the whole actor
+		this.modifiers ??= {};
+		for (const type of ["enhancements", "complications", "difficulties"]) {
+			this.modifiers[type] ??= new foundry.utils.Collection();
+		}
+
 		// Prepare identifiers for embedded items and store references in this model
 		for (const [itemType, items] of Object.entries(this.parent.itemTypes)) {
 			const model = CONFIG.Item.dataModels[itemType];
@@ -224,9 +230,19 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 			return progressRoll.promise;
 		}
 
+		// If modifiers from the dialogOptions have been marked as `active`,
+		// directly add them to the roll data so they are preselected
+		for (const type of ["enhancements", "complications", "difficulties"]) {
+			for (const [id, modifier] of Object.entries(dialogOptions.modifiers?.[type] ?? {})) {
+				if (modifier.active) {
+					data[type] ??= {};
+					data[type][id] = modifier;
+				}
+			}
+		}
+
 		data.type = type;
 		const actor = options.actor || this.actor;
-		// data.actor ??= actor;
 		const rollData = new CurseborneRollContext(data, { parent: actor });
 		const roll = new curseborne.dice.CurseborneRoll(rollData, {
 			...options,
@@ -307,6 +323,9 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 				const id = modifier.slug;
 				choices[id] = { ...modifier, id };
 			}
+		}
+		for (const modifier of this.actor.system.modifiers[type] ?? []) {
+			choices[modifier.id] = { ...modifier };
 		}
 
 		return choices;

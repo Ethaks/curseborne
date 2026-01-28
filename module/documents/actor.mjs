@@ -44,9 +44,7 @@ export class CurseborneActor extends foundry.documents.Actor {
 							data.label = game.i18n.has(modifier.label)
 								? game.i18n.localize(modifier.label)
 								: activeEffect.name;
-							data.hint = game.i18n.has(modifier.hint)
-								? game.i18n.localize(modifier.hint)
-								: data.hint;
+							data.hint = game.i18n.has(modifier.hint) ? game.i18n.localize(modifier.hint) : "";
 							activeEffect.system[modifierType].set(
 								modifierId,
 								new cls(data, { parent: activeEffect.system }),

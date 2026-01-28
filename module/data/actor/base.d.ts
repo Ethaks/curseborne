@@ -11,6 +11,7 @@ declare module "./base.mjs" {
 	interface CurseborneActorBase {
 		biography: HTMLString;
 		defense: number;
+		integrity: number;
 		cover: DotsData & { current: CoverType };
 		injuried: DotsData;
 		armor: DotsData;

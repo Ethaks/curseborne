@@ -2,24 +2,24 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { CurseborneItem } from "@documents/item.mjs";
 import { SessionSetting } from "@helpers/session-setting.mjs";
 import { localize, staticID, systemTemplate } from "@helpers/utils.mjs";
 import { CurseborneActorSheet } from "./base.mjs";
-import TooltipManager from "@foundry/client/helpers/interaction/tooltip-manager.mjs";
-import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 
 const { Flip } = await import(foundry.utils.getRoute("scripts/greensock/esm/Flip.js"));
 const { TextEditor } = foundry.applications.ux;
 
 export class AccursedSheet extends CurseborneActorSheet {
-	/** @override */
+	/** @inheritDoc */
 	static DEFAULT_OPTIONS = {
 		classes: ["accursed"],
 		actions: {
 			toggleActorImage: this._onToggleActorImage,
 			roll: this._onRoll,
 			rollDefense: this._onRollDefense,
+			rollIntegrity: this._onRollIntegrity,
 			toggleSidebar: this._onToggleSidebar,
 			toggleSearch: this._onToggleSearch,
 			nextSession: this._onNextSession,
@@ -28,7 +28,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		},
 	};
 
-	/** @override */
+	/** @inheritDoc */
 	static PARTS = {
 		header: {
 			template: systemTemplate("actor/header"),
@@ -840,6 +840,19 @@ export class AccursedSheet extends CurseborneActorSheet {
 		if (!this.actor.isOwner) return;
 
 		return this.actor.system.rollDefense({ skipDialog: event.shiftKey });
+	}
+
+	/**
+	 * Roll integrity.
+	 *
+	 * @this {AccursedSheet}
+	 * @param {Event} event - The triggering event
+	 * @param {HTMLElement} _target - The target element
+	 * @returns {Promise<void>}
+	 */
+	static async _onRollIntegrity(event, _target) {
+		if (!this.actor.isOwner) return;
+		return this.actor.system.rollIntegrity({ skipDialog: event.shiftKey });
 	}
 
 	static async _onNextSession(event, _target) {

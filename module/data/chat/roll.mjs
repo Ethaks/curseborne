@@ -33,15 +33,40 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	async _onUpdate(changed, options, userId) {
 		await super._onUpdate(changed, options, userId);
 
+		// The following updates should only be performed by the triggering user
+		if (userId !== game.user.id) return;
+		const type = this.roll.data.type;
+
 		// If this is an initiative roll, and there is an associated combatant, and the combat has not started yet,
 		// update the combatant's initiative to the roll's surplus
-		if (this.roll.data.type === ROLL_TYPE.INITIATIVE && this.combatant) {
+		if (type === ROLL_TYPE.INITIATIVE && this.combatant) {
 			const combatant = foundry.utils.fromUuidSync(this.combatant);
 			const combat = combatant?.combat;
 
 			if (combatant && !combat?.started) {
-				await combatant.update({ initiative: this.roll.surplus });
+				await combatant.update({ initiative: this.roll.hits });
 			}
+		}
+
+		// Integrity/Defense rolls: adjust the associated actor's values based on the roll's tricks (Resist and Dodge)
+		const actor = this.parent.speakerActor;
+		const typeData = {
+			[ROLL_TYPE.DEFENSE]: { trickIdentifier: "dodge", path: "defense" },
+			[ROLL_TYPE.INTEGRITY]: { trickIdentifier: "resist", path: "integrity" },
+		};
+		if (type === ROLL_TYPE.INTEGRITY || (type === ROLL_TYPE.DEFENSE && actor)) {
+			// Retrieve Trick Items through each tricks UUID, check if their identifier makes them relevant
+			const trickValues = await Promise.all(
+				this.roll.data.tricks.map(async (t) => {
+					const item = await foundry.utils.fromUuid(t.uuid);
+					if (item.system.identifier === typeData[type].trickIdentifier) {
+						return t.value;
+					}
+					return 0;
+				}),
+			);
+			const value = trickValues.reduce((acc, v) => acc + v, 1);
+			actor.update({ [`system.${typeData[type].path}`]: value });
 		}
 	}
 

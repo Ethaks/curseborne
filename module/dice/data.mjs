@@ -114,6 +114,10 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 				ensureSources([{ type: "attribute", value: "@attributes.stamina.value" }]);
 				break;
 			}
+			case ROLL_TYPE.INTEGRITY: {
+				ensureSources([{ type: "attribute" }]);
+				break;
+			}
 			case ROLL_TYPE.POOL: {
 				ensureSources("pool");
 				break;

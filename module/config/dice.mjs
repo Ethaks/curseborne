@@ -31,6 +31,7 @@ export const difficulties = /** @type {const} */ ({
 export const ROLL_TYPE = /** @type {const} */ ({
 	GENERAL: "general",
 	DEFENSE: "defense",
+	INTEGRITY: "integrity",
 	INITIATIVE: "initiative",
 	POOL: "pool",
 	CONTACT_INVOKE: "contactInvoke",

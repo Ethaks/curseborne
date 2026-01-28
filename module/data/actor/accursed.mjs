@@ -287,6 +287,24 @@ export class Accursed extends CurseborneActorBase {
 		return this._createRoll(ROLL_TYPE.DEFENSE, options);
 	}
 
+	/**
+	 * Create an integrity roll for this actor.
+	 *
+	 * @param {ActorRollOptions} options - The options for the roll.
+	 * @returns {Promise<ActorRollResult>} An object containing a roll and a message, if any.
+	 */
+	async rollIntegrity(options = {}) {
+		options = this._prepareCommonRollOptions(options);
+		options.data.difficulty ??= 0;
+		options.data.sources ??= {};
+		options.data.sources.attribute ??= {
+			id: "attribute",
+			type: "attribute",
+			value: `@attributes.${this.attributes.resolve.value >= this.attributes.composure.value ? "resolve" : "composure"}.value`,
+		};
+		return this._createRoll(ROLL_TYPE.INTEGRITY, options);
+	}
+
 	/** @inheritDoc */
 	async rollInitiative(options = {}) {
 		options = this._prepareCommonRollOptions(options);

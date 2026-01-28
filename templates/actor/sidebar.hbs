@@ -53,6 +53,17 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 		<fieldset class="combat">
 			<legend>{{localize "CURSEBORNE.Combat"}}</legend>
 
+			{{! Integrity }}
+			<div class="integrity flexrow">
+				{{curse-formGroup
+					systemFields.integrity
+					formGroupOptions
+					editable=isEditable}}
+				<button type="button" data-action="rollIntegrity" data-tooltip="CURSEBORNE.RollIntegrity">
+					<i class="fa-solid fa-dice-d10"></i>
+				</button>
+			</div>
+
 			{{! Initiative }}
 			<div class="initiative flexrow">
 				<div class="form-group">

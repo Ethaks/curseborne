@@ -14,8 +14,12 @@ import { CurseborneTypeDataModel } from "../base.mjs";
  * @import TypeDataModel from "@common/abstract/type-data.mjs";
  * @import { RollModifier } from "@models/modifiers.mjs";
  * @import { CurseborneRoll, ActorRollOptions, ActorRollResult } from "@dice/_module.mjs";
+ * @import { CurseborneActor } from "@documents/actor.mjs";
  */
 
+/**
+ * @extends {CurseborneTypeDataModel<CurseborneActor>}
+ */
 export class CurseborneActorBase extends CurseborneTypeDataModel {
 	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = ["CURSEBORNE.Actor.base"];
@@ -29,6 +33,11 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 		// common fields
 		schema.biography = new fields.HTMLField();
 		schema.defense = new fields.NumberField({
+			...requiredInteger,
+			initial: 1,
+			min: 1,
+		});
+		schema.integrity = new fields.NumberField({
 			...requiredInteger,
 			initial: 1,
 			min: 1,
@@ -62,7 +71,7 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 		}
 
 		// Prepare identifiers for embedded items and store references in this model
-		for (const [itemType, items] of Object.entries(this.parent.itemTypes)) {
+		for (const [itemType, items] of Object.entries(this.actor.itemTypes)) {
 			const model = CONFIG.Item.dataModels[itemType];
 			if (!model?.metadata?.hasIdentifier) continue;
 			const map = prepareIdentifiers(items.map((i) => i.system));
@@ -119,7 +128,7 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 				// Update token bars if the value changed
 				if (previous.current !== current.current || previous.max !== current.max) {
 					const diff = current.value - previous;
-					const tokens = this.parent.getActiveTokens();
+					const tokens = this.actor.getActiveTokens();
 
 					let displayedDiff;
 					switch (field) {
@@ -144,6 +153,11 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 						injuries: diff < 0 ? "red" : "lightgreen",
 					}[field];
 					tokens.forEach((token) => {
+						// Skip tokens the user is not allowed to see changes for
+						if (!token.visible || token.document.isSecret) {
+							return;
+						}
+
 						canvas.interface.createScrollingText(token.center, displayedDiff, {
 							fill,
 							fontSize: 32,

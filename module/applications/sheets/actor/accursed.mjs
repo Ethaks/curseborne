@@ -4,10 +4,10 @@
 
 import { SessionSetting } from "@helpers/session-setting.mjs";
 import { localize, staticID, systemTemplate } from "@helpers/utils.mjs";
-import { Flip } from "../../scripts/greensock/esm/Flip.js";
 import { CurseborneActorSheet } from "./base.mjs";
 import { CurseborneItem } from "@documents/item.mjs";
 
+const { Flip } = await import(foundry.utils.getRoute("scripts/greensock/esm/Flip.js"));
 const { TextEditor } = foundry.applications.ux;
 
 export class AccursedSheet extends CurseborneActorSheet {

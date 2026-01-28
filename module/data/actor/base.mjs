@@ -95,7 +95,10 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 
 		// Store previous values of intended token bars
 		for (const field of ["injuries", "curseDice", "armor"]) {
-			if (changes.system?.[field]?.value !== undefined) {
+			if (
+				changes.system?.[field]?.value !== undefined &&
+				changes.system[field].value !== this[field].value
+			) {
 				options[SYSTEM_ID] ??= {};
 				options[SYSTEM_ID][`previous${field.capitalize()}`] = this[field].value;
 			}

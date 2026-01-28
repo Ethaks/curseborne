@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Ethaks <ethaks@pm.me>
+//
+// SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+
 import { COMPLICATION } from "@config/dice.mjs";
 
 declare module "./template.mjs" {

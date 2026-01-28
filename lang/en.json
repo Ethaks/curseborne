@@ -70,7 +70,10 @@
 							"label": "Second Short-term Aspiration",
 							"short": "Short 2"
 						},
-						"long": { "label": "Long-term Aspiration", "short": "Long" }
+						"long": {
+							"label": "Long-term Aspiration",
+							"short": "Long"
+						}
 					},
 					"xp.current": { "label": "XP" }
 				}
@@ -96,8 +99,14 @@
 					"combat": { "label": "Combat" },
 					"pools": {
 						"label": "Pools",
-						"primary": { "label": "Primary Pool", "short": "Primary" },
-						"secondary": { "label": "Secondary Pool", "short": "Secondary" },
+						"primary": {
+							"label": "Primary Pool",
+							"short": "Primary"
+						},
+						"secondary": {
+							"label": "Secondary Pool",
+							"short": "Secondary"
+						},
 						"desperation": {
 							"label": "Desperation Pool",
 							"short": "Desperation"
@@ -237,6 +246,11 @@
 							"one": "Hold {value} additional Curse Die",
 							"other": "Hold {value} additional Curse Dice"
 						},
+						"GainX": {
+							"one": "Gain {value} Curse Die",
+							"other": "Gain {value} Curse Dice"
+						},
+
 						"value.label": "Cost Value",
 						"additional": {
 							"label": "Cost is Additional",
@@ -459,6 +473,7 @@
 		"DICE": {
 			"Roll": "Roll",
 			"Result": "Result",
+			"CustomDieSource": "Custom Die Source",
 			"Hits": "Hits",
 			"MissingHits": "Missing Hits",
 			"AvailableHits": "Available Hits",

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { toLabelObject } from "@helpers/utils.mjs";
+import { systemTemplate, toLabelObject } from "@helpers/utils.mjs";
 import { CurseborneTypeDataModel } from "@models/base.mjs";
 import { CollectionField } from "@models/fields/object.mjs";
 import { Complication, DifficultyChange, Enhancement } from "@models/modifiers.mjs";
@@ -11,6 +11,12 @@ import { Complication, DifficultyChange, Enhancement } from "@models/modifiers.m
  * A data model defining additional properties for all active effects, e.g. system-specific duration types.
  */
 export class CurseborneActiveEffectModel extends CurseborneTypeDataModel {
+	/** @inheritDoc */
+	static metadata = Object.freeze({
+		...super.metadata,
+		embedTemplate: systemTemplate("item/tooltips/common"),
+	});
+
 	/** @inheritDoc */
 	static defineSchema() {
 		const fields = foundry.data.fields;
@@ -81,5 +87,20 @@ export class CurseborneActiveEffectModel extends CurseborneTypeDataModel {
 			remaining: null,
 			label: `${this.duration.value} ${this.durationLabel}`,
 		};
+	}
+
+	/** @inheritDoc */
+	async _prepareEmbedContext(config, options) {
+		const context = await super._prepareEmbedContext(config, options);
+		if (this.parent.type === "base") context.subtitle = "";
+		context.description = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+			this.parent.description,
+			{
+				secrets: this.parent.isOwner,
+				rollData: context.rollData ?? this.parent.parent.getRollData(),
+				relativeTo: this.parent,
+			},
+		);
+		return context;
 	}
 }

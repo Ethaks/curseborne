@@ -35,6 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Enable tricks to be purchased multiple times in the same action
 - Add complication severity field to adversary templates
+- Indicate status effects provided by custom Active Effects in the effects tabs
+- Add rich tooltips to Active Effects
 
 ### Changed
 
@@ -43,6 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix visual glitches in modifier dropdowns containing complex hints
+- Adjust various status effects to match latest published rules: Agony, Awed, Deprived, Drained, Infected, Inspired, Slow-Acting Toxin
+- Let custom Active Effects adding statuses provide their respective modifiers
 
 ## [0.2.1]
 

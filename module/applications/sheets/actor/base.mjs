@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { DragDropMixin } from "@applications/common/drag-drop.mjs";
-import { staticID } from "@helpers/utils.mjs";
+import { localize, staticID } from "@helpers/utils.mjs";
 import { TabsMixin } from "../../common/tabs.mjs";
 import { CurseborneDocumentSheetMixin } from "../document-mixin.mjs";
 
@@ -76,26 +76,51 @@ export class CurseborneActorSheet extends CurseborneDocumentSheetMixin(
 	/**
 	 * Prepare the status effects for the actor sheet.
 	 *
-	 * @param {object} context The rendering context
-	 * @param {object} options Additional rendering options
+	 * @param {object} _context The rendering context
+	 * @param {object} _options Additional rendering options
 	 * @returns {Promise<object[]>} The prepared status effects
 	 */
-	async _prepareStatusEffects(context, options) {
+	async _prepareStatusEffects(_context, _options) {
 		const effects = Object.entries(curseborne.config.STATUS_EFFECTS)
 			.map(([id, effect]) => {
 				const { name, reference, img: icon, pseudo = false } = effect;
 				if (pseudo) return undefined;
 				const docId = staticID(`curse${id}`);
 				const existingEffect = this.actor.effects.get(docId);
-				const { active, img } = existingEffect ?? {};
+				// The status effect could be applied via the built-in AE created by toggling the status,
+				// or through another AE listing the status in its Status Conditions.
+				const { active: aeActive, img } = existingEffect ?? {};
+				const statusActive = this.actor.statuses.has(id);
+				const active = aeActive || statusActive;
+
+				// If the status is provided by another AE, display tooltip to refer to it
+				const providedByOtherEffect = !aeActive && this.actor.statuses.has(id);
+				let reason;
+				if (providedByOtherEffect) {
+					const providers = this.actor.effects
+						.filter((ae) => ae.active && ae.statuses.has(id))
+						.map((ae) => ae.name);
+					const formatter = game.i18n.getListFormatter({ type: "conjunction", style: "long" });
+					const providersList = formatter.format(providers);
+					reason = game.i18n.format("CURSEBORNE.STATUS_EFFECTS.ProvidedByEffect", {
+						status: localize(name),
+						effects: providersList,
+					});
+				}
+
+				const tooltip = reference
+					? CurseborneTooltipManager.implementation.createPlaceholder({ uuid: reference })
+					: null;
+
 				return {
-					name: game.i18n.localize(name),
+					name: localize(name),
 					img: img || icon || "icons/svg/mystery-man.svg",
-					id: id,
-					reference,
-					disabled: !active,
-					locked: !active && this.actor.statuses.has(id),
+					id,
+					tooltip,
+					active: aeActive || statusActive,
+					locked: !aeActive && this.actor.statuses.has(id),
 					cssClass: active ? "active" : "",
+					reason,
 				};
 			})
 			.filter((effect) => effect)
@@ -107,12 +132,12 @@ export class CurseborneActorSheet extends CurseborneDocumentSheetMixin(
 	 * Toggle a Status Effect (as per Curseborne rules) on the actor.
 	 *
 	 * @this {CurseborneActorSheet}
-	 * @param {PointerEvent} event   The originating click event
+	 * @param {PointerEvent} _event   The originating click event
 	 * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
 	 * @returns {Promise<void>}
 	 */
-	static async _toggleStatusEffect(event, target) {
-		const id = target.closest("[data-status-effect-id]")?.dataset.statusEffectId;
+	static async _toggleStatusEffect(_event, target) {
+		const { statusEffectId: id } = target.closest("[data-status-effect-id]")?.dataset ?? {};
 		if (!id) return;
 		return this.actor.toggleStatusEffect(id);
 	}
@@ -232,11 +257,11 @@ export class CurseborneActorSheet extends CurseborneDocumentSheetMixin(
 	 * Determines effect parent to pass to helper
 	 *
 	 * @this AccursedSheet
-	 * @param {PointerEvent} event   The originating click event
+	 * @param {PointerEvent} _event   The originating click event
 	 * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
 	 * @private
 	 */
-	static async _toggleEffect(event, target) {
+	static async _toggleEffect(_event, target) {
 		const effect = await this.getDocument(target);
 		await effect.update({ disabled: !effect.disabled });
 	}
@@ -245,11 +270,11 @@ export class CurseborneActorSheet extends CurseborneDocumentSheetMixin(
 	 * Roll initiative for the actor.
 	 *
 	 * @this {CurseborneActorSheet}
-	 * @param {PointerEvent} event - The originating click event
-	 * @param {HTMLElement} target - The capturing HTML element which defined a [data-action]
+	 * @param {PointerEvent} _event - The originating click event
+	 * @param {HTMLElement} _target - The capturing HTML element which defined a [data-action]
 	 * @returns {Promise<void>}
 	 */
-	static async _onRollInitiative(event, target) {
+	static async _onRollInitiative(_event, _target) {
 		return this.actor.rollInitiative({ createCombatants: true });
 	}
 }

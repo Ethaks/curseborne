@@ -17,8 +17,9 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 				<li
 					class="status-effect flexrow {{cssClass}}"
 					data-action="toggleStatusEffect"
-					data-uuid="{{reference}}"
+					data-tooltip-html="{{tooltip}}"
 					data-status-effect-id="{{id}}"
+					data-locked-effect="{{locked}}"
 				>
 					<img class="icon" src="{{img}}" alt="{{name}}" height="30" width="30" />
 
@@ -26,14 +27,14 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 						<span class="title">{{name}}</span>
 					</div>
 
-					<div class="item-controls flexshrink align-right">
+					<div class="item-controls flexshrink align-right" data-tooltip-text="{{reason}}">
 						<button
 							type="button"
 							class="item-control unbutton"
 							data-action="toggleStatusEffect"
 							{{disabled locked}}
 						>
-							<i class='fa-solid fa-toggle-{{ifThen (not disabled) "on" "off"}}'></i>
+							<i class='fa-solid fa-toggle-{{ifThen active "on" "off"}}'></i>
 						</button>
 					</div>
 				</li>
@@ -60,7 +61,8 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 						data-duration.rounds="1"
 						{{/if }}
 						{{/if }}
-						data-tooltip='{{localize "DOCUMENT.Create" type="Effect" }}'
+						data-tooltip
+						aria-label='{{localize "DOCUMENT.Create" type="Effect" }}'
 					>
 						<i class="fa-solid fa-plus"></i>
 					</button>
@@ -83,7 +85,7 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 						data-parent-id="{{effect.parent.id}}"
 						data-drag="true"
 					>
-						<div class="effect-name effect-name flexrow">
+						<div class="effect-name effect-name flexrow" data-tooltip-html="{{tooltip}}">
 							<div class="effect-image">
 								<img src="{{effect.img}}" height="24" width="24" />
 							</div>

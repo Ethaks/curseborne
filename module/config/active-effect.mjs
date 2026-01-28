@@ -15,22 +15,22 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		img: "",
 		system: {
 			label: "combat",
-			difficulties: { agony: { value: 1 } },
 		},
+		complications: { agony: { value: COMPLICATION.MODERATE } },
 	},
 	awed: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Awed",
 		img: "",
 		system: {
 			label: "social",
-			difficulties: {
-				awed: { value: 1, hint: "CURSEBORNE.STATUS_EFFECTS.AwedHint" },
-			},
-			complcations: {
-				awed: {
-					value: COMPLICATION.MODERATE,
-					hint: "CURSEBORNE.STATUS_EFFECTS.AwedHint",
-				},
+		},
+		difficulties: {
+			awed: { value: 1, hint: "CURSEBORNE.STATUS_EFFECTS.AwedHint" },
+		},
+		complications: {
+			awed: {
+				value: COMPLICATION.MODERATE,
+				hint: "CURSEBORNE.STATUS_EFFECTS.AwedHint",
 			},
 		},
 	},
@@ -38,12 +38,10 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		name: "CURSEBORNE.STATUS_EFFECTS.Bleeding",
 		img: "",
 		reference: "",
-		system: {
-			label: "combat",
-			complications: {
-				bleeding: {
-					value: COMPLICATION.MINOR,
-				},
+		system: { label: "combat" },
+		complications: {
+			bleeding: {
+				value: COMPLICATION.MINOR,
 			},
 		},
 	},
@@ -54,23 +52,19 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	composed: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Composed",
 		img: "",
-		system: {
-			enhancements: {
-				composed: {
-					value: 1,
-					hint: "CURSEBORNE.STATUS_EFFECTS.ComposedHint",
-				},
+		enhancements: {
+			composed: {
+				value: 1,
+				hint: "CURSEBORNE.STATUS_EFFECTS.ComposedHint",
 			},
 		},
 	},
 	confused: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Confused",
 		img: "",
-		system: {
-			label: "social",
-			difficulties: {
-				confused: { value: 1, label: "CURSEBORNE.STATUS_EFFECTS.ConfusedHint" },
-			},
+		system: { label: "social" },
+		difficulties: {
+			confused: { value: 1, label: "CURSEBORNE.STATUS_EFFECTS.ConfusedHint" },
 		},
 	},
 	crestfallen: {
@@ -86,8 +80,10 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	deprived: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Deprived",
 		img: "",
-		system: {
-			difficulties: { deprived: { value: 1 } },
+		complications: {
+			deprived1: { value: COMPLICATION.MINOR },
+			deprived2: { value: COMPLICATION.MODERATE },
+			deprived3: { value: COMPLICATION.MAJOR },
 		},
 	},
 	destroyedReputation: {
@@ -97,18 +93,16 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	},
 	drained: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Drained",
-		system: {
-			complications: {
-				drained: {
-					value: COMPLICATION.MODERATE,
-				},
-			},
+		complications: {
+			drained1: { value: COMPLICATION.MODERATE },
+			drained2: { value: COMPLICATION.MAJOR },
 		},
 	},
 	ennui: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Ennui",
 		img: "",
-		system: { label: "social", difficulties: { ennui: { value: 1 } } },
+		system: { label: "social" },
+		difficulties: { ennui: { value: 1 } },
 	},
 	enraptured: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Enraptured",
@@ -117,11 +111,9 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	exhausted: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Exhausted",
 		img: "",
-		system: {
-			complications: {
-				exhausted: {
-					value: COMPLICATION.MODERATE,
-				},
+		complications: {
+			exhausted: {
+				value: COMPLICATION.MODERATE,
 			},
 		},
 	},
@@ -138,9 +130,9 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		img: "",
 		system: {
 			label: "social",
-			complications: { frayedTemper: { value: COMPLICATION.MINOR } },
-			difficulties: { frayedTemper: { value: 1 } },
 		},
+		complications: { frayedTemper: { value: COMPLICATION.MINOR } },
+		difficulties: { frayedTemper: { value: 1 } },
 	},
 	grappled: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Grappled",
@@ -150,13 +142,11 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	guiltRidden: {
 		name: "CURSEBORNE.STATUS_EFFECTS.GuiltRidden",
 		img: "",
-		system: {
-			label: "social",
-			complications: {
-				guiltRidden: {
-					value: COMPLICATION.MINOR,
-					hint: "CURSEBORNE.STATUS_EFFECTS.GuiltRiddenHint",
-				},
+		system: { label: "social" },
+		complications: {
+			guiltRidden: {
+				value: COMPLICATION.MINOR,
+				hint: "CURSEBORNE.STATUS_EFFECTS.GuiltRiddenHint",
 			},
 		},
 	},
@@ -168,11 +158,12 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	inspired: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Inspired",
 		img: "",
+		enhancements: { inspired: { value: 3 } },
 	},
 	infected: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Infected",
 		img: "",
-		system: { complications: { infected: { value: COMPLICATION.MODERATE } } },
+		complications: { infected: { value: COMPLICATION.MINOR } },
 	},
 	loss: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Loss",
@@ -187,12 +178,12 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	refreshed: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Refreshed",
 		img: "",
-		system: { enhancements: { refreshed: { value: 1 } } },
+		enhancements: { refreshed: { value: 1 } },
 	},
 	sleepingPills: {
 		name: "CURSEBORNE.STATUS_EFFECTS.SleepingPills",
 		img: "",
-		system: { complications: { sleepingPills: { value: COMPLICATION.MAJOR } } },
+		complications: { sleepingPills: { value: COMPLICATION.MAJOR } },
 	},
 	slowed: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Slowed",
@@ -202,17 +193,15 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		name: "CURSEBORNE.STATUS_EFFECTS.SlowActingToxin",
 		img: "",
 		complications: {
-			slowActingToxinStart: { value: COMPLICATION.MINOR },
-			slowActingToxinEnd: { value: COMPLICATION.MAJOR },
+			slowActingToxin1: { value: COMPLICATION.MINOR },
+			slowActingToxin2: { value: COMPLICATION.MAJOR },
 		},
 	},
 	stunned: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Stunned",
 		img: "",
-		system: {
-			label: "combat",
-			complications: { stunned: { value: COMPLICATION.MODERATE } },
-		},
+		system: { label: "combat" },
+		complications: { stunned: { value: COMPLICATION.MODERATE } },
 	},
 	takenOut: {
 		name: "CURSEBORNE.STATUS_EFFECTS.TakenOut",
@@ -222,7 +211,7 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	terrified: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Terrified",
 		img: "",
-		system: { complications: { terrified: { value: COMPLICATION.MODERATE } } },
+		complications: { terrified: { value: COMPLICATION.MODERATE } },
 	},
 	unexpectedFavor: {
 		name: "CURSEBORNE.STATUS_EFFECTS.UnexpectedFavor",
@@ -232,7 +221,7 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 	unlucky: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Unlucky",
 		img: "",
-		system: { complications: { unlucky: { value: COMPLICATION.MINOR } } },
+		complications: { unlucky: { value: COMPLICATION.MINOR } },
 	},
 	untrustworthy: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Untrustworthy",

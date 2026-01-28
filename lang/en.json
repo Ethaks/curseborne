@@ -669,7 +669,9 @@
 			"Terrified": "Terrified",
 			"UnexpectedFavor": "Unexpected Favor",
 			"Unlucky": "Unlucky",
-			"Untrustworthy": "Untrustworthy"
+			"Untrustworthy": "Untrustworthy",
+
+			"ProvidedByEffect": "Status Effect {status} is provided by: {effects}"
 		},
 
 		"INJURIES": {

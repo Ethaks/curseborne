@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { staticID } from "@helpers/utils.mjs";
+import { localize, staticID } from "@helpers/utils.mjs";
 
 export class CurseborneActiveEffect extends foundry.documents.ActiveEffect {
 	/* -------------------------------------------- */
@@ -28,11 +29,6 @@ export class CurseborneActiveEffect extends foundry.documents.ActiveEffect {
 			data = foundry.utils.deepClone(data);
 			data._id = staticID(`curse${data.id}`);
 			data.img ||= "icons/svg/cowled.svg";
-			for (const modifierType of ["enhancements", "complications"]) {
-				for (const modifier of Object.values(data.system?.[modifierType] ?? {})) {
-					modifier.label ||= data.name;
-				}
-			}
 			effects.push(data);
 			if (special) CONFIG.specialStatusEffects[special] = data.id;
 		};
@@ -56,9 +52,11 @@ export class CurseborneActiveEffect extends foundry.documents.ActiveEffect {
 		for (const modifierType of ["enhancements", "complications", "difficulties"]) {
 			for (const modifier of Object.values(effectData.system?.[modifierType] ?? {})) {
 				const hasLocalizedLabel = game.i18n.has(modifier.label);
-				modifier.label = hasLocalizedLabel ? game.i18n.localize(modifier.label) : effectData.name;
-				const hasLocalizedHint = game.i18n.has(modifier.hint);
-				modifier.hint = hasLocalizedHint ? game.i18n.localize(modifier.hint) || "" : "";
+				modifier.label = hasLocalizedLabel ? localize(modifier.label) : effectData.name;
+				if (modifier.hint) {
+					const hasLocalizedHint = game.i18n.has(modifier.hint);
+					modifier.hint = hasLocalizedHint ? localize(modifier.hint) || "" : "";
+				}
 			}
 		}
 		return super._fromStatusEffect(statusId, effectData, options);

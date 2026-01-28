@@ -1,0 +1,24 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Ethaks <ethaks@pm.me>
+ *
+ * SPDX-License-Identifier: LicenseRef-CopyrightEthaks
+ */
+
+/** General file for all enricher styling */
+enriched-content:is(
+	[enricher="curseborne.damage"],
+	[enricher="curseborne.apply"],
+	[enricher="curseborne.curseDice"]
+)
+.roll-link {
+	background: var(--content-link-background);
+	border: 1px solid var(--content-link-border-color);
+	color: var(--content-link-text-color);
+	padding: 1px 4px 0;
+	text-wrap-mode: nowrap;
+	word-break: break-all;
+
+	i {
+		padding-right: 0.25em;
+	}
+}

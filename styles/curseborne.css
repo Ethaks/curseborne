@@ -147,7 +147,8 @@
 		}
 
 		.content-link,
-		.inline-roll {
+		.inline-roll,
+		.roll-link {
 			--content-link-background: var(--color-background-lighter);
 			--content-link-border-color: var(--color-primary);
 			--content-link-text-color: var(--color-text-primary);

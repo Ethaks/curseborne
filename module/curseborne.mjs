@@ -141,6 +141,12 @@ Hooks.once("init", () => {
 	};
 	CONFIG.defaultFontFamily = "Jost";
 
+	CONFIG.TextEditor.enrichers = [
+		applications.ux.enrichers.applyEffect,
+		applications.ux.enrichers.damage,
+		applications.ux.enrichers.curseDice,
+	];
+
 	CONFIG.ui.momentum = applications.Momentum;
 });
 

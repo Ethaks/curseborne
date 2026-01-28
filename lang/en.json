@@ -599,6 +599,52 @@
 			}
 		},
 
+		"Enrichers": {
+			"ApplyEffect": {
+				"NoSelection": "No tokens selected to apply effect to.",
+				"LinkTooltip": "Apply Effect {name} to selected tokens"
+			},
+
+			"CurseDice": {
+				"bleed": {
+					"Tooltip": "Decrease the number of Curse Dice by {value} for selected tokens"
+				},
+				"hold": {
+					"Tooltip": {
+						"one": "Check whether the selected tokens have {value} Curse Die",
+						"other": "Check whether the selected tokens have {value} Curse Dice"
+					}
+				},
+				"gain": {
+					"Tooltip": "Increase the number of Curse Dice by {value} for selected tokens"
+				}
+			},
+
+			"Damage": {
+				"Label": {
+					"damage": "{value} Damage",
+					"injury": {
+						"one": "{value} Injury",
+						"other": "{value} Injuries"
+					},
+					"armor": "{value} Armor",
+					"heal": "{value} Healing"
+				},
+				"Tooltip": {
+					"damage": "Deal {value} damage to selected tokens",
+					"injury": {
+						"one": "Deal {value} injury to selected tokens",
+						"other": "Deal {value} injuries to selected tokens"
+					},
+					"armor": "Restore {value} armor to selected tokens",
+					"heal": {
+						"one": "Heal {value} injury on selected tokens",
+						"other": "Heal {value} injuries on selected tokens"
+					}
+				}
+			}
+		},
+
 		"Advanced": "Advanced",
 
 		"Edges": "Edges",

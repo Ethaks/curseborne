@@ -715,7 +715,7 @@
 	.tab.main .upper {
 		display: grid;
 		grid-template-columns: minmax(240px, 300px) 1fr;
-		grid-template-rows: minmax(100px, 0.75fr) minmax(170px, 1fr);
+		grid-template-rows: minmax(100px, 0.75fr) minmax(170px, 0.75fr);
 		gap: 1rem;
 
 		.combat {
@@ -772,11 +772,11 @@
 		}
 
 		fieldset.drive {
-			menu.editor-menu {
-				/* adjust size so that the menu fits without wrapping */
-				padding: 4px;
-				gap: 2px;
-				flex-wrap: nowrap;
+			overflow: hidden auto;
+
+			/* Save some space for prose-mirror p wrap */
+			> p:nth-child(2) {
+				margin-top: 0;
 			}
 		}
 

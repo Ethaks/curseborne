@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Let custom Active Effects adding statuses provide their respective modifiers
 - Make momentum enhancement comply with the usual rules and limits of enhancements
 - Preserve expanded state of chat message details across updates
+- Allow scrolling for particularly long adversary drive texts
 
 ## [0.2.1]
 

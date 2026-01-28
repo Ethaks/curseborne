@@ -96,7 +96,7 @@ async function buildCode(mode = "release") {
 		entrypoints: [fromRoot("module/curseborne.mjs")],
 		outdir: rootDir,
 		sourcemap: "linked",
-		external: ["gsap", "../../scripts/*"],
+		external: ["gsap", "../../scripts/*", "/scripts/*"],
 		minify: { syntax: mode === "release", whitespace: mode === "release" },
 		target: "browser",
 	});

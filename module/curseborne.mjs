@@ -168,7 +168,7 @@ CurseborneHandlebarsHelpers.registerHelpers();
 
 Hooks.once("ready", () => {
 	// Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
-	Hooks.on("hotbarDrop", (_bar, data, slot) => createDocMacro(data, slot));
+	// Hooks.on("hotbarDrop", (_bar, data, slot) => createDocMacro(data, slot));
 	ui.momentum.render(true);
 	documents.CurseborneChatMessage.activateLogListeners();
 
@@ -176,6 +176,7 @@ Hooks.once("ready", () => {
 	game.tooltip.observe();
 });
 
+// NOTE: Check with major Foundry releases (v14) if this is still needed
 Hooks.on("renderChatLog", (_app, html) => {
 	html.querySelector(".chat-log.themed.theme-light")?.classList.remove("themed", "theme-light");
 });

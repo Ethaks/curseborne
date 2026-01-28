@@ -718,6 +718,10 @@
 		grid-template-rows: minmax(100px, 0.75fr) minmax(170px, 0.75fr);
 		gap: 1rem;
 
+		fieldset {
+			height: fit-content;
+		}
+
 		.combat {
 			min-height: 300px;
 			grid-row: 1 / span 2;

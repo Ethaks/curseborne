@@ -325,7 +325,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 			const label =
 				enhancement.label || game.i18n.localize("CURSEBORNE.DICE.FIELDS.enhancements.label");
 			// Effective value
-			let value = Math.min(enhancementValue, 3);
+			let value = enhancementValue;
 			const total = sum + value;
 			const stacking = enhancement.stacking;
 

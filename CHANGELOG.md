@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix visual glitches in modifier dropdowns containing complex hints
 - Adjust various status effects to match latest published rules: Agony, Awed, Deprived, Drained, Infected, Inspired, Slow-Acting Toxin
 - Let custom Active Effects adding statuses provide their respective modifiers
+- Make momentum enhancement comply with the usual rules and limits of enhancements
 
 ## [0.2.1]
 

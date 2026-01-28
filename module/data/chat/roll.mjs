@@ -120,6 +120,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 				total: isPrivate ? "?" : term.total,
 				reducedBy: term.options.reducedBy,
 				originalValue: term.options.originalValue,
+				discarded: term.options.type === "enhancement" && term.options.discarded,
 				stacking: term.options.stacking,
 				dim: term.options.originalValue,
 				rolls: term.results?.map((r) => {
@@ -329,7 +330,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 			await Momentum.spend(1);
 
 			// Add momentum enhancement
-			this.roll._applyMomentum(this.roll.data.momentum + 1);
+			this.roll.applyMomentum(this.roll.data.momentum + 1);
 			return this.parent.update({ rolls: [this.roll] });
 		}
 
@@ -342,7 +343,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 		}
 
 		await Momentum.spend(-1);
-		this.roll._applyMomentum(this.roll.data.momentum - 1);
+		this.roll.applyMomentum(this.roll.data.momentum - 1);
 		return this.parent.update({ rolls: [this.roll] });
 	}
 

@@ -6,9 +6,6 @@ import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { CurseborneRollDialog } from "../applications/dialogs/roll.mjs";
 import { DIFFICULTY, ROLL_TYPE } from "../config/dice.mjs";
 import { CurseborneRollContext, CurseborneRollContextData } from "./data.mjs";
-import { CurseborneRoll } from "./roll.mjs";
-
-export {};
 
 declare module "./data.mjs" {
 	interface CurseborneRollContextData {
@@ -25,9 +22,6 @@ declare module "./data.mjs" {
 		 * The number of enhancements applied to this roll if there is at least one hit.
 		 */
 		enhancements: foundry.utils.Collection<string, RollModifier>;
-
-		/** The number of Momentum enhancements applied to this roll if there is at least one hit. */
-		momentum: number;
 
 		/**
 		 * The number of complications that can be bought off with hits.

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { localize, randomID, staticID } from "@helpers/utils.mjs";
 import { DieSourceField } from "@models/fields/die-source.mjs";
 import { CurseborneRollDialog } from "../applications/dialogs/roll.mjs";
 import { ROLL_TYPE } from "../config/dice.mjs";
 import { CurseborneRollContext } from "./data.mjs";
-import { localize } from "@helpers/utils.mjs";
 
 /**
  * The roll class for the Curseborne system, implementing the base SPU behaviour and its specific additions.
@@ -71,7 +71,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 	/** @type {foundry.dice.terms.NumericTerm} */
 	get enhancementsTerm() {
 		if (!this._evaluated) return undefined;
-		if (!this.data.enhancements || !this.data.momentum) return undefined;
+		if (!this.data.enhancements) return undefined;
 		return this.terms[4];
 	}
 
@@ -277,6 +277,9 @@ export class CurseborneRoll extends foundry.dice.Roll {
 	 */
 	_applyEnhancements() {
 		if (!this._evaluated) return;
+		// Remove all terms made from enhancements before adding them again
+		this.terms = this.terms.filter((t) => t.options.type !== "enhancement");
+
 		const hasHits = this.total > 0;
 		const hasDifficulty = this.data.difficulty !== null && this.data.difficulty > 0;
 		if (!hasHits && hasDifficulty) return;
@@ -288,7 +291,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 			enhancements.push(
 				new foundry.dice.terms.NumericTerm({
 					number: value,
-					options,
+					options: { ...options, type: "enhancement" },
 				}),
 			);
 		};
@@ -301,10 +304,13 @@ export class CurseborneRoll extends foundry.dice.Roll {
 			return a.value - b.value;
 		});
 		for (const enhancement of sortedEnhancements) {
+			const label =
+				enhancement.label || game.i18n.localize("CURSEBORNE.DICE.FIELDS.enhancements.label");
+
 			// Add disabled enhancements with 0 value, storing their original value in their options
 			if (!enhancement.enabled) {
 				pushEnhancement(0, {
-					flavor: enhancement.label,
+					flavor: label,
 					hint: enhancement.hint,
 					discarded: true,
 					originalValue: enhancement.value,
@@ -312,7 +318,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 				continue;
 			}
 
-			// Individual enhancements cannot have a value higher than 3; if they do, their value is reduced to 3
+			// Individual enhancements should not have a value above 3; as official content does contain exceptions, this is not enforced
 			// The total sum of enhancements for a roll cannot exceed 5; parts that would exceed this limit are reduced to fit,
 			// possibly leading to effectively-0-value enhancements (that are still listed for transparenct)
 			// Each enhancement's value can be a number, or a string to be resolved by the roll data
@@ -322,8 +328,6 @@ export class CurseborneRoll extends foundry.dice.Roll {
 					: this.constructor.safeEval(
 							this.constructor.replaceFormulaData(enhancement.value, this) || 0,
 						);
-			const label =
-				enhancement.label || game.i18n.localize("CURSEBORNE.DICE.FIELDS.enhancements.label");
 			// Effective value
 			let value = enhancementValue;
 			const total = sum + value;
@@ -373,7 +377,9 @@ export class CurseborneRoll extends foundry.dice.Roll {
 
 		if (!enhancements.length) return;
 		for (const enhancement of enhancements) {
-			this.terms.push(new foundry.dice.terms.OperatorTerm({ operator: "+" }));
+			this.terms.push(
+				new foundry.dice.terms.OperatorTerm({ operator: "+", options: { type: "enhancement" } }),
+			);
 			this.terms.push(enhancement);
 		}
 		this.resetFormula();
@@ -386,35 +392,29 @@ export class CurseborneRoll extends foundry.dice.Roll {
 	 * Retroactively apply momentum in the form of enhancements to the roll.
 	 * To persist the adjusted roll in a chat message, its source data must be fed to a message update.
 	 *
+	 * @param {number} momentum - The amount of momentum to apply.
 	 * @returns {this}
+	 * @example
+	 * ```js
+	 * let roll, message; // Assume these are existing roll and chat message objects
+	 * // Apply 2 momentum to the roll
+	 * roll.applyMomentum(2);
+	 * // Update the chat message to reflect the new roll total and enhancements
+	 * message.update({ rolls: [roll] })
+	 * ```
 	 */
-	_applyMomentum(momentum) {
+	applyMomentum(momentum) {
 		if (!this._evaluated) return;
 
-		this.data.updateSource({ momentum });
-		let momentumTerm = this.terms.find(
-			(t) => t instanceof foundry.dice.terms.NumericTerm && t.options.momentum,
-		);
-		if (momentumTerm) {
-			// Add momentum to existing term
-			momentumTerm.number = momentum;
-			if (momentumTerm.number === 0) {
-				// Remove momentum term and preceeding operator
-				this.terms.splice(this.terms.indexOf(momentumTerm) - 1, 2);
-			}
-		} else {
-			momentumTerm = new foundry.dice.terms.NumericTerm({
-				number: momentum,
-				options: {
-					flavor: game.i18n.localize("CURSEBORNE.DICE.FIELDS.momentum.label"),
-					momentum: true,
-				},
-			});
-			this.terms.push(new foundry.dice.terms.OperatorTerm({ operator: "+" }), momentumTerm);
-		}
-
-		this.resetFormula();
-		this._total = this._evaluateTotal();
+		// Add momentum enhancement as normal enhancement to data
+		const momentumEnhancement = {
+			value: momentum,
+			label: game.i18n.localize("CURSEBORNE.DICE.FIELDS.momentum.label"),
+			id: staticID("momentum"),
+		};
+		this.data.updateSource({ [`enhancements.${staticID("momentum")}`]: momentumEnhancement });
+		this._applyEnhancements();
+		return;
 	}
 
 	/** @inheritDoc */

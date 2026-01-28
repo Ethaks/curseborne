@@ -480,7 +480,8 @@
 			"Enhancement": "Enhancement",
 			"Complication": "Complication",
 			"ReducedBy": "Reduced by {value}",
-			"CustomDieSource": "Custom Die Source",
+			"DiscardedEnhancement": "This Enhancement was discarded due to stacking rules.",
+			"OriginalValue": "Original Value: {value}",
 
 			"BuySuccess": "Change Failure into Success",
 			"RemoveSuccess": "Revert Change of Failure into Success",
@@ -723,7 +724,8 @@
 		},
 
 		"WARNING": {
-			"NoMomentum": "Not enough Momentum"
+			"NoMomentum": "Not enough Momentum",
+			"NoCurseDice": "Not enough Curse Dice"
 		},
 
 		"Bonds": "Bonds",

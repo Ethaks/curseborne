@@ -75,13 +75,7 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 			data-expand-id="core"
 		>
 			{{#each parts as |part|}}
-				<li
-					class='
-						roll-part flexcol
-						{{#if part.rolls }}has-dice{{/if }}
-						{{ifThen part.dim "dim" "" }}
-					'
-				>
+				<li class="roll-part flexcol {{#if part.rolls }}has-dice{{/if }} {{ifThen part.dim 'dim' '' }}">
 					<div class="flexrow">
 						<span class="part-formula" {{#if part.hint }}data-tooltip="{{part.hint }}" {{/if }}>
 							{{part.flavor}}
@@ -89,9 +83,20 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 						<span
 							class="part-total"
 							{{#if part.originalValue }}
-							data-tooltip="{{part.originalValue }}"
+							data-tooltip='{{localize "CURSEBORNE.DICE.OriginalValue" value=part.originalValue}}'
 							{{/if }}
 						>
+							{{! Discarded icon + explanation tooltip }}
+							{{#if part.discarded}}
+								<i
+									class="fa-solid fa-xmark"
+									data-tooltip
+									aria-label='{{localize "CURSEBORNE.DICE.DiscardedEnhancement"}}'
+								>
+								</i>
+							{{/if}}
+
+							{{! Stacking icon + explanation tooltip }}
 							{{#if part.stacking}}
 								<i
 									class="fa fa-layer-group"
@@ -100,6 +105,8 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 								>
 								</i>
 							{{/if}}
+
+							{{! Reduced due to stacking icon + explanation tooltip }}
 							{{#if part.reducedBy}}
 								<i
 									class="fa-solid fa-down-from-dotted-line"

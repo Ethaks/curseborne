@@ -5,7 +5,7 @@
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { Complication, DifficultyChange, Enhancement } from "@models/modifiers.mjs";
 import { CollectionField, DieSourceField } from "../data/fields/_module.mjs";
-import { randomID, requiredInteger } from "../helpers/utils.mjs";
+import { randomID, requiredInteger, staticID } from "../helpers/utils.mjs";
 
 const fields = foundry.data.fields;
 /**
@@ -31,7 +31,6 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 			double: new fields.NumberField({ initial: 10 }),
 			curseDice: new fields.NumberField({ initial: 0 }),
 			enhancements: new CollectionField(new fields.EmbeddedDataField(Enhancement)),
-			momentum: new fields.NumberField({ initial: 0 }),
 			autoHits: new fields.NumberField({ initial: 0 }),
 
 			advantage: new fields.NumberField({ initial: 0 }),
@@ -214,6 +213,15 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 			(enh.enabled ? result.enabled : result.disabled).push(enh);
 		}
 		return result;
+	}
+
+	/**
+	 * Get the number of momentum enhancements in this roll context.
+	 *
+	 * @type {number}
+	 */
+	get momentum() {
+		return this.enhancements.get(staticID("momentum"))?.value || 0;
 	}
 
 	/**

@@ -4,6 +4,7 @@
 
 import { staticID, systemTemplate } from "@helpers/utils.mjs";
 import { CurseborneActorSheet } from "./base.mjs";
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 
 const { TextEditor } = foundry.applications.ux;
 
@@ -54,7 +55,7 @@ export class AdversarySheet extends CurseborneActorSheet {
 				id: advTemplate.id,
 				name: advTemplate.name,
 				img: advTemplate.img,
-				tooltip: curseborne.tooltips.createPlaceholder({
+				tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: advTemplate.uuid,
 				}),
 			};
@@ -128,7 +129,7 @@ export class AdversarySheet extends CurseborneActorSheet {
 					system: quality.system,
 					img: quality.img,
 					name: quality.name,
-					tooltip: curseborne.tooltips.createPlaceholder({
+					tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 						uuid: quality.uuid,
 					}),
 				};
@@ -153,7 +154,7 @@ export class AdversarySheet extends CurseborneActorSheet {
 						field: dreadPower.system.schema.getField("uses"),
 						dataset: { action: "updateEmbedded", property: "system.uses.value" },
 					},
-					tooltip: curseborne.tooltips.createPlaceholder({
+					tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 						uuid: dreadPower.uuid,
 						tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.RIGHT,
 					}),

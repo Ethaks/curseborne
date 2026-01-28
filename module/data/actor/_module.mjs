@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-export * from "./base.mjs";
 export * from "./accursed.mjs";
 export * from "./adversary.mjs";
+export * from "./base.mjs";

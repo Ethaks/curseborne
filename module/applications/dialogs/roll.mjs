@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { TabsMixin } from "@applications/common/tabs.mjs";
+import { ROLL_TYPE } from "@config/dice.mjs";
 import { localize, systemTemplate } from "../../helpers/utils.mjs";
 import { FormDialog } from "./form.mjs";
-import { ROLL_TYPE } from "@config/dice.mjs";
 
 /** @import { CurseborneRollContext } from "@dice/data.mjs" */
 

@@ -4,9 +4,9 @@
 
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
+import { localize } from "@helpers/utils.mjs";
 import { DotsField } from "../fields/dots.mjs";
 import { CurseborneActorBase } from "./base.mjs";
-import { localize } from "@helpers/utils.mjs";
 
 /** @import {ActorRollOptions} from "@dice/roll" */
 

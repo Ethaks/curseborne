@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { CurseborneItem } from "@documents/item.mjs";
 import { SessionSetting } from "@helpers/session-setting.mjs";
 import { localize, staticID, systemTemplate } from "@helpers/utils.mjs";
 import { CurseborneActorSheet } from "./base.mjs";
-import { CurseborneItem } from "@documents/item.mjs";
+import TooltipManager from "@foundry/client/helpers/interaction/tooltip-manager.mjs";
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 
 const { Flip } = await import(foundry.utils.getRoute("scripts/greensock/esm/Flip.js"));
 const { TextEditor } = foundry.applications.ux;
@@ -292,7 +294,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 					name: item.name,
 					img: item.img,
 					id: item.id,
-					tooltip: curseborne.tooltips.createPlaceholder({
+					tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 						uuid: item.uuid,
 						tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.DOWN,
 					}),
@@ -316,7 +318,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 			.map((motif) => ({
 				item: motif,
 				mismatchedFamily: motif.system.family !== family?.system.identifier,
-				tooltip: curseborne.tooltips.createPlaceholder({
+				tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: motif.uuid,
 					descriptionOnly: true,
 					tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.DOWN,
@@ -350,7 +352,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 					rootId: `${context.formGroupOptions.rootId}-skills-${skill.id}`,
 				},
 				dataset: { action: "updateEmbedded", property: "system.dots.value" },
-				tooltip: curseborne.tooltips.createPlaceholder({
+				tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: skill.uuid,
 					tooltipDirection,
 				}),
@@ -380,7 +382,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 					rootId: `${context.formGroupOptions.rootId}-edges-${edge.id}`,
 				},
 				dataset: { action: "updateEmbedded", property: "system.dots.value" },
-				tooltip: curseborne.tooltips.createPlaceholder({
+				tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: edge.uuid,
 					tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.DOWN,
 				}),
@@ -460,7 +462,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 				system: spell.system,
 				advances: [],
 				isAdvance: advances !== null,
-				tooltip: curseborne.tooltips.createPlaceholder({ uuid: spell.uuid }),
+				tooltip: CurseborneTooltipManager.implementation.createPlaceholder({ uuid: spell.uuid }),
 			};
 
 			// Cost label, consisting of type and value, localized, and with the value in bold, with a die icon before it;
@@ -563,7 +565,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 							rollData: social.getRollData(),
 						}),
 					),
-					tooltip: curseborne.tooltips.createPlaceholder({
+					tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 						uuid: social.uuid,
 						tooltipDirection: TOOLTIP_DIRECTIONS.RIGHT,
 					}),
@@ -648,7 +650,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 				id: item.id,
 				name: item.name,
 				img: item.img,
-				tooltip: curseborne.tooltips.createPlaceholder({ uuid: item.uuid }),
+				tooltip: CurseborneTooltipManager.implementation.createPlaceholder({ uuid: item.uuid }),
 			});
 		}
 
@@ -682,7 +684,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 					lineage &&
 					torment.system.type === "lineage" &&
 					torment.system.lineage !== lineage.system.identifier,
-				tooltip: curseborne.tooltips.createPlaceholder({
+				tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: torment.uuid,
 					tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.DOWN,
 				}),

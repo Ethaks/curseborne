@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { DotsInput } from "@applications/components/dots-input.mjs";
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { Trick } from "@models/item/trick.mjs";
 
 const { ApplicationV2 } = foundry.applications.api;
@@ -219,7 +219,7 @@ export class TrickSelector extends ApplicationV2 {
 					type: "number",
 					readonly: trick.system.cost.type === "fixed",
 				};
-				const tooltip = curseborne.tooltips.createPlaceholder({
+				const tooltip = CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: trick.uuid,
 					tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.LEFT,
 				});

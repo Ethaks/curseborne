@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { DragDropMixin } from "@applications/common/drag-drop.mjs";
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { localize, staticID } from "@helpers/utils.mjs";
 import { TabsMixin } from "../../common/tabs.mjs";
 import { CurseborneDocumentSheetMixin } from "../document-mixin.mjs";

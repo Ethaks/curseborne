@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { SYSTEM_ID, randomID } from "./utils.mjs";
+import { randomID, SYSTEM_ID } from "./utils.mjs";
 
 /**
  * A utility class that handles socket communication for the MM3 system.

@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { Path } from "./path.mjs";
 
 export class Lineage extends Path {
@@ -45,7 +46,7 @@ export class Lineage extends Path {
 				(t) => t.system.type === "lineage" && t.system.lineage === this.identifier,
 			);
 			if (torment) {
-				const tooltip = curseborne.tooltips.createPlaceholder({
+				const tooltip = CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: torment.uuid,
 					descriptionOnly: torment.system.description?.trim().length > 0,
 				});

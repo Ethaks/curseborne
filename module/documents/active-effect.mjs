@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { staticID } from "@helpers/utils.mjs";
 import { localize, staticID } from "@helpers/utils.mjs";
 
 export class CurseborneActiveEffect extends foundry.documents.ActiveEffect {

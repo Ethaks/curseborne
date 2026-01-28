@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-export * from "./object.mjs";
-export * from "./dots.mjs";
 export * from "./die-source.mjs";
+export * from "./dots.mjs";
+export * from "./object.mjs";

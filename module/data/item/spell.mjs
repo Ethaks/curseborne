@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { localize, requiredInteger, toLabelObject } from "../../helpers/utils.mjs";
 import { CurseborneItemBase } from "./base.mjs";
 
@@ -210,7 +211,9 @@ export class Spell extends CurseborneItemBase {
 			);
 			if (advancedSpell) {
 				// If a spell is found, we can create a link with embed tooltip for it; otherwise, just show the identifier
-				const tooltip = curseborne.tooltips.createPlaceholder({ uuid: advancedSpell.uuid });
+				const tooltip = CurseborneTooltipManager.implementation.createPlaceholder({
+					uuid: advancedSpell.uuid,
+				});
 				advanceDetail.valueElement = `<span class="value flexrow" data-tooltip-html='${tooltip}'>${advancedSpell.name}</span>`;
 			} else {
 				advanceDetail.value = this.advances;

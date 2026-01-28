@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { CurseborneTooltips } from "@applications/tooltip.mjs";
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { SocketHandler } from "@helpers/socket.mjs";
 import * as applications from "./applications/_module.mjs";
 import { CURSEBORNE } from "./config/_module.mjs";
@@ -33,8 +33,6 @@ globalThis.curseborne = {
 	session,
 	/** @type {SocketHandler} */
 	socket: null,
-	/** @type {CurseborneTooltips} */
-	tooltips: new CurseborneTooltips(),
 };
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -125,6 +123,8 @@ Hooks.once("init", () => {
 
 	curseborne.socket = SocketHandler.initialize();
 
+	CONFIG.ux.TooltipManager = CurseborneTooltipManager;
+
 	CONFIG.fontDefinitions.Jost = {
 		editor: true,
 		fonts: [
@@ -173,7 +173,7 @@ Hooks.once("ready", () => {
 	documents.CurseborneChatMessage.activateLogListeners();
 
 	// Activate tooltips
-	curseborne.tooltips.observe();
+	game.tooltip.observe();
 });
 
 Hooks.on("renderChatLog", (_app, html) => {

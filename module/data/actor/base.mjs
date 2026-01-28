@@ -5,13 +5,17 @@
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { CurseborneRollContext } from "@dice/data.mjs";
 import { localize, toLabelObject } from "@helpers/utils.mjs";
+import { localize, SYSTEM_ID, toLabelObject } from "@helpers/utils.mjs";
 import { DieSourceField } from "@models/fields/die-source.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { prepareIdentifiers } from "@models/fields/identifier.mjs";
 import { CurseborneTypeDataModel } from "../base.mjs";
 
-/** @import { RollModifier } from "@models/modifiers.mjs" */
-/** @import { CurseborneRoll, ActorRollOptions, ActorRollResult } from "@dice/_module.mjs" */
+/**
+ * @import TypeDataModel from "@common/abstract/type-data.mjs";
+ * @import { RollModifier } from "@models/modifiers.mjs";
+ * @import { CurseborneRoll, ActorRollOptions, ActorRollResult } from "@dice/_module.mjs";
+ */
 
 export class CurseborneActorBase extends CurseborneTypeDataModel {
 	/** @inheritDoc */

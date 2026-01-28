@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { TextEditorApplication } from "@applications/dialogs/text-editor.mjs";
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { CurseborneActiveEffect } from "@documents/active-effect.mjs";
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { CurseborneItem } from "@documents/item.mjs";
@@ -130,6 +131,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 
 				category.effects.push({
 					effect,
+					tooltip: CurseborneTooltipManager.implementation.createPlaceholder({ uuid: effect.uuid }),
 					relativeUuid: effect.getRelativeUUID(this.document),
 				});
 			};

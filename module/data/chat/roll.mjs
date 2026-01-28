@@ -4,6 +4,7 @@
 
 import { TrickSelector } from "@applications/dialogs/trick-selector.mjs";
 import { Momentum } from "@applications/momentum.mjs";
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { ROLL_TYPE } from "@config/dice.mjs";
 import { randomID, systemTemplate } from "@helpers/utils.mjs";
 
@@ -182,7 +183,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 					...t,
 					img: item.img,
 					name: item.name,
-					tooltip: curseborne.tooltips.createPlaceholder({ uuid: t.uuid }),
+					tooltip: CurseborneTooltipManager.implementation.createPlaceholder({ uuid: t.uuid }),
 					disabled,
 					field: item.system.schema.fields.cost,
 					value: { value: t.value, max: 3, min: -1 },

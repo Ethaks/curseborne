@@ -2,29 +2,16 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-const TooltipManager = foundry.helpers.interaction.TooltipManager;
-
 /**
  * A class managing the display of the system's expanded tooltips, making use of core's {@link TooltipManager}.
- *
- * Available at runtime as `curseborne.tooltips`.
  */
-export class CurseborneTooltips {
+export class CurseborneTooltipManager extends foundry.helpers.interaction.TooltipManager {
 	/**
 	 * The observer watching for tooltip activation
 	 *
 	 * @type {MutationObserver}
 	 */
 	#observer;
-
-	/**
-	 * The tooltip element
-	 *
-	 * @type {HTMLElement}
-	 */
-	get tooltip() {
-		return document.getElementById("tooltip");
-	}
 
 	/**
 	 * Create mutation observer to watch for core Foundry tooltip activation
@@ -78,12 +65,11 @@ export class CurseborneTooltips {
 	 * @param {object} options
 	 */
 	async _onHoverDocument(doc, options) {
-		const el = await doc.system?.toEmbed?.(options);
+		const el = await (doc.system?.toEmbed?.(options) ?? doc.toEmbed?.(options));
 		if (!el) return;
-		this.tooltip.innerHTML = el.outerHTML;
+		this.tooltip.replaceChildren(el);
 		this.tooltip.classList.add("curseborne", "curseborne-tooltip");
-
-		this._positionItemTooltip(options.tooltipDirection);
+		requestAnimationFrame(() => this._positionItemTooltip(options.tooltipDirection));
 	}
 
 	/**
@@ -92,22 +78,23 @@ export class CurseborneTooltips {
 	 * @param {keyof typeof TooltipManager.TOOLTIP_DIRECTIONS} direction
 	 */
 	_positionItemTooltip(direction) {
+		const Cls = this.constructor.implementation;
 		if (!direction) {
-			direction = TooltipManager.TOOLTIP_DIRECTIONS.LEFT;
-			game.tooltip._setAnchor(direction);
+			direction = Cls.TOOLTIP_DIRECTIONS.LEFT;
+			this._setAnchor(direction);
 		}
 
 		const pos = this.tooltip.getBoundingClientRect();
-		const dirs = TooltipManager.TOOLTIP_DIRECTIONS;
+		const dirs = Cls.TOOLTIP_DIRECTIONS;
 		switch (direction) {
 			case dirs.UP:
-				if (pos.y - TooltipManager.TOOLTIP_MARGIN_PX <= 0) direction = dirs.DOWN;
+				if (pos.y - Cls.TOOLTIP_MARGIN_PX <= 0) direction = dirs.DOWN;
 				break;
 			case dirs.DOWN:
 				if (pos.y + this.tooltip.offsetHeight > window.innerHeight) direction = dirs.UP;
 				break;
 			case dirs.LEFT:
-				if (pos.x - TooltipManager.TOOLTIP_MARGIN_PX <= 0) direction = dirs.RIGHT;
+				if (pos.x - Cls.TOOLTIP_MARGIN_PX <= 0) direction = dirs.RIGHT;
 				break;
 			case dirs.RIGHT:
 				if (pos.x + this.tooltip.offsetWidth > window.innerWith) direction = dirs.LEFT;
@@ -126,7 +113,7 @@ export class CurseborneTooltips {
 	 * @param {keyof typeof TooltipManager.TOOLTIP_DIRECTIONS} [data.tooltipDirection] - The preferred tooltip direction
 	 * @param {boolean} [data.descriptionOnly] - Whether to show only the description in the embed tooltip
 	 */
-	createPlaceholder(data) {
+	static createPlaceholder(data) {
 		const loading = document.createElement("section");
 		loading.classList.add("loading");
 		for (const [key, value] of Object.entries(foundry.utils.flattenObject(data))) {

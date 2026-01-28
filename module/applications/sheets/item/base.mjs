@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { DragDropMixin } from "@applications/_module.mjs";
 import { CurseborneModifiersMixin } from "@applications/common/modifiers.mjs";
+import { CurseborneItem } from "@documents/item.mjs";
 import { systemTemplate } from "../../../helpers/utils.mjs";
 import { TabsMixin } from "../../common/tabs.mjs";
 import { CurseborneDocumentSheetMixin } from "../document-mixin.mjs";
-import { DragDropMixin } from "@applications/_module.mjs";
-import { CurseborneItem } from "@documents/item.mjs";
 
 const { api } = foundry.applications;
 

@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { Path } from "./path.mjs";
 
 /** @import { Motif } from "./motif.mjs" */
@@ -38,7 +39,7 @@ export class Family extends Path {
 		for (const motif of this.motifs) {
 			context.motifs.push({
 				item: motif,
-				tooltip: curseborne.tooltips.createPlaceholder({ uuid: motif.uuid }),
+				tooltip: CurseborneTooltipManager.implementation.createPlaceholder({ uuid: motif.uuid }),
 			});
 		}
 	}
@@ -51,7 +52,7 @@ export class Family extends Path {
 		const motifs = this.motifs;
 		if (motifs.size) {
 			const motifElements = motifs.map((m) => {
-				const tooltip = curseborne.tooltips.createPlaceholder({
+				const tooltip = CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: m.uuid,
 					descriptionOnly: true,
 				});

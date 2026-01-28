@@ -7,6 +7,7 @@ import { randomID, SYSTEM_ID } from "@helpers/utils.mjs";
 /** @import { RollModifier } from "@dice/data.mjs"; */
 /** @import { FormInputConfig } from "@common/data/_types.mjs"; */
 
+const { cleanHTML } = foundry.utils;
 /**
  * A (multi-)select UI element for selecting values from a pre-defined list, or adding free-form values.
  * The element is thus built with distinct configurations:
@@ -186,9 +187,9 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 		return foundry.utils.parseHTML(`<li
 			class="tag"
 			data-id="${key}"
-			${value.hint ? `data-tooltip="${value.hint}"` : ""}
+			${value.hint ? `data-tooltip-html='${cleanHTML(value.hint)}'` : ""}
 		>
-			${value ? `<span class="tag-value">${value.value}</span>` : ""}
+			${value ? `<span class="tag-value">${cleanHTML(value.value)}</span>` : ""}
 			${value.label ? `<span class="tag-label">${value.label}</span>` : ""}
 			${
 				editable
@@ -216,15 +217,15 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 			<li
 				class="dropdown-item"
 				data-id="${id}"
-				${hint ? `data-tooltip="${hint}"` : ""}
+				${hint ? `data-tooltip-html='${cleanHTML(hint)}'` : ""}
 			>
 				<div class="dropdown-item-label">
 				${label}
 				</div>
 				<div class="dropdown-item-value">
-					${value}
+					${cleanHTML(value)}
 				</div>
-				${hint ? `<span class="dropdown-item-hint">${hint}</span>` : ""}
+				${hint ? `<span class="dropdown-item-hint">${cleanHTML(hint)}</span>` : ""}
 			</li>
 		`);
 

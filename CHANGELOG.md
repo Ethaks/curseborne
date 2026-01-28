@@ -35,6 +35,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Allow individual enhancements to exceed a value of 3 to account for official content providing such
 
+### Fixed
+
+- Fix visual glitches in modifier dropdowns containing complex hints
+
 ## [0.2.1]
 
 ### Fixed

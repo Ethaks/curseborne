@@ -8,7 +8,7 @@ import { SessionSetting } from "@helpers/session-setting.mjs";
 import { localize, staticID, systemTemplate } from "@helpers/utils.mjs";
 import { CurseborneActorSheet } from "./base.mjs";
 
-const { Flip } = await import(foundry.utils.getRoute("scripts/greensock/esm/Flip.js"));
+const Flip = (await import(foundry.utils.getRoute("/scripts/greensock/esm/Flip.js"))).Flip;
 const { TextEditor } = foundry.applications.ux;
 
 export class AccursedSheet extends CurseborneActorSheet {
@@ -982,14 +982,14 @@ export class AccursedSheet extends CurseborneActorSheet {
 	static async _onToggleSidebar(event, _target) {
 		event.preventDefault();
 		const isCollapsed = this.element.classList.contains("sidebar-collapsed");
-		const state = Flip.getState(
+		const state = Flip?.getState(
 			this.element.querySelectorAll(
 				".sidebar, .skills-edges, .skills-edges > fieldset, section.active > *",
 			),
 			{ props: "padding,padding-right,margin,min-width" },
 		);
 		this.element.classList.toggle("sidebar-collapsed", !isCollapsed);
-		Flip.from(state, {
+		Flip?.from(state, {
 			absolute: true,
 			// stagger: 0.02,
 			clearProps: true,
@@ -999,6 +999,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 			ease: "power1.inOut",
 		});
 		this.#sidebarSetting.set(!isCollapsed);
+		if (Flip == null) this.render();
 	}
 
 	/**
@@ -1020,7 +1021,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		// Store state for animation
 		let state;
 		if (!(event instanceof KeyboardEvent))
-			state = Flip.getState("search, section.equipment-type, li.item", {
+			state = Flip?.getState("search, section.equipment-type, li.item", {
 				props: "padding",
 			});
 
@@ -1053,9 +1054,12 @@ export class AccursedSheet extends CurseborneActorSheet {
 		let state;
 		// NOTE: "Enter" KeyboardEvents are passed when the filter callback is initially triggered by a (re)render
 		if (!(event instanceof KeyboardEvent))
-			state = Flip.getState(html.querySelectorAll("search, section.practice, ol.group, li.spell"), {
-				props: "padding",
-			});
+			state = Flip?.getState(
+				html.querySelectorAll("search, section.practice, ol.group, li.spell"),
+				{
+					props: "padding",
+				},
+			);
 
 		if (sortMode === "grouped") {
 			const practices = html.querySelectorAll("section.practice");
@@ -1114,7 +1118,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 
 		// Animate the changes unless the callback is triggered by a re-render
 		if (state) {
-			Flip.from(state, {
+			Flip?.from(state, {
 				duration: 0.3,
 				stagger: 0.01,
 				absolute: true,

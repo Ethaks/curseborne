@@ -39,7 +39,7 @@ export class Trick extends LimitedActorTypesItem(CurseborneItemBase, ["accursed"
 	/**
 	 * Generate an array containing Trick Items or their index entries.
 	 *
-	 * @returns {Promise<(Item | { name: string, uuid: string, system: { type: string, cost: number } })[]>}
+	 * @returns {Promise<(TrickItem | { name: string, uuid: string, system: Pick<TrickItem["system"], "type" | "cost" | "multiple" | "identifier" })[]>}
 	 */
 	static async getAllTricks() {
 		const tricks = [];
@@ -52,7 +52,13 @@ export class Trick extends LimitedActorTypesItem(CurseborneItemBase, ["accursed"
 			.filter((pack) => pack.metadata.type === "Item")
 			.map(async (pack) => {
 				await pack.getIndex({
-					fields: ["system.type", "system.cost", "system.description", "system.multiple"],
+					fields: [
+						"system.type",
+						"system.cost",
+						"system.description",
+						"system.multiple",
+						"system.identifier",
+					],
 				});
 				return pack.index
 					.filter((e) => e.type === "trick")

@@ -123,7 +123,7 @@ export class TrickSelector extends ApplicationV2 {
 		if (costType === "variable" && cost === 0) return;
 		if (costType === "variable" && (cost < trick.system.cost.min || cost > trick.system.cost.max))
 			return;
-		this.options.resolve({ uuid: trick.uuid, cost });
+		this.options.resolve({ trick, cost });
 		this.close();
 	}
 
@@ -133,7 +133,7 @@ export class TrickSelector extends ApplicationV2 {
 	 * @param {object} options - Options to pass to the TrickSelector constructor
 	 * @param {string} [options.type=""] - The type of trick to filter by
 	 * @param {Item[]} [options.choices] - The list of tricks to display
-	 * @returns {Promise<{ uuid: string, cost: number }>}
+	 * @returns {Promise<{ trick: TrickItem, cost: number }>} The selected trick and cost
 	 */
 	static async wait(options = {}) {
 		const { resolve, reject, promise } = Promise.withResolvers();
@@ -227,7 +227,7 @@ export class TrickSelector extends ApplicationV2 {
 				dotsInput.classList.add("flexshrink", "align-right");
 				trickList.insertAdjacentHTML(
 					"beforeend",
-					`<li class="trick flexrow" data-uuid="${trick.uuid}" data-action="chooseTrick" data-cost-type="${trick.system.cost.type}">
+					`<li class="trick flexrow" data-uuid="${trick.uuid}" data-identifier="${trick.system.identifier}" data-action="chooseTrick" data-cost-type="${trick.system.cost.type}">
 								<img src="${trick.img}" width="36" height="36" class="image flexshrink" loading="lazy">
 								<span class="name" data-tooltip-direction="LEFT">${trick.name}</span>
 								${dotsInput.outerHTML}

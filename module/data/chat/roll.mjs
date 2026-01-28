@@ -6,7 +6,7 @@ import { TrickSelector } from "@applications/dialogs/trick-selector.mjs";
 import { Momentum } from "@applications/momentum.mjs";
 import { CurseborneTooltipManager } from "@applications/tooltip.mjs";
 import { ROLL_TYPE } from "@config/dice.mjs";
-import { randomID, systemTemplate } from "@helpers/utils.mjs";
+import { randomID, SYSTEM_ID, systemTemplate } from "@helpers/utils.mjs";
 
 export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	/** @inheritDoc */
@@ -32,6 +32,12 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	/** @inheritDoc */
 	async _onUpdate(changed, options, userId) {
 		await super._onUpdate(changed, options, userId);
+
+		// Handle momentum
+		if (game.user.isActiveGM && options[SYSTEM_ID]?.bolsterDelta) {
+			const change = options[SYSTEM_ID].bolsterDelta;
+			await Momentum.spend(-change);
+		}
 
 		// The following updates should only be performed by the triggering user
 		if (userId !== game.user.id) return;
@@ -479,7 +485,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 			top: rect.top + rect.height / 2 - dialogPosition.height / 2,
 		};
 
-		const trick = await TrickSelector.wait({
+		const { trick, cost } = await TrickSelector.wait({
 			filter: (t) => {
 				if (boughtTricks.includes(t.uuid) && !t.system.multiple) return false;
 				if (this.roll.curseTerm.total < 1 && t.system.type === "curseDice") return false;
@@ -491,10 +497,13 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 		const trickData = {
 			id: randomID({ collection: this.roll.data.tricks }),
 			uuid: trick.uuid,
-			value: trick.cost,
+			value: cost,
 		};
 		this.roll.data.updateSource({ [`tricks.${trickData.id}`]: trickData });
-		this.parent.update({ rolls: [this.roll] });
+		this.parent.update(
+			{ rolls: [this.roll] },
+			{ [SYSTEM_ID]: { bolsterDelta: trick.system.identifier === "bolster" ? cost : undefined } },
+		);
 	}
 
 	/**
@@ -506,17 +515,21 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	 */
 	static async _onSetTrickCost(event, target) {
 		const trickId = target.closest("[data-trick-id]").dataset.trickId;
+		const trick = await foundry.utils.fromUuid(this.roll.data.tricks.get(trickId).uuid);
+		const currentCost = this.roll.data.tricks.get(trickId).value;
 		// Get the value from the dots-input element
-		const cost = event.target.value;
-		if (cost === 0) {
+		const newCost = event.target.value;
+		const bolsterDelta = trick.system.identifier === "bolster" ? newCost - currentCost : undefined;
+		if (newCost === 0) {
 			// Delete the trick
 			this.roll.data.updateSource({ [`tricks.-=${trickId}`]: null });
 		} else {
 			this.roll.data.updateSource({
-				[`tricks.${trickId}.value`]: cost,
+				[`tricks.${trickId}.value`]: newCost,
 			});
 		}
-		return this.parent.update({ rolls: [this.roll] });
+
+		return this.parent.update({ rolls: [this.roll] }, { [SYSTEM_ID]: { bolsterDelta } });
 	}
 
 	/**

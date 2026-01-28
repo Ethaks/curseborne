@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Enable tricks to be purchased multiple times in the same action
+- Add complication severity field to adversary templates
 
 ### Changed
 

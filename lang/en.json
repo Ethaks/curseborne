@@ -320,6 +320,14 @@
 				}
 			},
 
+			"Template": {
+				"FIELDS": {
+					"complication": {
+						"label": "Complication Severity"
+					}
+				}
+			},
+
 			"DreadPower": {
 				"label": {
 					"other": "Dread Powers"

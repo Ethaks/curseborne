@@ -2,12 +2,15 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { localize } from "@helpers/utils.mjs";
+import { localize, toLabelObject } from "@helpers/utils.mjs";
 import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class AdversaryTemplate extends LimitedActorTypesItem(CurseborneItemBase, "accursed") {
 	/** @inheritDoc */
 	static metadata = Object.freeze({ ...super.metadata, type: "template" });
+
+	/** @inheritDoc */
+	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Template"];
 
 	/** @inheritDoc */
 	static defineSchema() {
@@ -55,6 +58,12 @@ export class AdversaryTemplate extends LimitedActorTypesItem(CurseborneItemBase,
 			required: true,
 			initial: 0,
 			label: "CURSEBORNE.Actor.base.FIELDS.initiative.label",
+		});
+		schema.complication = new fields.NumberField({
+			required: true,
+			integer: true,
+			initial: 0,
+			choices: () => toLabelObject({ 0: "CURSEBORNE.None", ...curseborne.config.complications }),
 		});
 
 		return schema;

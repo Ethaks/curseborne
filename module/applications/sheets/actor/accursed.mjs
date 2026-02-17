@@ -20,6 +20,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 			roll: this._onRoll,
 			rollDefense: this._onRollDefense,
 			rollIntegrity: this._onRollIntegrity,
+			rollClash: this._onRollClash,
 			toggleSidebar: this._onToggleSidebar,
 			toggleSearch: this._onToggleSearch,
 			nextSession: this._onNextSession,
@@ -853,6 +854,19 @@ export class AccursedSheet extends CurseborneActorSheet {
 	static async _onRollIntegrity(event, _target) {
 		if (!this.actor.isOwner) return;
 		return this.actor.system.rollIntegrity({ skipDialog: event.shiftKey });
+	}
+
+	/**
+	 * Roll a clash.
+	 *
+	 * @this {AccursedSheet}
+	 * @param {Event} event - The triggering event
+	 * @param {HTMLElement} _target - The target element
+	 * @returns {Promise<void>}
+	 */
+	static async _onRollClash(event, _target) {
+		if (!this.actor.isOwner) return;
+		return this.actor.system.rollClash({ skipDialog: event.shiftKey });
 	}
 
 	static async _onNextSession(event, _target) {

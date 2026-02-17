@@ -743,9 +743,11 @@
 		"RollDefense": "Roll Defense",
 		"RollInitiative": "Roll Initiative",
 		"RollIntegrity": "Roll Integrity",
+		"RollClash": "Roll Clash",
 
 		"TheCurse": "The Curse",
 		"Entanglement": "Entanglement",
+		"Clash": "Clash",
 		"CurseDice": {
 			"one": "Curse Die",
 			"other": "Curse Dice"

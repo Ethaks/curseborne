@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { localize, randomID, staticID } from "@helpers/utils.mjs";
+import { localize, staticID } from "@helpers/utils.mjs";
 import { DieSourceField } from "@models/fields/die-source.mjs";
 import { CurseborneRollDialog } from "../applications/dialogs/roll.mjs";
 import { ROLL_TYPE } from "../config/dice.mjs";

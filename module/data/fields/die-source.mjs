@@ -40,6 +40,8 @@ export class DieSourceField extends foundry.data.fields.SchemaField {
 				return "CURSEBORNE.Actor.Adversary.FIELDS.pools.label";
 			case "contactPool":
 				return "CURSEBORNE.Item.Contact.Pool";
+			case "entanglement":
+				return "CURSEBORNE.Entanglement";
 			default:
 				return source.label || localize("CURSEBORNE.DICE.CustomDieSource");
 		}
@@ -114,6 +116,11 @@ export class DieSourceField extends foundry.data.fields.SchemaField {
 			choices.push({
 				label: `${game.i18n.localize("CURSEBORNE.Item.Contact.Pool")} +8`,
 				value: "8",
+			});
+		} else if (type === "entanglement") {
+			choices.push({
+				label: `${game.i18n.localize("CURSEBORNE.Entanglement")} +${actor.system.entanglement.value}`,
+				value: "@entanglement.value",
 			});
 		}
 

@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add integrity rolls to Accursed
 - Increase the Defense and Integrity values of Accursed when buying Dodge/Resist tracks for their respective rolls
 - Increase and decrease Momentum value when purchasing or adjusting the Bolster trick
+- Add clash rolls to Accursed, available from the Spells tab
 
 ### Changed
 

@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { ROLL_TYPE } from "@config/dice.mjs";
+import { localize } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { CurseborneActorBase } from "./base.mjs";
-import { localize } from "@helpers/utils.mjs";
 
 /** @import { ActorRollResult, ActorRollOptions } from "@dice/roll" */
 
@@ -303,6 +303,24 @@ export class Accursed extends CurseborneActorBase {
 			value: `@attributes.${this.attributes.resolve.value >= this.attributes.composure.value ? "resolve" : "composure"}.value`,
 		};
 		return this._createRoll(ROLL_TYPE.INTEGRITY, options);
+	}
+
+	/**
+	 * Create a roll for supernatural clashes for this actor.
+	 *
+	 * @param {ActorRollOptions} options - The options for the roll.
+	 * @returns {Promise<ActorRollResult>} An object containing a roll and a message, if any.
+	 */
+	async rollClash(options = {}) {
+		options = this._prepareCommonRollOptions(options);
+		options.data.difficulty ??= null;
+		options.data.sources ??= {};
+		options.data.sources.entanglement ??= {
+			id: "entanglement",
+			type: "entanglement",
+			value: "@entanglement.value",
+		};
+		return this._createRoll(ROLL_TYPE.CLASH, options);
 	}
 
 	/** @inheritDoc */

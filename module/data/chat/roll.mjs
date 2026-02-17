@@ -102,7 +102,6 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 				if (roll.data.complications.some((c) => !c.boughtOff)) {
 					resultString = "CURSEBORNE.DICE.SuccessWithConsequence";
 				} else {
-					// TODO: Should only rolls with complications be able to be extraordinary?
 					const hasComplications = roll.data.complications.size;
 					const hasDifficulty = roll.data.difficulty !== null;
 					const complicationSum = roll.data.complications.reduce((acc, c) => acc + c.value, 0);

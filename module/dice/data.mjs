@@ -118,6 +118,10 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 				ensureSources([{ type: "attribute" }]);
 				break;
 			}
+			case ROLL_TYPE.CLASH: {
+				ensureSources(["skill", { type: "entanglement", value: "@entanglement.value" }]);
+				break;
+			}
 			case ROLL_TYPE.POOL: {
 				ensureSources("pool");
 				break;

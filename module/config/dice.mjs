@@ -33,6 +33,7 @@ export const ROLL_TYPE = /** @type {const} */ ({
 	DEFENSE: "defense",
 	INTEGRITY: "integrity",
 	INITIATIVE: "initiative",
+	CLASH: "clash",
 	POOL: "pool",
 	CONTACT_INVOKE: "contactInvoke",
 	CONTACT_SELF: "contactSelf",

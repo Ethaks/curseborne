@@ -447,6 +447,23 @@
 			padding-top: 1rem;
 		}
 
+		&.spells {
+			.motifs-clash {
+				gap: 1rem;
+
+				> .motifs,
+				> .clash {
+					align-self: stretch;
+				}
+
+				.clash {
+					flex: 0 0 10rem;
+					/* mirror properties of .motifs grid */
+					margin: 5px 0;
+				}
+			}
+		}
+
 		search {
 			position: sticky;
 			top: 0rem;

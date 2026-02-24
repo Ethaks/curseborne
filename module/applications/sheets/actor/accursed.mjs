@@ -229,6 +229,9 @@ export class AccursedSheet extends CurseborneActorSheet {
 			.map(([id, level]) => {
 				const boxes = [];
 				for (let i = 0; i < level.size; i++) {
+					// Don't add boxes for injuries not covered by  max injuries
+					if (boxCounter >= injuries.max) break;
+
 					boxes.push({
 						filled: boxCounter >= injuries.value,
 						index: boxCounter,
@@ -242,7 +245,19 @@ export class AccursedSheet extends CurseborneActorSheet {
 					boxes,
 					active: injuries.level === id,
 				};
-			});
+			})
+			.filter((level) => level.boxes.length > 0);
+
+		// If there are more max injuries than boxes defined in the config, add additional boxes to the last level;
+		// example: Proliferate, Advance Invasive Growth
+		if (injuries.max > boxCounter) {
+			injuryLevels.at(-1).boxes.push(
+				...Array.from({ length: injuries.max - boxCounter }, (_, i) => ({
+					filled: boxCounter + i >= injuries.value,
+					index: boxCounter + i,
+				})),
+			);
+		}
 		healthContext.injuries = {
 			label: game.i18n.localize("CURSEBORNE.Actor.base.FIELDS.injuries.value.label"),
 			levels: injuryLevels,

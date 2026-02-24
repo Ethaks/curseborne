@@ -395,8 +395,10 @@
 			}
 			.track-boxes {
 				display: flex;
-				/* justify-content: space-between; */
-				gap: 6px;
+				column-gap: 6px;
+				flex-wrap: wrap;
+				min-width: 21px;
+				max-width: 48px;
 			}
 			.track-box {
 				font-size: var(--font-size-24);

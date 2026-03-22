@@ -10,16 +10,22 @@
 	border-radius: 6px;
 	box-shadow: inset 0 0 10px 0 var(--color-accent);
 
+	&.locked-tooltip {
+		--color-border: var(--color-accent);
+	}
+
 	/* Increase size for document tooltips */
 	&:has(.curseborne.item-tooltip, .curseborne.actor-tooltip) {
 		min-width: 350px;
 		max-width: 375px;
-		max-height: max-content;
+		max-height: 400px;
 		padding-bottom: 1rem;
-	}
+		overflow: hidden;
 
-	&.locked-tooltip {
-		--color-border: var(--color-accent);
+		&.locked-tooltip {
+			overflow: hidden auto;
+			max-height: 500px;
+		}
 	}
 }
 
@@ -39,7 +45,7 @@ document-embed .curseborne {
 /* Always allow scrolling in embeds, as they are assumed to be interactable */
 document-embed .curseborne,
 .locked-tooltip {
-	:is(.actor-tooltip, .item-tooltip) .description div.enriched {
+	:is(.actor-tooltip, .item-tooltip) .enriched-field div.enriched {
 		overflow: hidden auto;
 		text-overflow: none;
 		-webkit-line-clamp: unset;
@@ -115,7 +121,7 @@ document-embed .curseborne,
 		}
 	}
 
-	.description .enriched {
+	.enriched-field .enriched {
 		max-height: 175px;
 		pointer-events: auto;
 		user-select: text;

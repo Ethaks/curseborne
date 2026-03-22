@@ -61,6 +61,36 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 		</div>
 	{{/if}}
 
+	<fieldset class="enriched-field damnation">
+		<legend>{{localize "CURSEBORNE.Item.Path.FIELDS.damnation.label"}}</legend>
+		{{{damnation.enriched}}}
+		<button
+			type="button"
+			class="edit-text"
+			data-action="editText"
+			data-field="damnation"
+			data-tooltip
+			aria-label="{{localize 'CURSEBORNE.Edit'}}"
+		>
+			<i class="fa-solid fa-fw fa-edit"></i>
+		</button>
+	</fieldset>
+
+	<fieldset class="enriched-field inheritance">
+		<legend>{{localize "CURSEBORNE.Item.Path.FIELDS.inheritance.label"}}</legend>
+		{{{inheritance.enriched}}}
+		<button
+			type="button"
+			class="edit-text"
+			data-action="editText"
+			data-field="inheritance"
+			data-tooltip
+			aria-label="{{localize 'CURSEBORNE.Edit'}}"
+		>
+			<i class="fa-solid fa-fw fa-edit"></i>
+		</button>
+	</fieldset>
+
 	{{! Advanced Fields }}
 	<fieldset class="advanced">
 		<legend>{{localize "CURSEBORNE.Advanced"}}</legend>

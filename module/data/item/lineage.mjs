@@ -15,6 +15,11 @@ export class Lineage extends Path {
 	static defineSchema() {
 		const schema = super.defineSchema();
 		const fields = foundry.data.fields;
+		schema.damnation = new fields.HTMLField({
+			required: true,
+			nullable: false,
+			initial: "",
+		});
 		schema.inheritance = new fields.HTMLField({
 			required: true,
 			nullable: false,

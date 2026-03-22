@@ -18,8 +18,8 @@
 			}
 		},
 		"Item": {
-			"lineage": { "htmlFields": ["description"] },
-			"family": { "htmlFields": ["description"] },
+			"lineage": { "htmlFields": ["description", "damnation", "inheritance"] },
+			"family": { "htmlFields": ["description", "damnation", "inheritance"] },
 			"motif": { "htmlFields": ["description"] },
 			"role": { "htmlFields": ["description"] },
 			"skill": { "htmlFields": ["description"] },

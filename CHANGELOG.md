@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Increase and decrease Momentum value when purchasing or adjusting the Bolster trick
 - Add clash rolls to Accursed, available from the Spells tab
 - Display additional injury boxes granted by an increased maximum number (like Invasive Growth)
+- Add text fields for Damnation and Inheritance to Lineages and Families
 
 ### Changed
 

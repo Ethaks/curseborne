@@ -165,6 +165,12 @@
 					"skills": {
 						"label": "Path Skills",
 						"hint": "Skills associated with this path."
+					},
+					"damnation": {
+						"label": "Damnation"
+					},
+					"inheritance": {
+						"label": "Inheritance"
 					}
 				}
 			},

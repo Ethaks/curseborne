@@ -99,6 +99,7 @@ export class CurseborneTypeDataModel extends foundry.abstract.TypeDataModel {
 		const context = {
 			doc: this.parent,
 			system: this,
+			rollData: this.parent.getRollData(),
 
 			// Header
 			img: this.parent.img,
@@ -107,6 +108,9 @@ export class CurseborneTypeDataModel extends foundry.abstract.TypeDataModel {
 
 			// Details
 			details: [],
+
+			// Enriched fields
+			enriched: [],
 		};
 
 		// Add subtype to the subtitle, if available

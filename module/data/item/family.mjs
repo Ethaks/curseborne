@@ -15,6 +15,24 @@ export class Family extends Path {
 		identifierCollectionName: "families",
 	});
 
+	/** @inheritDoc */
+	static defineSchema() {
+		const schema = super.defineSchema();
+		const fields = foundry.data.fields;
+		return Object.assign(schema, {
+			damnation: new fields.HTMLField({
+				required: true,
+				nullable: false,
+				initial: "",
+			}),
+			inheritance: new fields.HTMLField({
+				required: true,
+				nullable: false,
+				initial: "",
+			}),
+		});
+	}
+
 	/**
 	 * The {@linkcode Motif} items in this item's collection that are associated with this family.
 	 *

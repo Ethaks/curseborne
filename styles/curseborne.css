@@ -228,6 +228,7 @@
 
 		fieldset {
 			background: var(--color-background-75);
+
 			legend {
 				> span {
 					font-variant: small-caps;

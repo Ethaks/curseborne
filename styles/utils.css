@@ -207,6 +207,15 @@
 fieldset.grid {
 	padding: 0.5rem;
 }
+fieldset.enriched-field {
+	gap: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	&:not(:has(p)) {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
+}
 
 #curseborne-momentum,
 .chat-message .box,

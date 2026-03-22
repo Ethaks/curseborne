@@ -38,13 +38,13 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 		</fieldset>
 	{{/if}}
 
-	{{! Description}}
-	{{#if description}}
-		<fieldset class="description">
+	{{! Enriched Texts}}
+	{{#each enriched}}
+		<fieldset class="enriched-field {{classes}}">
 			<legend>
-				<span>{{localize "CURSEBORNE.Item.Tabs.description"}}</span>
+				<span>{{label}}</span>
 			</legend>
-			<div class="enriched">{{{description}}}</div>
+			<div class="enriched">{{{enriched}}}</div>
 		</fieldset>
-	{{/if}}
+	{{/each}}
 </section>

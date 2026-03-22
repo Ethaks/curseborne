@@ -97,7 +97,6 @@ export class Path extends LimitedActorTypesItem(CurseborneItemBase) {
 			? toLabelObject(
 					this.actor.itemTypes.skill.map((skill) => [skill.system.identifier, skill.name]),
 				)
-			: toLabelObject(curseborne.config.skills);
 			: toLabelObject(Object.values(curseborne.config.skills).map(({ id, name }) => [id, name]));
 
 		context.skills = {
@@ -106,6 +105,18 @@ export class Path extends LimitedActorTypesItem(CurseborneItemBase) {
 				...value,
 			})),
 		};
+
+		for (const field of ["damnation", "inheritance"]) {
+			if (this.item.system.schema.getField(field)) {
+				context[field] = {
+					enriched: await foundry.applications.ux.TextEditor.enrichHTML(this.item.system[field], {
+						relativeTo: this.item,
+						secrets: this.item.isOwner,
+						rollData: context.rollData ?? this.item.getRollData(),
+					}),
+				};
+			}
+		}
 	}
 
 	/** @inheritDoc */
@@ -130,6 +141,28 @@ export class Path extends LimitedActorTypesItem(CurseborneItemBase) {
 					.format(skills.filter((s) => s)),
 			});
 		}
+
+		// Prepare damnation and inheritance fields if this is the major Path
+		if (this.actor && this.actor.system.major === this.parent.id)
+			await Promise.all(
+				["damnation", "inheritance"].map(async (fieldName) => {
+					const field = this.item.system.schema.getField(fieldName);
+					if (field && this.item.system[fieldName]?.length) {
+						context.enriched.push({
+							label: field.label,
+							classes: fieldName,
+							enriched: await foundry.applications.ux.TextEditor.enrichHTML(
+								this.item.system[fieldName],
+								{
+									relativeTo: this.item,
+									secrets: this.item.isOwner,
+									rollData: context.rollData,
+								},
+							),
+						});
+					}
+				}),
+			);
 
 		return context;
 	}

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
-import { systemTemplate } from "@helpers/utils.mjs";
+import { localize, systemTemplate } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { IdentifierMixin } from "@models/fields/identifier.mjs";
 import { CurseborneTypeDataModel } from "../base.mjs";
@@ -97,10 +97,14 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 
 		// Fall back to description as common tooltip content
 		if (typeof this.description === "string" && this.description.length > 0) {
-			context.description = await TextEditor.implementation.enrichHTML(this.description, {
-				relativeTo: this.parent,
-				secrets: this.parent.isOwner,
-				rollData: context.rollData ?? this.parent.getRollData(),
+			context.enriched.push({
+				label: localize("CURSEBORNE.Item.Tabs.description"),
+				classes: "description",
+				enriched: await TextEditor.implementation.enrichHTML(this.description, {
+					relativeTo: this.parent,
+					secrets: this.parent.isOwner,
+					rollData: context.rollData,
+				}),
 			});
 		}
 

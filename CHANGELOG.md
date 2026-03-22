@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make momentum enhancement comply with the usual rules and limits of enhancements
 - Preserve expanded state of chat message details across updates
 - Allow scrolling for particularly long adversary drive texts
+- Use names instead of identifiers for Path Skills in sheets for non-embedded items
 
 ## [0.2.1]
 

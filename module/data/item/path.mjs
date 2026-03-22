@@ -98,6 +98,7 @@ export class Path extends LimitedActorTypesItem(CurseborneItemBase) {
 					this.actor.itemTypes.skill.map((skill) => [skill.system.identifier, skill.name]),
 				)
 			: toLabelObject(curseborne.config.skills);
+			: toLabelObject(Object.values(curseborne.config.skills).map(({ id, name }) => [id, name]));
 
 		context.skills = {
 			options: Object.entries(choices).map(([id, value]) => ({

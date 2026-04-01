@@ -104,10 +104,6 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		system: { label: "social" },
 		difficulties: { ennui: { value: 1 } },
 	},
-	enraptured: {
-		name: "CURSEBORNE.STATUS_EFFECTS.Enraptured",
-		img: "",
-	},
 	exhausted: {
 		name: "CURSEBORNE.STATUS_EFFECTS.Exhausted",
 		img: "",

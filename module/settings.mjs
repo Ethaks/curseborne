@@ -2,13 +2,11 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { requiredInteger } from "./helpers/utils.mjs";
+import { requiredInteger, SYSTEM_ID, toLabelObject } from "./helpers/utils.mjs";
 
 export function registerSettings() {
 	// Momentum
 	game.settings.register("curseborne", "momentum", {
-		name: "CURSEBORNE.Settings.Momentum.Name",
-		hint: "CURSEBORNE.Settings.Momentum.Hint",
 		scope: "world",
 		config: false,
 		onChange: () => foundry.applications.instances.get("curseborne-momentum")?.render(),
@@ -16,6 +14,23 @@ export function registerSettings() {
 			...requiredInteger,
 			initial: 0,
 			step: 1,
+		}),
+	});
+	game.settings.register(SYSTEM_ID, "momentumConfirmation", {
+		name: "CURSEBORNE.Settings.MomentumConfirmation.Name",
+		hint: "CURSEBORNE.Settings.MomentumConfirmation.Hint",
+		scope: "world",
+		config: true,
+		type: new foundry.data.fields.StringField({
+			blank: false,
+			required: true,
+			initial: "all",
+			choices: () =>
+				toLabelObject({
+					all: "CURSEBORNE.Settings.MomentumConfirmation.Choices.all",
+					gain: "CURSEBORNE.Settings.MomentumConfirmation.Choices.gain",
+					none: "CURSEBORNE.Settings.MomentumConfirmation.Choices.none",
+				}),
 		}),
 	});
 }

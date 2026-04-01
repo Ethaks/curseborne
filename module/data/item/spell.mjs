@@ -188,8 +188,10 @@ export class Spell extends CurseborneItemBase {
 
 		// Add cost
 		if (this.cost.value) {
-			const icon = curseborne.config.spellCostTypes[this.cost.type].icon;
-			const valueElement = `<span class="value flexrow"><i class="${icon} flexshrink"></i> ${this.costLabel}</span>`;
+			const enrichedCost = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+				`[[/${this.cost.type} ${this.cost.value}]]`,
+			);
+			const valueElement = `<span class="value flexrow">${enrichedCost}</span>`;
 			context.details.push({
 				label: game.i18n.localize("CURSEBORNE.Item.Spell.FIELDS.cost.type.label"),
 				valueElement,
@@ -221,7 +223,15 @@ export class Spell extends CurseborneItemBase {
 				const tooltip = CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: advancedSpell.uuid,
 				});
-				advanceDetail.valueElement = `<span class="value flexrow" data-tooltip-html='${tooltip}'>${advancedSpell.name}</span>`;
+				const enrichedUuid = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+					`@UUID[${advancedSpell.uuid}]`,
+				);
+				const enrichedEl = foundry.utils.parseHTML(enrichedUuid);
+				enrichedEl.dataset.tooltip = tooltip;
+				const valueEl = document.createElement("div");
+				valueEl.classList.add("value");
+				valueEl.appendChild(enrichedEl);
+				advanceDetail.valueElement = valueEl.outerHTML;
 			} else {
 				advanceDetail.value = this.advances;
 			}

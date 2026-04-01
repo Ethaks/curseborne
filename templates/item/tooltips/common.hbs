@@ -40,11 +40,13 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 	{{! Enriched Texts}}
 	{{#each enriched}}
-		<fieldset class="enriched-field {{classes}}">
-			<legend>
-				<span>{{label}}</span>
-			</legend>
-			<div class="enriched">{{{enriched}}}</div>
-		</fieldset>
+		{{#if enriched}}
+			<fieldset class="enriched-field {{classes}}">
+				<legend>
+					<span>{{label}}</span>
+				</legend>
+				<div class="enriched">{{{enriched}}}</div>
+			</fieldset>
+		{{/if}}
 	{{/each}}
 </section>

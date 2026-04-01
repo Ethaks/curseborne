@@ -1,0 +1,27 @@
+dictionaries = [
+    "en_us",
+    "en_gb",
+]
+words = [
+    "Storyguide",
+    "Storypath",
+    "afterbegin",
+    "attunements",
+    "contextmenu",
+    "curseborne",
+    "depthless",
+    "enh",
+    "enricher",
+    "enrichers",
+    "ethaks",
+    "flexcol",
+    "flexrow",
+    "flexshrink",
+    "inplace",
+    "lifecycle",
+    "minimizable",
+    "rgx",
+    "spu",
+    "telelocation",
+    "unlist",
+]

@@ -67,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix a file reference failing to resolve on The Forge again.
 - Fix contact invoke counter only being increased by contact rolls instead of invokes
 - Remove Enraptured status effect
+- Fix Active Effects not rendering their embed tooltip
 
 ## [0.2.1]
 

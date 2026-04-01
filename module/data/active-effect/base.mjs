@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { systemTemplate, toLabelObject } from "@helpers/utils.mjs";
+import { localize, systemTemplate, toLabelObject } from "@helpers/utils.mjs";
 import { CurseborneTypeDataModel } from "@models/base.mjs";
 import { CollectionField } from "@models/fields/object.mjs";
 import { Complication, DifficultyChange, Enhancement } from "@models/modifiers.mjs";
@@ -131,14 +132,18 @@ export class CurseborneActiveEffectModel extends CurseborneTypeDataModel {
 	async _prepareEmbedContext(config, options) {
 		const context = await super._prepareEmbedContext(config, options);
 		if (this.parent.type === "base") context.subtitle = "";
-		context.description = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-			this.parent.description,
-			{
-				secrets: this.parent.isOwner,
-				rollData: context.rollData ?? this.parent.parent.getRollData(),
-				relativeTo: this.parent,
-			},
-		);
+		context.enriched.push({
+			label: localize("CURSEBORNE.Item.Tabs.description"),
+			classes: "description",
+			enriched: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+				this.parent.description,
+				{
+					secrets: this.parent.isOwner,
+					rollData: context.rollData ?? (this.item ?? this.actor)?.getRollData?.(),
+					relativeTo: this.parent,
+				},
+			),
+		});
 		return context;
 	}
 }

@@ -78,6 +78,11 @@ export class CurseborneTypeDataModel extends foundry.abstract.TypeDataModel {
 			: this.embedTemplate;
 		const context = await this._prepareEmbedContext(config, options);
 
+		if (config.descriptionOnly) {
+			context.description =
+				context.enriched.find((e) => e.classes === "description")?.enriched ?? "";
+		}
+
 		const embed = document.createElement("div");
 		embed.classList.add("curseborne", "tooltip", "item-tooltip", "curseborne-tooltip");
 		embed.innerHTML = await foundry.applications.handlebars.renderTemplate(
@@ -99,7 +104,7 @@ export class CurseborneTypeDataModel extends foundry.abstract.TypeDataModel {
 		const context = {
 			doc: this.parent,
 			system: this,
-			rollData: this.parent.getRollData(),
+			rollData: this.parent?.getRollData?.(),
 
 			// Header
 			img: this.parent.img,

@@ -116,7 +116,7 @@ export function sift(array) {
  * @param {Omit<RandomIDOptions, "length">} [_options]
  * @returns {string} - The generated ID
  */
-export function randomID(options, _options = {}) {
+export function randomID(options = {}, _options = {}) {
 	// Allow the first argument to be the length to maintain core API compatibility
 	// If the first argument is a number, use it as the length and the second argument as options; otherwise use the first argument as options
 	if (typeof options === "number") options = { length: options, ..._options };

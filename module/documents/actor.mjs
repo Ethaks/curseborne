@@ -38,7 +38,7 @@ export class CurseborneActor extends foundry.documents.Actor {
 						for (const [modifierId, modifier] of Object.entries(
 							curseborne.config.STATUS_EFFECTS[status]?.[modifierType] ?? {},
 						)) {
-							const cls = activeEffect.system.schema.fields[modifierType].model.model;
+							const cls = activeEffect.system.schema.fields[modifierType].element.model;
 							const data = foundry.utils.deepClone(modifier);
 							data.id = modifierId;
 							data.label = game.i18n.has(modifier.label)

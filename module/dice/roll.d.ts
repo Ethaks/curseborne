@@ -48,6 +48,8 @@ declare module "./data.mjs" {
 		 * Whether this roll can be a wicked success or cruel failure.
 		 */
 		alteredOutcome: boolean;
+
+		rollData: Record<string, unknown>;
 	}
 
 	export interface RollModifier {

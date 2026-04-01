@@ -118,13 +118,14 @@ export class CurseborneActiveEffectModel extends CurseborneTypeDataModel {
 	 */
 	_prepareDuration() {
 		// If the duration unit is seconds, let Foundry handle it
-		if (!this.duration.unit || this.duration.unit === "seconds") return null;
+		if (!this.duration.unit || this.duration.unit === "seconds") return undefined;
 
 		return {
 			type: "curseborne",
-			duration: this.duration.value,
+			value: this.duration.value,
 			// TODO: Determine how remaining duration should be handled
 			remaining: null,
+			expiry: this.parent.duration.expiry,
 			label: `${this.duration.value} ${this.durationLabel}`,
 		};
 	}

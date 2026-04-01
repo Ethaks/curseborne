@@ -25,7 +25,7 @@ export class CurseborneModifiersMixin {
 	}
 
 	/**
-	 * Etxends a document sheet with the ability to display and manage modifiers (enhancements and complications).
+	 * Extends a document sheet with the ability to display and manage modifiers (enhancements and complications).
 	 * The part is defined, the tab position has to be set in the extending class.
 	 *
 	 * @param {typeof foundry.applications.api.DocumentSheetV2} Base - The base document sheet class to extend.
@@ -73,7 +73,7 @@ export class CurseborneModifiersMixin {
 			 */
 			async _prepareModifiers(context, type) {
 				if (!this.document.system.schema.fields[type]) return;
-				const fields = this.document.system.schema.fields.enhancements.model.model.schema.fields;
+				const fields = this.document.system.schema.fields.enhancements.element.model.schema.fields;
 				const rollData = context.rollData ?? this.document.getRollData?.() ?? {};
 				const modifiers = await Promise.all(
 					this.document.system[type].map(async (modifier) => {
@@ -137,7 +137,7 @@ export class CurseborneModifiersMixin {
 			 */
 			static async _addModifier(_event, target) {
 				const field = target.closest("[data-modifier-field]").dataset.modifierField;
-				const cls = this.document.system.schema.getField(field).model.model;
+				const cls = this.document.system.schema.getField(field).element.model;
 				const id = randomID(foundry.utils.getProperty(this.document.system, field));
 				const modifier = new cls({
 					id,

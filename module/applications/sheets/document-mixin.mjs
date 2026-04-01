@@ -329,10 +329,10 @@ export function CurseborneDocumentSheetMixin(Base) {
 		_getContextMenuOptions() {
 			return [
 				{
-					name: "CURSEBORNE.View",
+					label: "CURSEBORNE.View",
 					icon: '<i class="fa-solid fa-eye"></i>',
-					condition: () => this.isPlayMode,
-					callback: (target) => {
+					visible: () => this.isPlayMode,
+					onClick: (_event, target) => {
 						const item = this.getDocument(target);
 						return item?.sheet.render({
 							force: true,
@@ -341,10 +341,10 @@ export function CurseborneDocumentSheetMixin(Base) {
 					},
 				},
 				{
-					name: "CURSEBORNE.Edit",
+					label: "CURSEBORNE.Edit",
 					icon: '<i class="fa-solid fa-edit"></i>',
-					condition: () => this.isEditMode,
-					callback: (target) => {
+					visible: () => this.isEditMode,
+					onClick: (_event, target) => {
 						const doc = this.getDocument(target);
 						return doc?.sheet.render({
 							force: true,
@@ -353,29 +353,30 @@ export function CurseborneDocumentSheetMixin(Base) {
 					},
 				},
 				{
-					name: "CURSEBORNE.DisplayCard",
+					label: "CURSEBORNE.DisplayCard",
 					icon: '<i class="fa-solid fa-fw fa-share-from-square"></i>',
-					callback: (target) => {
+					onClick: (_event, target) => {
 						const item = this.getDocument(target);
 						const speaker = CurseborneChatMessage.implementation.getSpeaker({
 							actor: this.document,
 						});
 						return item.system.displayCard({ speaker });
 					},
-					condition: (target) => {
+					visible: (target) => {
 						const item = this.getDocument(target);
 						return item?.system.displayCard instanceof Function;
 					},
 				},
 				{
-					name: "CURSEBORNE.Duplicate",
+					label: "CURSEBORNE.Duplicate",
 					icon: '<i class="fa-solid fa-copy"></i>',
-					callback: (target) => this.constructor._onDuplicateDocument.call(this, null, target),
+					onClick: (_event, target) =>
+						this.constructor._onDuplicateDocument.call(this, null, target),
 				},
 				{
-					name: "CURSEBORNE.Delete",
+					label: "CURSEBORNE.Delete",
 					icon: '<i class="fa-solid fa-trash"></i>',
-					callback: (target) =>
+					onClick: (_event, target) =>
 						this.constructor._onDeleteDocument.call(
 							this,
 							new PointerEvent("click", {
@@ -498,6 +499,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 			if (event.shiftKey) return doc?.delete();
 			const { top, left, width } = li.getBoundingClientRect();
 			return doc?.deleteDialog({
+				id: doc.uuid ? `${doc.uuid}-delete` : undefined,
 				position: {
 					top,
 					left: Math.clamp(left + width, left, window.innerWidth - 350),

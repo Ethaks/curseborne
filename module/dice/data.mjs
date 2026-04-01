@@ -8,10 +8,18 @@ import { CollectionField, DieSourceField } from "../data/fields/_module.mjs";
 import { randomID, requiredInteger, staticID } from "../helpers/utils.mjs";
 
 const fields = foundry.data.fields;
+
 /**
  * The data object for a {@link CurseborneRoll}, containing all information needed to construct and evaluate a roll.
  */
 export class CurseborneRollContext extends foundry.abstract.DataModel {
+	constructor({ rollData = {}, ...data } = {}, options) {
+		super(data, options);
+		// HACK: Prevent the destructively deep-mutating data model cleaning process from affecting the rollData reference
+		// by destructuring its parameter and smuggling it in as plain property
+		this.rollData = rollData;
+	}
+
 	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = ["CURSEBORNE.DICE"];
 
@@ -65,9 +73,6 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 					}),
 				}),
 			),
-
-			// The `getRollData` result of the rolling actor; not to be persisted
-			rollData: new fields.ObjectField(),
 		};
 	}
 
@@ -140,8 +145,8 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 	}
 
 	/** @inheritDoc */
-	_initialize(data, options) {
-		super._initialize(data, options);
+	_initialize(options) {
+		super._initialize(options);
 
 		try {
 			this.prepareData();
@@ -251,7 +256,7 @@ export class CurseborneRollContext extends foundry.abstract.DataModel {
 		}
 
 		const cleaned = data.map((complication) =>
-			this.schema.fields.complications.model.clean(complication),
+			this.schema.getField("complications").element.clean(complication),
 		);
 		const updateData = Object.fromEntries(
 			cleaned.map((complication) => [complication.id, complication]),

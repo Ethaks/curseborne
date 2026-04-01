@@ -513,7 +513,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 			}
 
 			if (advances === null) targetArray.push(spellContext);
-			else targetArray.find((s) => s.system.identifier === advances).advances.push(spellContext);
+			else targetArray.find((s) => s.system.identifier === advances)?.advances.push(spellContext);
 		};
 
 		const spells = this.actor.itemTypes.spell;
@@ -788,10 +788,10 @@ export class AccursedSheet extends CurseborneActorSheet {
 	_getContextMenuOptions() {
 		const options = super._getContextMenuOptions();
 		options.push({
-			name: "CURSEBORNE.Item.Path.SetMajor",
+			label: "CURSEBORNE.Item.Path.SetMajor",
 			icon: '<i class="fa-solid fa-crown"></i>',
-			group: game.i18n.localize("TYPES.Item.path"),
-			condition: (li) => {
+			group: localize("TYPES.Item.path"),
+			visible: (li) => {
 				const id = li.closest("[data-item-id]")?.dataset.itemId;
 				if (!id) return false;
 				const item = this.actor.items.get(id);
@@ -799,7 +799,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 				const isMajor = this.actor.system.major === item.id;
 				return canBeMajor && !isMajor;
 			},
-			callback: (li) => {
+			onClick: (_event, li) => {
 				const id = li.closest("[data-item-id]").dataset.itemId;
 				const item = this.actor.items.get(id);
 				if (item) return item.system.setMajor();
@@ -1016,11 +1016,11 @@ export class AccursedSheet extends CurseborneActorSheet {
 	 *
 	 * @this {AccursedSheet}
 	 * @param {Event} event - The triggering event
-	 * @param {string} query - The search query
-	 * @param {RegExp} rgx - The regular expression used to match the query
+	 * @param {string} _query - The search query
+	 * @param {RegExp} _rgx - The regular expression used to match the query
 	 * @param {HTMLElement} html - The list of equipment
 	 */
-	static _onEquipmentSearch(event, query, rgx, html) {
+	static _onEquipmentSearch(event, _query, _rgx, html) {
 		this._searchFilters.equipment._filter = foundry.utils.debounce(
 			this._searchFilters.equipment.callback,
 			200,
@@ -1046,11 +1046,11 @@ export class AccursedSheet extends CurseborneActorSheet {
 	 *
 	 * @this {AccursedSheet}
 	 * @param {Event} event - The triggering event
-	 * @param {string} query - The search query
+	 * @param {string} _query - The search query
 	 * @param {RegExp} rgx - The regular expression used to match the query
 	 * @param {HTMLElement} html - The list of spells
 	 */
-	static _onSpellSearch(event, query, rgx, html) {
+	static _onSpellSearch(event, _query, rgx, html) {
 		// HACK: Reset the filter function previously overridden in the initial render
 		this._searchFilters.spells._filter = foundry.utils.debounce(
 			this._searchFilters.spells.callback,
@@ -1147,10 +1147,10 @@ export class AccursedSheet extends CurseborneActorSheet {
 	 * Toggle between filtering spells including their description, and filtering only by practice/group/spell name.
 	 *
 	 * @this {AccursedSheet}
-	 * @param {Event} event - The triggering event
+	 * @param {Event} _event - The triggering event
 	 * @param {HTMLElement} target - The target
 	 */
-	static _onToggleSearch(event, target) {
+	static _onToggleSearch(_event, target) {
 		// Modes: CONST.DIRECTORY_SEARCH_MODES.FULL, CONST.DIRECTORY_SEARCH_MODES.NAME;
 		const search = target.closest("search").dataset.search;
 		const searchModes = this.#searchModesSetting.get();
@@ -1189,28 +1189,16 @@ export class AccursedSheet extends CurseborneActorSheet {
 		searchButton.ariaLabel = game.i18n.localize(searchTooltip);
 	}
 
-	/***************
-	 *
-	 * Drag and Drop
-	 *
-	 ***************/
-
-	/********************
-	 *
-	 * Actor Override Handling
-	 *
-	 ********************/
-
 	/**
 	 * Submit a document update based on the processed form data.
-	 * @param {SubmitEvent} event                   The originating form submission event
-	 * @param {HTMLFormElement} form                The form element that was submitted
+	 * @param {SubmitEvent} _event                   The originating form submission event
+	 * @param {HTMLFormElement} _form                The form element that was submitted
 	 * @param {object} submitData                   Processed and validated form data to be used for a document update
 	 * @returns {Promise<void>}
 	 * @protected
 	 * @override
 	 */
-	async _processSubmitData(event, form, submitData) {
+	async _processSubmitData(_event, _form, submitData) {
 		const overrides = foundry.utils.flattenObject(this.actor.overrides);
 		for (const k of Object.keys(overrides)) delete submitData[k];
 		await this.document.update(submitData);

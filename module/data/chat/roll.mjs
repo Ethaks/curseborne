@@ -456,10 +456,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 		const cost = event.target.value;
 		if (cost === 0) {
 			// Delete the complication
-			this.roll.data.updateSource(
-				{ [`complications.${complicationId}`]: _del },
-				{ performDeletions: true },
-			);
+			this.roll.data.updateSource({ [`complications.${complicationId}`]: _del });
 		} else {
 			this.roll.data.updateSource({
 				[`complications.${complicationId}.value`]: cost,

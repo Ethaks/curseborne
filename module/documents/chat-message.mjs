@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { SessionSetting } from "@helpers/session-setting.mjs";
-import { ValidatedObjectField } from "@models/fields/object.mjs";
 
 export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 	/**
@@ -246,7 +245,7 @@ export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 
 	/** @type {SessionSetting<Record<string, boolean>>} */
 	#expanded = new SessionSetting(`${this.uuid}.expanded`, {
-		schema: new ValidatedObjectField(
+		schema: new foundry.data.fields.TypedObjectField(
 			new foundry.data.fields.BooleanField({ required: true, initial: false }),
 		),
 	});

@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { StringSet } from "@helpers/set.mjs";
 import { DotsInput } from "../../applications/components/dots-input.mjs";
 
 /** @import { DataFieldOptions, DataFieldContext } from "@common/data/_types.mjs"; */
@@ -27,11 +28,10 @@ export class DotsField extends foundry.data.fields.SchemaField {
 					integer: true,
 					min: 0,
 				};
-				// If the given field is currently a number, use it to set the initial value; fall back to 0 for value and 5 for max
+				// If the given field is currently a number, use it to set the initial value
 				if (typeof fields[key] === "number") {
+					defaultOptions.persisted = false;
 					defaultOptions.initial = fields[key];
-					defaultOptions.min = fields[key];
-					defaultOptions.max = fields[key];
 				} else if (typeof fields[key] === "object" && fields[key] !== null) {
 					// If it is an object, merge it with the default options
 					Object.assign(defaultOptions, fields[key]);
@@ -67,10 +67,7 @@ export class DotsField extends foundry.data.fields.SchemaField {
 		config.value.max = config.max ?? config.value.max;
 
 		// Ensure `config.fields` is a Set for easier checking; default to just "value"
-		if (!config.fields) config.fields = new Set(["value"]);
-		else if (Array.isArray(config.fields)) config.fields = new Set(config.fields);
-		else if (typeof config.fields === "string")
-			config.fields = new Set([...config.fields.split(" ")]);
+		config.fields ??= new StringSet(["value"]);
 		if (config.fields.size === 0)
 			throw new Error(`Cannot create DotsField input for ${config.name} with no fields requested`);
 

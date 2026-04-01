@@ -40,7 +40,7 @@ export class RollModifier extends foundry.abstract.DataModel {
 	 * @type {string}
 	 */
 	get uuid() {
-		const baseUuid = this.parent.parent.uuid || "";
+		const baseUuid = this.parent?.parent?.uuid || "";
 		return `${baseUuid}.${this.constructor.metadata.name}.${this.id}`;
 	}
 

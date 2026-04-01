@@ -124,7 +124,7 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 			show[key] = this.options.show?.[key] ?? true;
 			return show;
 		}, {});
-		const dataSourceField = this.rollContext.schema.getField("sources").model;
+		const dataSourceField = this.rollContext.schema.getField("sources").element;
 		const { DieSourceField } = curseborne.models.fields;
 
 		const sortOrder = /** @type {const} */ ({
@@ -179,7 +179,6 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 		context.enhancements = {
 			field: context.fields.enhancements,
 			value: this.rollContext.enhancements.map((e) => ({ ...e })),
-			input: (field, config) =>
 			input: (_field, config) =>
 				curseborne.applications.components.ModifierSelectElement.create({
 					...config,
@@ -192,7 +191,6 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 		context.complications = {
 			field: context.fields.complications,
 			value: this.rollContext.complications,
-			input: (field, config) =>
 			input: (_field, config) =>
 				curseborne.applications.components.ModifierSelectElement.create({
 					...config,
@@ -205,7 +203,6 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 		context.difficulties = {
 			field: context.fields.difficulties,
 			value: this.rollContext.difficulties,
-			input: (field, config) =>
 			input: (_field, config) =>
 				curseborne.applications.components.ModifierSelectElement.create({
 					...config,

@@ -180,6 +180,15 @@ export const STATUS_EFFECTS = /** @type {const} */ ({
 		img: "",
 		enhancements: { refreshed: { value: 1 } },
 	},
+	sensesOccluded: {
+		name: "CURSEBORNE.STATUS_EFFECTS.SensesOccluded",
+		img: "",
+		complications: {
+			sensesOccluded1: { value: COMPLICATION.MINOR },
+			sensesOccluded2: { value: COMPLICATION.MODERATE },
+			sensesOccluded3: { value: COMPLICATION.MAJOR },
+		},
+	},
 	sleepingPills: {
 		name: "CURSEBORNE.STATUS_EFFECTS.SleepingPills",
 		img: "",

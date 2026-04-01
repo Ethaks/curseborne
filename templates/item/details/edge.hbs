@@ -5,7 +5,24 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 --}}
 
 <section class="tab standard-form {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
-	{{curse-formGroup systemFields.dots formGroupOptions fields="min value" span=true}}
+	{{! Dot Rating }}
+	<fieldset class="dots">
+		<legend>{{localize "CURSEBORNE.Item.Edge.FIELDS.dots.label"}}</legend>
+		{{curse-formGroup systemFields.dots.fields.type formGroupOptions}}
+
+		{{! Fixed Cost }}
+		{{#if showDots}}
+			{{
+				curse-formGroup systemFields.dots.fields.value formGroupOptions
+				min=-1 max=system.cost.max type="number"
+			}}
+		{{/if}}
+
+		{{! Variable Cost }}
+		{{#if (eq system.dots.type "variable")}}
+			{{curse-formGroup systemFields.dots.fields.min formGroupOptions}}
+		{{/if}}
+	</fieldset>
 
 	{{! Advanced Fields }}
 	<fieldset class="advanced">

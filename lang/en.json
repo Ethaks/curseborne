@@ -135,6 +135,22 @@
 				}
 			},
 
+			"Edge": {
+				"FIELDS": {
+					"dots": {
+						"label": "Dot Rating",
+						"type": {
+							"label": "Rating Type",
+							"hint": "Whether this Edge's dot rating is variable or a fixed value.",
+							"fixed": "Fixed Dot Rating",
+							"variable": "Variable Dot Rating"
+						},
+						"value": { "label": "Dot Rating Value" },
+						"min": { "label": "Minimum Dot Rating" }
+					}
+				}
+			},
+
 			"Equipment": {
 				"FIELDS": {
 					"type": {

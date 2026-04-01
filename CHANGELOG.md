@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enable compatibility with Foundry v14
 - Add new Trick types: initiative, spell, and lineage
 - Add Senses Occluded status effect
+- Add Dot Rating types to Edges
 
 ### Changed
 

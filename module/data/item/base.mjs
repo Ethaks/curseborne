@@ -4,9 +4,15 @@
 
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { localize, systemTemplate } from "@helpers/utils.mjs";
+import { camelize, localize, systemTemplate } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { IdentifierMixin } from "@models/fields/identifier.mjs";
 import { CurseborneTypeDataModel } from "../base.mjs";
+
+/**
+ * @import { CurseborneActor } from "@documents/actor.mjs";
+ * @import { CurseborneItem } from "@documents/item.mjs";
+ */
 
 const { TextEditor } = foundry.applications.ux;
 
@@ -32,6 +38,65 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 		schema.description = new fields.HTMLField({ trim: true, textSearch: true });
 
 		return schema;
+	}
+
+	/**
+	 * Retrieve a Collection of all items of a given type, keyed by their identifier,
+	 * ascending in closeness to the user (system > module > world compendium > world item > provided document).
+	 *
+	 * @param {object} options - Options for retrieving the index
+	 * @param {string} [options.type] - The item type to retrieve; defaults to the model type per its {@linkcode metadata}.
+	 * @param {string[]} [options.fields] - An array of system field paths to include in the index entries.
+	 * @param {CurseborneActor} [options.actor] - An actor whose embedded items should also be considered for the collection.
+	 * @returns {Promise<foundry.utils.Collection<object | CurseborneItem>>} A collection of index entries or item documents
+	 */
+	static async getIndex({ type = "", fields = [], actor = null } = {}) {
+		const collection = new foundry.utils.Collection();
+
+		type ||= this.metadata.type;
+		if (!type) throw new Error("Item type must be specified in options or defined in metadata.");
+
+		// Always include identifier to allow indexing
+		fields.push("system.identifier");
+
+		// Start with compendium packs, from system to module to world
+		/** @type {Promise<object[]>[]} */
+		const packPromises = [];
+		for (const packSource of ["system", "module", "world"]) {
+			game.packs
+				.filter(
+					(p) =>
+						p.documentName === "Item" &&
+						p.metadata.packageType === packSource &&
+						p.index.some((e) => e.type === type),
+				)
+				.map(async (pack) => {
+					await pack.getIndex({ fields });
+					return /** @type {object[]} */ (pack.index.filter((e) => e.type === type));
+				})
+				.forEach((promise) => {
+					packPromises.push(promise);
+				});
+		}
+		const packEntries = await Promise.all(packPromises);
+		for (const entry of packEntries.flat()) {
+			const identifier = entry.system?.identifier ?? camelize(entry.name);
+			collection.set(identifier, entry);
+		}
+
+		// Then include world items, again overriding any previous items of the same identifier
+		for (const item of game.items.filter((i) => i.type === type)) {
+			if (item.system?.identifier) collection.set(item.system.identifier, item);
+		}
+
+		// If an actor is provided, include their items as well
+		if (actor) {
+			for (const item of actor.items.filter((i) => i.type === type)) {
+				if (item.system?.identifier) collection.set(item.system.identifier, item);
+			}
+		}
+
+		return collection;
 	}
 
 	/**

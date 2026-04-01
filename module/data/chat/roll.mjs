@@ -67,7 +67,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 			const combat = combatant?.combat;
 
 			if (combatant && !combat?.started) {
-				await combatant.update({ initiative: this.roll.hits });
+				await combatant.update({ initiative: this.roll.surplus });
 			}
 		}
 
@@ -225,7 +225,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 			roll.data.tricks.map(async (t) => {
 				// TODO: Rely on index data for roll? Await getAllTricks to retrieve index?
 				const item = await foundry.utils.fromUuid(t.uuid);
-				// Always disable for plaerys, and disable for GMs if cost is fixed
+				// Always disable for players, and disable for GMs if cost is fixed
 				const disabled = !isGM || item.system.cost.type === "fixed";
 				return {
 					...t,
@@ -243,7 +243,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 		);
 
 		// Available buttons
-		// Owners can toggle succeess on, only GMs can toggle it off
+		// Owners can toggle success on, only GMs can toggle it off
 		const canBuySuccess = isOwner && roll.isFailure && !roll.data.forcedSuccess;
 		const canRemoveSuccess = isGM && roll.data.forcedSuccess;
 		const canBuyEnhancement =
@@ -268,7 +268,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 			total: isPrivate ? "?" : roll.total,
 			surplus,
 			target: roll.data.target,
-			isUnuualTarget: roll.data.target !== roll.data.schema.fields.target.initial,
+			isUnusualTarget: roll.data.target !== roll.data.schema.fields.target.initial,
 			isSuccess: roll.isSuccess,
 			isFailure: roll.isFailure,
 			hits: isPrivate ? "???" : roll.total,

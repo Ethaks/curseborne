@@ -20,7 +20,7 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 				{{/if}}
 
 				{{! Always show normal dice total }}
-				<span class="normal-dice" data-tooltip="CURSEBORNE.Dice">
+				<span class="normal-dice" data-tooltip="CURSEBORNE.Dice.other">
 					<i class="fa-light fa-dice-d10"></i>
 					{{summary.normalDice}}
 				</span>
@@ -46,8 +46,7 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 					class='difficulty {{ifThen difficulties.length "increased" "" }}'
 					data-tooltip="{{difficultyLabel}}"
 				>
-					<i class="fa fa-bullseye"></i>
-					{{difficulty}}
+					<i class="fa fa-fw fa-bullseye"></i>{{difficulty}}
 				</span>
 			{{/if}}
 		</div>

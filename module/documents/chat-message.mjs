@@ -80,7 +80,7 @@ export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 				return user ? user.name : null;
 			})
 			.filterJoin(", ");
-		let subtitle = this.whisper.length ? whisperTo : this.author.name;
+		let subtitle = this.whisper.length ? whisperTo : this.author?.name;
 		if (subtitle === this.alias) subtitle = "";
 
 		// Construct message data

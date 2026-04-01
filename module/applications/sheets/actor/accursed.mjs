@@ -395,8 +395,10 @@ export class AccursedSheet extends CurseborneActorSheet {
 				dotField: edge.system.schema.fields.dots,
 				formGroupOptions: {
 					...context.formGroupOptions,
+					disabled: context.editable === false || edge.system.dots.type === "fixed",
 					rootId: `${context.formGroupOptions.rootId}-edges-${edge.id}`,
 				},
+				disabled: context.editable === false || edge.system.dots.type === "fixed",
 				dataset: { action: "updateEmbedded", property: "system.dots.value" },
 				tooltip: CurseborneTooltipManager.implementation.createPlaceholder({
 					uuid: edge.uuid,

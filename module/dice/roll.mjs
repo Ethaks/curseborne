@@ -97,7 +97,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 	}
 
 	/**
-	 * Whether this roll is a wicked succes, i.e. a success with at least one curse die being a hit.
+	 * Whether this roll is a wicked success, i.e. a success with at least one curse die being a hit.
 	 *
 	 * @returns {undefined | boolean}
 	 */
@@ -144,7 +144,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 			return altered;
 		}
 
-		// Assume that alteredOucome would not change the outcome
+		// Assume that alteredOutcome would not change the outcome
 		return false;
 	}
 
@@ -233,34 +233,8 @@ export class CurseborneRoll extends foundry.dice.Roll {
 
 	/** @inheritDoc */
 	static replaceFormulaData(formula, data, { missing, warn = false } = {}) {
-		const dataRgx = new RegExp(/@([a-z.0-9_-]+)/gi);
-		return formula.replace(dataRgx, (match, term) => {
-			// Look up the value of the term in the inner rollData object instead of
-			// stricter data model instance
-			let value = foundry.utils.getProperty(data?.rollData ?? {}, term);
-			if (value == null) {
-				if (warn && ui.notifications)
-					ui.notifications.warn("DICE.WarnMissingData", { format: { match } });
-				return missing !== undefined ? String(missing) : match;
-			}
-			switch (foundry.utils.getType(value)) {
-				case "string":
-					return value.trim();
-				case "number":
-				case "boolean":
-					return String(value);
-				case "Object":
-					if (value.constructor.name !== "Object") return value.toString();
-					break;
-				case "Set":
-					value = Array.from(value);
-					break;
-				case "Map":
-					value = Object.fromEntries(Array.from(value));
-					break;
-			}
-			return `$${JSON.stringify(value)}$`;
-		});
+		// Use inner rollData for formula replacement instead of system DataModel
+		return super.replaceFormulaData(formula, data?.rollData, { missing, warn });
 	}
 
 	/** @override */
@@ -281,8 +255,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		this.terms = this.terms.filter((t) => t.options.type !== "enhancement");
 
 		const hasHits = this.total > 0;
-		const hasDifficulty = this.data.difficulty !== null && this.data.difficulty > 0;
-		if (!hasHits && hasDifficulty) return;
+		if (!hasHits) return;
 
 		/** @type {foundry.dice.terms.NumericTerm[]} */
 		const enhancements = [];
@@ -320,7 +293,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 
 			// Individual enhancements should not have a value above 3; as official content does contain exceptions, this is not enforced
 			// The total sum of enhancements for a roll cannot exceed 5; parts that would exceed this limit are reduced to fit,
-			// possibly leading to effectively-0-value enhancements (that are still listed for transparenct)
+			// possibly leading to effectively-0-value enhancements (that are still listed for transparent)
 			// Each enhancement's value can be a number, or a string to be resolved by the roll data
 			const enhancementValue =
 				typeof enhancement.value === "number"
@@ -471,7 +444,7 @@ export class CurseborneRoll extends foundry.dice.Roll {
 	}
 
 	/**
-	 * Factory method to create and configure a new CureborneRoll
+	 * Factory method to create and configure a new CurseborneRoll
 	 *
 	 * @param {ActorRollOptions} options - The options for the roll.
 	 * @returns {Promise<ActorRollResult>} An object containing a roll and a message, if any.

@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Allow individual enhancements to exceed a value of 3 to account for official content providing such
 - Improve styling of document embed headers outside of tooltips
+- Require one hit for enhancement to apply, even for 0 difficulty rolls
 
 ### Fixed
 

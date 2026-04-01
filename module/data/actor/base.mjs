@@ -98,7 +98,7 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 		for (const field of ["injuries", "armor"]) {
 			if (changes.system?.[field]?.value !== undefined) {
 				const max = this[field].max;
-				changes.system[field].value = Math.clamped(changes.system[field].value, 0, max);
+				changes.system[field].value = Math.clamp(changes.system[field].value, 0, max);
 			}
 		}
 

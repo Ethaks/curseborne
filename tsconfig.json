@@ -34,6 +34,7 @@
 		"**/*.d.ts",
 		"foundry/client/client.mjs",
 		"foundry/client/global.d.mts",
+		"foundry/common/global.d.mts",
 		"foundry/common/**/*.mjs",
 		"./foundry/public/scripts/greensock"
 	],

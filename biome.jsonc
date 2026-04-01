@@ -76,7 +76,8 @@
 					"game",
 					"Tour",
 					"getDocumentClass",
-					"gsap"
+					"gsap",
+					"_del"
 				]
 			}
 		}

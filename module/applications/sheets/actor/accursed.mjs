@@ -215,7 +215,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		healthContext.armor = {
 			enabled: armor.max > 0,
 			label: game.i18n.localize("CURSEBORNE.Actor.base.FIELDS.armor.value.label"),
-			boxes: Array.from({ length: armor.max }, (_, i) => ({
+			boxes: Array.from({ length: Math.min(armor.max, 10) }, (_, i) => ({
 				index: i,
 				filled: i >= armor.value,
 			})),
@@ -252,7 +252,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 		// example: Proliferate, Advance Invasive Growth
 		if (injuries.max > boxCounter) {
 			injuryLevels.at(-1).boxes.push(
-				...Array.from({ length: injuries.max - boxCounter }, (_, i) => ({
+				...Array.from({ length: Math.min(injuries.max - boxCounter, 20) }, (_, i) => ({
 					filled: boxCounter + i >= injuries.value,
 					index: boxCounter + i,
 				})),

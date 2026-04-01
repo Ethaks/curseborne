@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { DotsField } from "../data/fields/dots.mjs";
+import { StringSet } from "./set.mjs";
 
 /** @import { FormGroupConfig } from "@foundry/common/data/_types.mjs" */
 
@@ -44,12 +45,12 @@ export class CurseborneHandlebarsHelpers {
 		 * a derived valuue when not. Fall back to the other if the preferred source is not available.
 		 *
 		 * @param {string} path - The path to retrieve the property for
+		 * @param {boolean} [editable] - Override for `config.editable` to enable preferential retrieval
 		 * @returns {any} - The property value
 		 */
-		const getProperty = (path) => {
-			const source = config.editable
-				? (config.source ?? config.model)
-				: (config.model ?? config.source);
+		const getProperty = (path, editable = null) => {
+			editable ??= config.editable;
+			const source = editable ? (config.source ?? config.model) : (config.model ?? config.source);
 			if (!source) return null;
 			return foundry.utils.getProperty(source, path);
 		};
@@ -59,8 +60,9 @@ export class CurseborneHandlebarsHelpers {
 		// If a model is given, retrieve the value from the model
 		if (config.model || config.source) {
 			if (field instanceof DotsField) {
-				// Derive a PipField's max from the model, not the field
-				config.max ??= getProperty(`${field.fieldPath}.max`);
+				const fields = new StringSet(config.fields ?? ["value"]);
+				// Derive a PipField's max from the model, not the field (unless the max is editable in the group)
+				config.max ??= getProperty(`${field.fieldPath}.max`, config.editable && fields.has("max"));
 			}
 			// If edit mode is given and true, and source data is available, use that instead of the derived value
 			config.value ??= getProperty(config.name);
@@ -78,11 +80,7 @@ export class CurseborneHandlebarsHelpers {
 	 * @returns {HTMLElement} - The form group element
 	 */
 	static formGroup(field, defaultOptions = {}, options = null) {
-		// If options are null, they are the second argument
-		if (options === null) {
-			options = defaultOptions;
-			defaultOptions = {};
-		}
+		options = CurseborneHandlebarsHelpers._prepareOptions(field, defaultOptions, options);
 
 		// Added options
 		let {
@@ -94,14 +92,11 @@ export class CurseborneHandlebarsHelpers {
 			source = null,
 			labelColon = false,
 			span = false,
-		} = { ...defaultOptions, ...options.hash };
+		} = options;
 
 		editable ??= isEditMode !== false;
 
-		const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = {
-			...defaultOptions,
-			...options.hash,
-		};
+		const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options;
 
 		inputConfig.name ??= field.fieldPath;
 

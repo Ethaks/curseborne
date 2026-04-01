@@ -26,6 +26,26 @@ export class CurseborneActiveEffectModel extends CurseborneTypeDataModel {
 			complications: new CollectionField(new fields.EmbeddedDataField(Complication)),
 			difficulties: new CollectionField(new fields.EmbeddedDataField(DifficultyChange)),
 
+			changes: new fields.ArrayField(
+				new fields.SchemaField({
+					key: new fields.StringField({ required: true }),
+					type: new fields.StringField({
+						required: true,
+						blank: false,
+						initial: "add",
+						validate: CurseborneActiveEffectModel.#validateType,
+					}),
+					value: new fields.AnyField({
+						required: true,
+						nullable: true,
+						serializable: true,
+						initial: "",
+					}),
+					phase: new fields.StringField({ required: true, blank: false, initial: "initial" }),
+					priority: new fields.NumberField(),
+				}),
+			),
+
 			// Duration
 			// TODO: Add passed time as separate field
 			duration: new fields.SchemaField({
@@ -71,6 +91,24 @@ export class CurseborneActiveEffectModel extends CurseborneTypeDataModel {
 	 */
 	get durationLabel() {
 		return game.i18n.localize(curseborne.config.durations[this.duration.unit]?.label) ?? "";
+	}
+
+	/**
+	 * Validate that an {@link EffectChangeData#type} string is well-formed.
+	 *
+	 * @param {string} type The string to be validated
+	 * @returns {true}
+	 * @throws {Error} An error if the type string is malformed
+	 */
+	static #validateType(type) {
+		if (type.length < 3) throw new Error("must be at least three characters long");
+		if (!/^custom\.-?\d+$/.test(type) && !type.split(".").every((s) => /^[a-z0-9]+$/i.test(s))) {
+			throw new Error(
+				"A change type must either be a sequence of dot-delimited, alpha-numeric substrings or of the form" +
+					' "custom.{number}"',
+			);
+		}
+		return true;
 	}
 
 	/**

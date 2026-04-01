@@ -23,8 +23,8 @@ export class CurseborneActor extends foundry.documents.Actor {
 	}
 
 	/** @inheritDoc */
-	applyActiveEffects() {
-		super.applyActiveEffects();
+	applyActiveEffects(phase) {
+		super.applyActiveEffects(phase);
 
 		// Manually add modifiers from statuses to AEs providing them;
 		// this ensures that each status's modifiers are only applied once, while keeping them connected to their source AE

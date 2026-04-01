@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Display additional injury boxes granted by an increased maximum number (like Invasive Growth)
 - Add text fields for Damnation and Inheritance to Lineages and Families
 - Add text enrichers: `/apply`, `/damage`, `/curseDice`
+- Enable compatibility with Foundry v14
 
 ### Changed
 

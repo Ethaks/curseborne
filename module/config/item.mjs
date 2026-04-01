@@ -42,6 +42,11 @@ export const trickTypes = /** @type {const} */ ({
 	influence: { label: "CURSEBORNE.Item.Trick.FIELDS.type.Influence" },
 	integrity: { label: "CURSEBORNE.Item.Trick.FIELDS.type.Integrity" },
 	investigation: { label: "CURSEBORNE.Item.Trick.FIELDS.type.Investigation" },
+
+	lineage: { label: "CURSEBORNE.Item.Trick.FIELDS.type.Lineage" },
+	spell: { label: "CURSEBORNE.Item.Trick.FIELDS.type.Spell" },
+
+	initiative: { label: "CURSEBORNE.Item.Trick.FIELDS.type.Initiative" },
 });
 
 /* ---------------------------------------------------------------------------------------------- */

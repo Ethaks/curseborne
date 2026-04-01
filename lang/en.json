@@ -210,7 +210,12 @@
 
 						"Influence": "Influence",
 						"Integrity": "Integrity",
-						"Investigation": "Investigation"
+						"Investigation": "Investigation",
+
+						"Lineage": "Lineage",
+						"Spell": "Spell",
+
+						"Initiative": "Initiative"
 					},
 					"cost": {
 						"label": "Cost",

@@ -423,11 +423,18 @@ export class AccursedSheet extends CurseborneActorSheet {
 			if (!attributeConfig) continue;
 			const group = attributeConfig.group;
 			if (!groups[group]) continue;
+			const tooltip = attributeConfig.reference
+				? CurseborneTooltipManager.implementation.createPlaceholder({
+						uuid: attributeConfig.reference,
+						tooltipDirection: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.DOWN,
+					})
+				: null;
 			groups[group].attributes.push({
 				id,
 				label: game.i18n.localize(attributeConfig.label),
 				field: this.actor.system.schema.fields.attributes.fields[id],
 				value: this.isEditMode ? context.source.system.attributes[id] : attribute,
+				tooltip,
 			});
 		}
 		return groups;

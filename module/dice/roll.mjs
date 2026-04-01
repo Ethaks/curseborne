@@ -441,16 +441,6 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		return super.toMessage(messageData, options);
 	}
 
-	/**
-	 * Add options to adjust 3D dice rendering in the Dice So Nice module.
-	 */
-	#addDiceSoNiceEffects() {
-		this.curseTerm.options.sfx = {
-			specialEffect: "PlayAnimationDark",
-			options: { muteSound: true },
-		};
-	}
-
 	renderDialog(options) {
 		this.dialog?.render(options);
 	}

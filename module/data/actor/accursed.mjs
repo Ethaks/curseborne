@@ -382,7 +382,7 @@ export class Accursed extends CurseborneActorBase {
 					},
 				});
 			} else if (roll.data.sources.has("injury") && !(isPathSkill && level)) {
-				roll.data.updateSource({ "sources.-=injury": null });
+				roll.data.updateSource({ "sources.injury": _del });
 			}
 		}
 	}

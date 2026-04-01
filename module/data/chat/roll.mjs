@@ -457,9 +457,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 		if (cost === 0) {
 			// Delete the complication
 			this.roll.data.updateSource(
-				{
-					[`complications.-=${complicationId}`]: null,
-				},
+				{ [`complications.${complicationId}`]: _del },
 				{ performDeletions: true },
 			);
 		} else {
@@ -538,7 +536,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 		const bolsterDelta = trick.system.identifier === "bolster" ? newCost - currentCost : undefined;
 		if (newCost === 0) {
 			// Delete the trick
-			this.roll.data.updateSource({ [`tricks.-=${trickId}`]: null });
+			this.roll.data.updateSource({ [`tricks.${trickId}`]: _del });
 		} else {
 			this.roll.data.updateSource({
 				[`tricks.${trickId}.value`]: newCost,
@@ -557,7 +555,7 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	 */
 	static async _onDeleteTrick(_event, target) {
 		const trickId = target.closest("[data-trick-id]").dataset.trickId;
-		this.roll.data.updateSource({ [`tricks.-=${trickId}`]: null });
+		this.roll.data.updateSource({ [`tricks.${trickId}`]: _del });
 		return this.parent.update({ rolls: [this.roll] });
 	}
 

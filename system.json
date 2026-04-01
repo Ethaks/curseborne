@@ -55,10 +55,10 @@
 		}
 	],
 	"background": "systems/curseborne/assets/repo.webp",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"compatibility": {
-		"minimum": "13",
-		"verified": "13"
+		"minimum": "14",
+		"verified": "14"
 	},
 	"scripts": ["greensock/dist/gsap.min.js"],
 	"esmodules": ["curseborne.js"],

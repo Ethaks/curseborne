@@ -132,7 +132,7 @@ export function CurseborneDocumentSheetMixin(Base) {
 				category.effects.push({
 					effect,
 					tooltip: CurseborneTooltipManager.implementation.createPlaceholder({ uuid: effect.uuid }),
-					relativeUuid: effect.getRelativeUUID(this.document),
+					relativeUuid: foundry.utils.buildRelativeUuid(effect, this.document),
 				});
 			};
 

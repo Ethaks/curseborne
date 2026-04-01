@@ -265,7 +265,7 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 		//  - If the form data is used to update a data model, use deletion key syntax
 		//  - If the form data is used as-is, delete the key directly
 		delete this._value[tag.dataset.id];
-		if (this.#useDeletionKeys) this._value[`-=${tag.dataset.id}`] = null;
+		if (this.#useDeletionKeys) this._value[`${tag.dataset.id}`] = _del;
 		this.dispatchEvent(new Event("change", { bubbles: true, cancelable: true }));
 		this._refresh();
 	}
@@ -396,6 +396,7 @@ export class BetterMultiSelectElement extends foundry.applications.elements
 	 * @param {object} choice - The choice object to check
 	 * @returns {boolean} - Is the choice valid?
 	 */
+	// biome-ignore lint/correctness/noUnusedFunctionParameters: Choice objects can be of any shape as long as they have a label and value property
 	_applyChoiceFilter(input, id, choice) {
 		return (
 			choice.label.toLowerCase().includes(input.toLowerCase().trim()) ||

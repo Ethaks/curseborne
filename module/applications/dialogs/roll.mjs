@@ -180,6 +180,7 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 			field: context.fields.enhancements,
 			value: this.rollContext.enhancements.map((e) => ({ ...e })),
 			input: (field, config) =>
+			input: (_field, config) =>
 				curseborne.applications.components.ModifierSelectElement.create({
 					...config,
 					useDeletionKeys: true,
@@ -192,6 +193,7 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 			field: context.fields.complications,
 			value: this.rollContext.complications,
 			input: (field, config) =>
+			input: (_field, config) =>
 				curseborne.applications.components.ModifierSelectElement.create({
 					...config,
 					useDeletionKeys: true,
@@ -204,6 +206,7 @@ export class CurseborneRollDialog extends TabsMixin(FormDialog) {
 			field: context.fields.difficulties,
 			value: this.rollContext.difficulties,
 			input: (field, config) =>
+			input: (_field, config) =>
 				curseborne.applications.components.ModifierSelectElement.create({
 					...config,
 					useDeletionKeys: true,

@@ -26,7 +26,7 @@ function countDouble(modifier) {
 	const match = modifier.match(rgx);
 	if (!match) return false;
 	let [comparison, target] = match.slice(1);
-	target = Number.parseInt(target) || this.faces;
+	target = Number.parseInt(target, 10) || this.faces;
 
 	for (const result of this.results) {
 		if (foundry.dice.terms.DiceTerm.compareResult(result.result, comparison, target)) {

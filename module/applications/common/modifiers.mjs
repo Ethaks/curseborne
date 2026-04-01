@@ -159,7 +159,7 @@ export class CurseborneModifiersMixin {
 				await this.submit({ render: false });
 				const field = target.closest("[data-modifier-field]").dataset.modifierField;
 				const id = target.closest("[data-id]").dataset.id;
-				await this.document.update({ [`system.${field}.-=${id}`]: null });
+				await this.document.update({ [`system.${field}.${id}`]: _del });
 			}
 		};
 	}

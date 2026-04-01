@@ -19,7 +19,7 @@ export const id = "curseborne.apply";
 /* ---------------------------------------------------------------------------------------------- */
 
 /** @type {TextEditorEnricherConfig["pattern"]} */
-export const pattern = /\[\[\/(?<type>apply)(?<config> .*?)?]](?!])(?:{(?<label>[^}]+)})?/gi;
+export const pattern = /\[\[\/(?<type>apply|remove)(?<config> .*?)?]](?!])(?:{(?<label>[^}]+)})?/gi;
 
 /* ---------------------------------------------------------------------------------------------- */
 
@@ -29,10 +29,11 @@ export const pattern = /\[\[\/(?<type>apply)(?<config> .*?)?]](?!])(?:{(?<label>
  * @type {TextEditorEnricher}
  */
 export async function enricher(match, options) {
-	let { config, label } = match.groups;
+	let { type, config, label } = match.groups;
 
 	const parsedConfig = parseConfig(config);
 	parsedConfig._input = match[0];
+	type = parsedConfig.type || type;
 
 	const linkConfig = {};
 
@@ -68,6 +69,7 @@ export async function enricher(match, options) {
 			linkConfig.type = "status";
 			linkConfig.status = status.id;
 			parsedConfig.name ||= localize(status.name);
+			if (type === "remove") linkConfig.remove = true;
 			continue;
 		}
 
@@ -84,9 +86,10 @@ export async function enricher(match, options) {
 	if (!linkConfig.type) return null;
 
 	if (parsedConfig.name)
-		linkConfig.tooltip = localize("CURSEBORNE.Enrichers.ApplyEffect.LinkTooltip", {
-			name: parsedConfig.name,
-		});
+		linkConfig.tooltip = localize(
+			`CURSEBORNE.Enrichers.ApplyEffect.LinkTooltip${type === "remove" ? "Remove" : ""}`,
+			{ name: parsedConfig.name },
+		);
 
 	label ||= parsedConfig.name;
 
@@ -99,7 +102,7 @@ export async function enricher(match, options) {
 export async function onRender(element) {
 	const link = element.querySelector("a");
 	link.addEventListener("click", onClickAnchor);
-	// TODO: Add contextmenu listener to open effect's sheet (for docs) or journal sheet (for status effects)
+	link.addEventListener("contextmenu", onContextMenu);
 }
 
 /**
@@ -119,7 +122,7 @@ async function onClickAnchor() {
 		this.dataset.type === "custom"
 			? (await foundry.utils.fromUuid(this.dataset.uuid)).clone(
 					{},
-					{ keepdId: true, addSource: true },
+					{ keepId: true, addSource: true },
 				)
 			: await CurseborneActiveEffect.fromStatusEffect(this.dataset.status);
 
@@ -138,8 +141,13 @@ async function onClickAnchor() {
 		else if (actors.has(actor)) continue;
 		else actors.add(actor);
 
+		// TODO: Decide how to handle presence of effect; use id or source flag?
 		const existing = actor.effects.get(tempEffect.id);
-		if (existing?.disabled) await existing.delete();
+		if (existing && this.dataset.remove) {
+			await existing.delete();
+			continue;
+		} else if (existing?.disabled) await existing.delete();
+		else if (existing) continue;
 
 		actor.createEmbeddedDocuments("ActiveEffect", [tempEffect.toObject()], { keepId: true });
 
@@ -149,6 +157,30 @@ async function onClickAnchor() {
 				localize("CURSEBORNE.Enrichers.ApplyEffect.CreateText", { name: tempEffect.name }),
 				{ fill: "white", fontSize: 32, stroke: 0x000000, strokeThickness: 4 },
 			);
+		}
+	}
+}
+
+/**
+ * Open the effect's sheet (for custom effects) or a journal entry describing the status effect (for status effects).
+ *
+ * @this {HTMLAnchorElement}
+ * @param {MouseEvent} event
+ * @returns {Promise<void>}
+ */
+async function onContextMenu(_event) {
+	if (this.dataset.type === "custom") {
+		const effect = await foundry.utils.fromUuid(this.dataset.uuid);
+		effect?.sheet.render(true);
+	} else if (this.dataset.type === "status") {
+		const status = curseborne.config.STATUS_EFFECTS[this.dataset.status];
+		if (!status) return;
+		const doc = await foundry.utils.fromUuid(status.reference);
+		if (doc instanceof foundry.documents.JournalEntryPage) {
+			const journal = doc.parent;
+			journal.sheet.render({ force: true, pageId: doc.id, mode: "single" });
+		} else if (doc instanceof foundry.documents.JournalEntry) {
+			doc.sheet.render(true);
 		}
 	}
 }

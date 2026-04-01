@@ -30,6 +30,23 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	/* --------------------------------------------------------------------------------------------- */
 
 	/** @inheritDoc */
+	async _preUpdate(changes, options, user) {
+		if ((await super._preUpdate(changes, options, user)) === false) return false;
+
+		// If the bolster trick is being decreased to a point where the Pool could not cover it,
+		// deny the update and notify the user
+		if (options[SYSTEM_ID]?.bolsterDelta) {
+			const change = options[SYSTEM_ID].bolsterDelta;
+			if (change < 0 && game.settings.get("curseborne", "momentum") < -change) {
+				ui.notifications.warn("CURSEBORNE.WARNING.NotEnoughMomentum", {
+					localize: true,
+				});
+				return false;
+			}
+		}
+	}
+
+	/** @inheritDoc */
 	async _onUpdate(changed, options, userId) {
 		await super._onUpdate(changed, options, userId);
 

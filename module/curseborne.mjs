@@ -144,7 +144,7 @@ Hooks.once("init", () => {
 	CONFIG.TextEditor.enrichers = [
 		applications.ux.enrichers.applyEffect,
 		applications.ux.enrichers.damage,
-		applications.ux.enrichers.curseDice,
+		applications.ux.enrichers.resource,
 	];
 
 	CONFIG.ui.momentum = applications.Momentum;

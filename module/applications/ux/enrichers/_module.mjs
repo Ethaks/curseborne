@@ -3,5 +3,5 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 export * as applyEffect from "./apply.mjs";
-export * as curseDice from "./curse-dice.mjs";
 export * as damage from "./damage.mjs";
+export * as resource from "./resource.mjs";

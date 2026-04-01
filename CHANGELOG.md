@@ -45,7 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add clash rolls to Accursed, available from the Spells tab
 - Display additional injury boxes granted by an increased maximum number (like Invasive Growth)
 - Add text fields for Damnation and Inheritance to Lineages and Families
-- Add text enrichers: `/apply`, `/damage`, `/curseDice`
+- Add damage text enricher: `/damage`, `/heal`, `/injury`
+- Add `/apply` text enricher to apply Active Effects
+- Add resource text enricher: `/gain`, `/spend`, `/bleed`, `/hold`
 - Enable compatibility with Foundry v14
 - Add new Trick types: initiative, spell, and lineage
 - Add Senses Occluded status effect

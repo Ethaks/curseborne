@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { randomID, SYSTEM_ID } from "./utils.mjs";
+import { localize, randomID, SYSTEM_ID } from "./utils.mjs";
 
 /**
  * A utility class that handles socket communication for the MM3 system.
@@ -54,7 +54,7 @@ export class SocketHandler {
 				if (request) {
 					let response;
 					try {
-						response = await this.handleEvent({ type, payload });
+						response = await this.handleEvent({ type, payload }, { user: sourceUser });
 					} catch (e) {
 						response = { error: e.message };
 					}
@@ -62,7 +62,7 @@ export class SocketHandler {
 				}
 
 				// Fire-and-forget handle the event
-				return this.handleEvent({ type, payload });
+				return this.handleEvent({ type, payload }, { user: sourceUser });
 			},
 		);
 	}
@@ -73,7 +73,7 @@ export class SocketHandler {
 	 * @param {SocketEvent} event - The event to handle
 	 * @returns {Promise<Record<string, unknown> | void>} A response payload if the event is a request, otherwise void
 	 */
-	async handleEvent(event) {
+	async handleEvent(event, { user } = {}) {
 		const { type, payload } = event;
 		switch (type) {
 			// Test events used for Quench
@@ -85,11 +85,26 @@ export class SocketHandler {
 				return { foo: payload.foo + 1 };
 			}
 			case "reduceMomentum": {
-				const { amount } = payload;
+				let { amount, requiresConfirmation } = payload;
+
+				// Increase confirmation level according to setting
+				const confirmationSetting = game.settings.get("curseborne", "momentumConfirmation");
+				if (confirmationSetting === "all") requiresConfirmation = true;
+				else if (confirmationSetting === "gain") requiresConfirmation ||= amount > 0;
+				else if (confirmationSetting === "none") requiresConfirmation = false;
+
 				const momentum = game.settings.get("curseborne", "momentum");
 				if (momentum < amount) {
 					throw new Error("Not enough momentum to reduce");
 				}
+
+				// If confirmation is required, prompt the GM first
+				if (requiresConfirmation) {
+					const confirmed = await curseborne.applications.Momentum.confirmChange(-amount, user);
+					if (!confirmed)
+						return { error: localize("CURSEBORNE.DICE.FIELDS.momentum.Confirmation.Denied") };
+				}
+
 				await game.settings.set("curseborne", "momentum", momentum - amount);
 				return { momentum: momentum - amount };
 			}

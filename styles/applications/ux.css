@@ -8,7 +8,7 @@
 enriched-content:is(
 	[enricher="curseborne.damage"],
 	[enricher="curseborne.apply"],
-	[enricher="curseborne.curseDice"]
+	[enricher="curseborne.resource"]
 )
 .roll-link {
 	background: var(--content-link-background);

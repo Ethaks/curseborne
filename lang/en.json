@@ -23,6 +23,7 @@
 			"trick": "Trick"
 		}
 	},
+
 	"CURSEBORNE": {
 		"SheetLabels": {
 			"Actor": "Curseborne Actor Sheet",
@@ -557,7 +558,13 @@
 					"label": "Momentum",
 					"hint": "Additional enhancements sourced from the Momentum pool applied to the roll if there is at least one hit.",
 					"increase": "Increase Momentum",
-					"decrease": "Decrease Momentum"
+					"decrease": "Decrease Momentum",
+					"Confirmation": {
+						"increase": "Player {user} wants to increase Momentum by {amount}.",
+						"decrease": "Player {user} wants to decrease Momentum by {amount}",
+						"Title": "Momentum Change Confirmation",
+						"Denied": "Change to the Momentum Pool was denied."
+					}
 				},
 				"advantage": {
 					"label": "Advantage",
@@ -623,21 +630,54 @@
 		"Enrichers": {
 			"ApplyEffect": {
 				"NoSelection": "No tokens selected to apply effect to.",
-				"LinkTooltip": "Apply Effect {name} to selected tokens"
+				"LinkTooltip": "Apply Effect {name} to selected tokens",
+				"LinkTooltipRemove": "Remove Effect {name} from selected tokens"
 			},
 
-			"CurseDice": {
-				"bleed": {
-					"Tooltip": "Decrease the number of Curse Dice by {value} for selected tokens"
-				},
-				"hold": {
-					"Tooltip": {
-						"one": "Check whether the selected tokens have {value} Curse Die",
-						"other": "Check whether the selected tokens have {value} Curse Dice"
+			"resource": {
+				"curseDice": {
+					"bleed": {
+						"label": {
+							"one": "Bleed {value} Curse Die",
+							"other": "Bleed {value} Curse Dice"
+						},
+						"tooltip": "Decrease the number of Curse Dice by {value} for selected tokens",
+						"warning": {
+							"one": "{name} does not have {value} Curse Die to bleed.",
+							"other": "{name} does not have {value} Curse Dice to bleed."
+						}
+					},
+					"hold": {
+						"label": {
+							"one": "Hold {value} Curse Die",
+							"other": "Hold {value} Curse Dice"
+						},
+						"tooltip": {
+							"one": "Check whether the selected tokens have {value} Curse Die",
+							"other": "Check whether the selected tokens have {value} Curse Dice"
+						},
+						"warning": {
+							"one": "{name} does not have {value} Curse Die.",
+							"other": "{name} does not have {value} Curse Dice."
+						}
+					},
+					"gain": {
+						"label": {
+							"one": "Gain {value} Curse Die",
+							"other": "Gain {value} Curse Dice"
+						},
+						"tooltip": "Increase the number of Curse Dice by {value} for selected tokens"
 					}
 				},
-				"gain": {
-					"Tooltip": "Increase the number of Curse Dice by {value} for selected tokens"
+				"momentum": {
+					"gain": {
+						"label": "Gain {value} Momentum",
+						"tooltip": "Increase the Momentum pool by {value}"
+					},
+					"spend": {
+						"label": "Spend {value} Momentum",
+						"tooltip": "Decrease the Momentum pool by {value}"
+					}
 				}
 			},
 
@@ -791,6 +831,18 @@
 			"NarrativeTime": "Narrative Time"
 		},
 
+		"Settings": {
+			"MomentumConfirmation": {
+				"Name": "Momentum Changes Requiring Confirmation",
+				"Hint": "Which changes to the Momentum Pool made by players require Storyguide confirmation.",
+				"Choices": {
+					"all": "All",
+					"gain": "Increases",
+					"none": "None"
+				}
+			}
+		},
+
 		"ERROR": {
 			"CannotRollItem": "{type} Items cannot be rolled.",
 			"DuplicateItemType": "Actors can only have one {type} Item."
@@ -798,7 +850,8 @@
 
 		"WARNING": {
 			"NoMomentum": "Not enough Momentum",
-			"NoCurseDice": "Not enough Curse Dice"
+			"NoCurseDice": "Not enough Curse Dice",
+			"NoTokenSelected": "No applicable token selected."
 		},
 
 		"Bonds": "Bonds",

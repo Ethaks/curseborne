@@ -135,6 +135,7 @@ export class Social extends CurseborneItemBase {
 		 * @param {import("@dice/data.mjs").RollModifier} value
 		 */
 		const addModifier = (type, id, value) => {
+			value.id ??= id;
 			options.data[type] ??= {};
 			options.data[type][id] = value;
 

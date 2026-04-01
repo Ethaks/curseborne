@@ -386,6 +386,7 @@ fieldset.enriched-field {
 	line-height: unset;
 	height: unset;
 	min-height: unset;
+	padding: unset;
 
 	&:hover,
 	&:focus {

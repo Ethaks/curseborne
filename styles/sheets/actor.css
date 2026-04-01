@@ -395,10 +395,10 @@
 			}
 			.track-boxes {
 				display: flex;
-				column-gap: 6px;
+				column-gap: 2px;
 				flex-wrap: wrap;
 				min-width: 21px;
-				max-width: 48px;
+				--fa-width: 1em;
 			}
 			.track-box {
 				font-size: var(--font-size-24);
@@ -433,6 +433,10 @@
 					text-shadow: 0 0 8px var(--color-text);
 					border-bottom: 1px solid var(--color-accent);
 				}
+			}
+
+			.track-boxes {
+				max-width: 54px;
 			}
 		}
 	}
@@ -546,7 +550,7 @@
 		}
 
 		.spell-cost {
-			flex: 0 0 64px;
+			flex: 0 0 68px;
 			font-size: var(--font-size-16);
 			text-align: end;
 			padding-right: 10px;
@@ -558,7 +562,7 @@
 		}
 
 		.spell-attunements {
-			flex: 1 0 140px;
+			flex: 0 0 140px;
 			font-size: var(--font-size-12);
 			color: var(--color-text-subtle);
 			overflow: hidden;
@@ -796,6 +800,7 @@
 		}
 
 		fieldset.drive {
+			height: unset;
 			overflow: hidden auto;
 
 			/* Save some space for prose-mirror p wrap */

@@ -135,15 +135,6 @@ export class Social extends CurseborneItemBase {
 
 		options.data.difficulty = DIFFICULTY.ROUTINE;
 
-		// Add complication for repeat invokes
-		if (this.contact.invokes > 0) {
-			addModifier("complications", "contact", {
-				value: this.contact.invokes === 1 ? COMPLICATION.MINOR : COMPLICATION.MAJOR,
-				label: game.i18n.localize("CURSEBORNE.Item.Contact.Complication"),
-				hint: localize("CURSEBORNE.Item.Contact.ComplicationHint"),
-			});
-		}
-
 		// Contact is taking action
 		if (type === "roll") {
 			delete options.data.curseDice;
@@ -159,6 +150,15 @@ export class Social extends CurseborneItemBase {
 
 		// Contact is being asked for favors; the choice of skills is limited to the skills of the path granting the contact
 		if (type === "invoke") {
+			// Add complication for repeat invokes
+			if (this.contact.invokes > 0) {
+				addModifier("complications", "contact", {
+					value: this.contact.invokes === 1 ? COMPLICATION.MINOR : COMPLICATION.MAJOR,
+					label: game.i18n.localize("CURSEBORNE.Item.Contact.Complication"),
+					hint: localize("CURSEBORNE.Item.Contact.ComplicationHint"),
+				});
+			}
+
 			const path = this.actor.items.get(this.contact.path);
 			const skills = Array.from(path?.system.skills ?? []).map(
 				(skill) => this.actor.system.skills[skill].parent,
@@ -193,7 +193,7 @@ export class Social extends CurseborneItemBase {
 		const updateData = {};
 		if (roll.roll) {
 			// Update contact invokes
-			if (this.type === "contact") {
+			if (this.type === "contact" && type === "invoke") {
 				foundry.utils.setProperty(updateData, "system.contact.invokes", this.contact.invokes + 1);
 			}
 

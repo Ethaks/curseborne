@@ -63,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Allow scrolling for particularly long adversary drive texts
 - Use names instead of identifiers for Path Skills in sheets for non-embedded items
 - Fix a file reference failing to resolve on The Forge again.
+- Fix contact invoke counter only being increased by contact rolls instead of invokes
 
 ## [0.2.1]
 

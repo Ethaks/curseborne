@@ -39,7 +39,11 @@ export class IdentifierField extends foundry.data.fields.StringField {
 export function IdentifierMixin(Base) {
 	return class IdentifierModel extends Base {
 		/** @inheritDoc */
-		static metadata = Object.freeze({ ...super.metadata, hasIdentifier: true });
+		static get metadata() {
+			return Object.assign(super.metadata, {
+				hasIdentifier: true,
+			});
+		}
 
 		/** @inheritDoc */
 		static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES];

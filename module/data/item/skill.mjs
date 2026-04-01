@@ -11,6 +11,14 @@ import { Path } from "./path.mjs";
 
 export class Skill extends LimitedActorTypesItem(CurseborneItemBase) {
 	/** @inheritDoc */
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "skill",
+		};
+	}
+
+	/** @inheritDoc */
 	static defineSchema() {
 		const schema = super.defineSchema();
 		const fields = foundry.data.fields;

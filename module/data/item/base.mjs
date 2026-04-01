@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
-import { localize, systemTemplate } from "@helpers/utils.mjs";
 import { camelize, localize, systemTemplate } from "@helpers/utils.mjs";
 import { DotsField } from "@models/fields/dots.mjs";
 import { IdentifierMixin } from "@models/fields/identifier.mjs";
@@ -22,10 +21,12 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 	 *
 	 * @type {Readonly<ItemTypeMetadata>}
 	 */
-	static metadata = Object.freeze({
-		...super.metadata,
-		embedTemplate: systemTemplate("item/tooltips/common"),
-	});
+	static get metadata() {
+		return {
+			...super.metadata,
+			embedTemplate: systemTemplate("item/tooltips/common"),
+		};
+	}
 
 	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Base"];
@@ -213,12 +214,15 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
  */
 export function LimitedActorTypesItem(Base, type = "adversary") {
 	return class AccursedItem extends Base {
-		static {
-			type = Array.isArray(type) ? type : [type];
-			this.metadata = Object.freeze({
+		/** @inheritDoc */
+		static get metadata() {
+			return {
 				...super.metadata,
-				invalidActorTypes: [...(super.metadata.invalidActorTypes ?? []), ...type],
-			});
+				invalidActorTypes: [
+					...(super.metadata.invalidActorTypes ?? []),
+					...(Array.isArray(type) ? type : [type]),
+				],
+			};
 		}
 	};
 }

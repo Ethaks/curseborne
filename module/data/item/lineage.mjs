@@ -7,8 +7,14 @@ import { Path } from "./path.mjs";
 
 export class Lineage extends Path {
 	/** @inheritDoc */
-	static metadata = Object.freeze({ ...super.metadata, type: "lineage" });
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "lineage",
+		};
+	}
 
+	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Lineage"];
 
 	/** @inheritDoc */

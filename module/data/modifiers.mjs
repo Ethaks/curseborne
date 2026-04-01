@@ -16,10 +16,12 @@ export class RollModifier extends foundry.abstract.DataModel {
 	/**
 	 * Data related to all instances of this class.
 	 */
-	static metadata = Object.freeze({
-		field: "",
-		name: "",
-	});
+	static get metadata() {
+		return {
+			field: "",
+			name: "",
+		};
+	}
 
 	/** @inheritDoc */
 	static defineSchema() {
@@ -65,11 +67,12 @@ export class RollModifier extends foundry.abstract.DataModel {
  */
 export class Complication extends RollModifier {
 	/** @inheritDoc */
-	static metadata = Object.freeze({
-		...super.metadata,
-		field: "complications",
-		name: "Complication",
-	});
+	static get metadata() {
+		return Object.assign(super.metadata, {
+			field: "complications",
+			name: "Complication",
+		});
+	}
 
 	/** @inheritDoc */
 	static defineSchema() {
@@ -87,11 +90,12 @@ export class Complication extends RollModifier {
  */
 export class Enhancement extends RollModifier {
 	/** @inheritDoc */
-	static metadata = Object.freeze({
-		...super.metadata,
-		field: "enhancements",
-		name: "Enhancement",
-	});
+	static get metadata() {
+		return Object.assign(super.metadata, {
+			field: "enhancements",
+			name: "Enhancement",
+		});
+	}
 
 	/** @inheritDoc */
 	static defineSchema() {
@@ -110,11 +114,12 @@ export class Enhancement extends RollModifier {
 
 export class DifficultyChange extends RollModifier {
 	/** @inheritDoc */
-	static metadata = Object.freeze({
-		...super.metadata,
-		field: "difficulties",
-		name: "DifficultyChange",
-	});
+	static get metadata() {
+		return Object.assign(super.metadata, {
+			field: "difficulties",
+			name: "DifficultyChange",
+		});
+	}
 
 	static defineSchema() {
 		const fields = foundry.data.fields;

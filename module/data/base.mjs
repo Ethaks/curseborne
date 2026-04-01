@@ -11,7 +11,14 @@ import { systemTemplate } from "@helpers/utils.mjs";
  * @template {foundry.abstract.Document} [Parent=foundry.abstract.Document]
  */
 export class CurseborneTypeDataModel extends foundry.abstract.TypeDataModel {
-	static metadata = Object.freeze({});
+	/**
+	 * Metadata applying to all instances of this class.
+	 *
+	 * @type {object}
+	 */
+	static get metadata() {
+		return {};
+	}
 
 	/**
 	 * The actor this model is associated with, if any.

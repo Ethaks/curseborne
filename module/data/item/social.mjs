@@ -9,7 +9,18 @@ import { CurseborneItemBase } from "./base.mjs";
 import { Path } from "./path.mjs";
 
 export class Social extends CurseborneItemBase {
+	/** @inheritDoc */
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "social",
+		};
+	}
+
+	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = ["CURSEBORNE.SOCIAL"];
+
+	/** @inheritDoc */
 	static defineSchema() {
 		const fields = foundry.data.fields;
 		return {

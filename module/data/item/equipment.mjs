@@ -2,18 +2,20 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { randomID, requiredInteger, toLabelObject } from "@helpers/utils.mjs";
+import { requiredInteger, toLabelObject } from "@helpers/utils.mjs";
 import { CollectionField } from "@models/fields/object.mjs";
 import { Complication, Enhancement } from "@models/modifiers.mjs";
 import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class Equipment extends LimitedActorTypesItem(CurseborneItemBase) {
 	/** @inheritDoc */
-	static metadata = Object.freeze({
-		...super.metadata,
-		type: "equipment",
-		identifierCollectionName: "equipment",
-	});
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "equipment",
+			identifierCollectionName: "equipment",
+		};
+	}
 
 	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = ["CURSEBORNE.Item.Equipment"];

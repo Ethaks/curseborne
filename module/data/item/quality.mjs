@@ -8,11 +8,13 @@ import { CurseborneItemBase } from "./base.mjs";
 
 export class AdversaryQuality extends CurseborneItemBase {
 	/** @inheritDoc */
-	static metadata = Object.freeze({
-		...super.metadata,
-		type: "quality",
-		identifierCollectionName: "qualities",
-	});
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "quality",
+			identifierCollectionName: "qualities",
+		};
+	}
 
 	/** @inheritDoc */
 	static defineSchema() {

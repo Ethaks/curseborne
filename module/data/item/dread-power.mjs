@@ -8,11 +8,13 @@ import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class DreadPower extends LimitedActorTypesItem(CurseborneItemBase, "accursed") {
 	/** @inheritDoc */
-	static metadata = Object.freeze({
-		...super.metadata,
-		type: "dreadPower",
-		details: systemTemplate("item/details/dread-power"),
-	});
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "dreadPower",
+			details: systemTemplate("item/details/dread-power"),
+		};
+	}
 
 	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.DreadPower"];

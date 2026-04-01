@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
-import { systemTemplate, toLabelObject } from "@helpers/utils.mjs";
 import { localize, systemTemplate, toLabelObject } from "@helpers/utils.mjs";
 import { CurseborneTypeDataModel } from "@models/base.mjs";
 import { CollectionField } from "@models/fields/object.mjs";
@@ -13,10 +12,12 @@ import { Complication, DifficultyChange, Enhancement } from "@models/modifiers.m
  */
 export class CurseborneActiveEffectModel extends CurseborneTypeDataModel {
 	/** @inheritDoc */
-	static metadata = Object.freeze({
-		...super.metadata,
-		embedTemplate: systemTemplate("item/tooltips/common"),
-	});
+	static get metadata() {
+		return {
+			...super.metadata,
+			embedTemplate: systemTemplate("item/tooltips/common"),
+		};
+	}
 
 	/** @inheritDoc */
 	static defineSchema() {

@@ -7,6 +7,15 @@ import { toLabelObject } from "../../helpers/utils.mjs";
 import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class Trick extends LimitedActorTypesItem(CurseborneItemBase, ["accursed", "adversary"]) {
+	/** @inheritDoc */
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "trick",
+		};
+	}
+
+	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Trick"];
 
 	/** @inheritDoc */

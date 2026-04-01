@@ -9,6 +9,14 @@ import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class Path extends LimitedActorTypesItem(CurseborneItemBase) {
 	/** @inheritDoc */
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "path",
+		};
+	}
+
+	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Path"];
 
 	/** @inheritDoc */

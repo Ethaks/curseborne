@@ -7,7 +7,12 @@ import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class AdversaryTemplate extends LimitedActorTypesItem(CurseborneItemBase, "accursed") {
 	/** @inheritDoc */
-	static metadata = Object.freeze({ ...super.metadata, type: "template" });
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "template",
+		};
+	}
 
 	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Template"];

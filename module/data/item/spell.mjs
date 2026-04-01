@@ -7,6 +7,13 @@ import { localize, requiredInteger, toLabelObject } from "../../helpers/utils.mj
 import { CurseborneItemBase } from "./base.mjs";
 
 export class Spell extends CurseborneItemBase {
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "spell",
+		};
+	}
+
 	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Spell"];
 

@@ -8,7 +8,12 @@ import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class Torment extends LimitedActorTypesItem(CurseborneItemBase) {
 	/** @inheritDoc */
-	static metadata = Object.freeze({ ...super.metadata, type: "torment" });
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "torment",
+		};
+	}
 
 	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Torment"];

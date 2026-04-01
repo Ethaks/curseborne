@@ -7,10 +7,12 @@ import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class Motif extends LimitedActorTypesItem(CurseborneItemBase) {
 	/** @inheritDoc */
-	static metadata = Object.freeze({
-		...super.metadata,
-		type: "motif",
-	});
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "motif",
+		};
+	}
 
 	/** @inheritDoc */
 	static LOCALIZATION_PREFIXES = [...super.LOCALIZATION_PREFIXES, "CURSEBORNE.Item.Motif"];

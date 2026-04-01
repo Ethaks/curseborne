@@ -6,5 +6,10 @@ import { Path } from "./path.mjs";
 
 export class Role extends Path {
 	/** @inheritDoc */
-	static metadata = Object.freeze({ ...super.metadata, type: "role" });
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "role",
+		};
+	}
 }

@@ -9,6 +9,14 @@ import { CurseborneItemBase, LimitedActorTypesItem } from "./base.mjs";
 
 export class Edge extends LimitedActorTypesItem(CurseborneItemBase) {
 	/** @inheritDoc */
+	static get metadata() {
+		return {
+			...super.metadata,
+			type: "edge",
+		};
+	}
+
+	/** @inheritDoc */
 	static defineSchema() {
 		const fields = foundry.data.fields;
 

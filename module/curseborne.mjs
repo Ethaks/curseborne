@@ -209,6 +209,10 @@ Hooks.on("hotReload", (data) => {
 	}
 });
 
+Hooks.on("getChatMessageContextOptions", (_chatLog, contextOptions) =>
+	curseborne.documents.CurseborneChatMessage.addContextMenuOptions(contextOptions),
+);
+
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */

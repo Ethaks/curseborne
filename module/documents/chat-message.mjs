@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+/** @import { ContextMenuEntry } from "@client/applications/ux/context-menu.mjs"; */
+
 import { SessionSetting } from "@helpers/session-setting.mjs";
+import { localize, SYSTEM_ID } from "@helpers/utils.mjs";
 
 export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 	/**
@@ -31,6 +34,36 @@ export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 				else delete chatlog.dataset[`modifier${key}`];
 			}
 		}
+	}
+
+	/**
+	 * Add system-specific context menu options for chat messages.
+	 *
+	 * @protected
+	 * @param {ContextMenuEntry[]} options - The array of context menu options to modify
+	 */
+	static addContextMenuOptions(options) {
+		options.unshift({
+			label: localize("CURSEBORNE.DICE.Reroll"),
+			icon: '<i class="fa-solid fa-dice"></i>',
+			group: SYSTEM_ID,
+			visible: (li) => {
+				const message = game.messages.get(li.dataset.messageId);
+				const isRollMessage =
+					message.system instanceof curseborne.models.chat.CurseborneRollMessage;
+				const hasBeenRerolled = message.system.roll?.options.rerolled ?? false;
+				if (!isRollMessage || hasBeenRerolled) return false;
+
+				const actor = CurseborneChatMessage.implementation.getSpeakerActor(message.speaker);
+				// Allow rerolls for messages without an actor or adversary actors (so they don't need the edge)
+				if (!actor || actor.type === "adversary") return true;
+				return actor.system.edges.devilsOwnLuck;
+			},
+			onClick: (_event, target) => {
+				const message = game.messages.get(target.dataset.messageId);
+				return message.system.reroll?.();
+			},
+		});
 	}
 
 	/* --------------------------------------------------------------------------------------------- */

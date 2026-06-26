@@ -345,6 +345,28 @@ export class CurseborneRollMessage extends foundry.abstract.TypeDataModel {
 	};
 
 	/**
+	 * Reroll the roll contained in the message and update the message with the new roll.
+	 */
+	async reroll() {
+		if (this.roll.options.rerolled)
+			throw new Error("This roll has already been rerolled and cannot be rerolled again.");
+		const newRoll = await this.roll.rerollDice();
+
+		// Display with Dice So Nice (if present)
+		await game.dice3d?.showForRoll(
+			newRoll,
+			game.user,
+			true,
+			this.parent.whisper?.length ? this.parent.whisper : null,
+			this.parent.blind || null,
+			null,
+			this.parent.speaker,
+		);
+
+		await this.parent.update({ rolls: [this.roll] });
+	}
+
+	/**
 	 * Add/remove momentum enhancement to the roll contained in the message.
 	 *
 	 * @this {CurseborneRollMessage}

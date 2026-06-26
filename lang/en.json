@@ -500,6 +500,7 @@
 		"InjuryDice": "Injury Dice",
 		"DICE": {
 			"Roll": "Roll",
+			"Reroll": "Reroll",
 			"Result": "Result",
 			"CustomDieSource": "Custom Die Source",
 			"Hits": "Hits",

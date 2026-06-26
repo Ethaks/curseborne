@@ -395,4 +395,8 @@ li.chat-message {
 	/* paint-order: stroke fill; */
 	/* filter: sepia(0.5) hue-rotate(60deg) saturate(1.2) brightness(1.1); */
 	font-size: var(--font-size-18);
+
+	&.discarded {
+		color: var(--color-background);
+	}
 }

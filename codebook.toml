@@ -1,7 +1,3 @@
-# SPDX-FileCopyrightText: 2026 Ethaks <ethaks@pm.me>
-#
-# SPDX-License-Identifier: LicenseRef-CopyrightEthaks
-
 dictionaries = [
     "en_us",
     "en_gb",
@@ -24,8 +20,11 @@ words = [
     "inplace",
     "lifecycle",
     "minimizable",
+    "reroll",
+    "rerolls",
     "rgx",
     "spu",
     "telelocation",
     "unlist",
+    "unshift",
 ]

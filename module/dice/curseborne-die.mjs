@@ -19,7 +19,7 @@ export function registerModifiers() {
  * @returns {false | void} False if the modifier was unmatched
  */
 function countDouble(modifier) {
-	// If there is no cound success modifier, counting double does nothing
+	// If there is no count success modifier, counting double does nothing
 	if (!this.modifiers.some((m) => m.startsWith("cs"))) return false;
 	// Match the modifier `cd` followed by the threshold, which can be a <, <=, >, >=, =, or nothing (defaulting to >=)
 	const rgx = /cd([<>=]{0,2})(\d+)*/;
@@ -28,7 +28,7 @@ function countDouble(modifier) {
 	let [comparison, target] = match.slice(1);
 	target = Number.parseInt(target, 10) || this.faces;
 
-	for (const result of this.results) {
+	for (const result of this.results.filter((r) => r.active && !r.discarded)) {
 		if (foundry.dice.terms.DiceTerm.compareResult(result.result, comparison, target)) {
 			result.count = 2;
 		}

@@ -184,6 +184,19 @@ export class CurseborneRoll extends foundry.dice.Roll {
 	}
 
 	/**
+	 * Generate a Curseborne dice pool formula given a number of dice and a label.
+	 *
+	 * @param {number} dice - The number of dice to roll
+	 * @param {string} label - The label for the dice pool
+	 * @param {number} target - The target number for a die to count as a hit
+	 * @param {number} double - The number for a die to count as two hits
+	 * @returns {string} - The dice pool formula
+	 */
+	static _getDicePool(dice, label, target, double) {
+		return `${dice}d10cs>=${target}cd>=${double}[${localize(label, { _count: dice })}]`;
+	}
+
+	/**
 	 * Parse a data object into a roll; this ignores the given formula in favor of constructing the roll from data.
 	 *
 	 * @override
@@ -203,19 +216,9 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		const curseDice = Math.min(totalDice, data.curseDice);
 		const normalDice = Math.max(totalDice - curseDice, 0);
 
-		/**
-		 * Generate a Curseborne dice pool formula given a number of dice and a label.
-		 *
-		 * @param {number} dice - The number of dice to roll
-		 * @param {string} label - The label for the dice pool
-		 * @returns {string} - The dice pool formula
-		 */
-		const dicePool = (dice, label) =>
-			`${dice}d10cs>=${data.target}cd>=${data.double}[${localize(label, { _count: dice })}]`;
-
 		parts.push(
-			dicePool(normalDice, "CURSEBORNE.Dice"),
-			dicePool(curseDice, "CURSEBORNE.CurseDice"),
+			this._getDicePool(normalDice, "CURSEBORNE.Dice", data.target, data.double),
+			this._getDicePool(curseDice, "CURSEBORNE.CurseDice", data.target, data.double),
 		);
 
 		// Automatic hits are always applied, regardless of hits on dice
@@ -388,6 +391,61 @@ export class CurseborneRoll extends foundry.dice.Roll {
 		this.data.updateSource({ [`enhancements.${staticID("momentum")}`]: momentumEnhancement });
 		this._applyEnhancements();
 		return;
+	}
+
+	/**
+	 * Reroll all dice not showing a hit (not meeting the target number).
+	 * For now, this is a bespoke solution for the advantage "Devil's Own Luck".
+	 *
+	 * @param {object} [options] - Options to pass to the reroll evaluation.
+	 * @returns {Promise<this>}
+	 */
+	async rerollDice(options) {
+		// Determine how many dice to reroll, and mark non-hit ones as discarded
+		const toReroll = [0, 0];
+		for (let i = 0; i < this.dice.length; i++) {
+			const die = this.dice[i];
+			for (const result of die.results.filter(
+				(r) => r.active && !r.discarded && r.success === false,
+			)) {
+				result.active = false;
+				result.discarded = true;
+				toReroll[i] += 1;
+			}
+		}
+
+		// Create and evaluate a new roll using only the non-hit dice
+		const rerollParts = [
+			this.constructor._getDicePool(
+				toReroll[0],
+				"CURSEBORNE.Dice",
+				this.data.target,
+				this.data.double,
+			),
+			this.constructor._getDicePool(
+				toReroll[1],
+				"CURSEBORNE.CurseDice",
+				this.data.target,
+				this.data.double,
+			),
+		];
+		const makeupRoll = new foundry.dice.Roll(rerollParts.join(" + "));
+		await makeupRoll.evaluate(options);
+
+		// Move results from the new roll into the original roll's results,
+		// adjusting the term's `number` to reflect the new total number of dice rolled
+		for (let i = 0; i < this.dice.length; i++) {
+			const newResults = makeupRoll.dice[i]?.results ?? [];
+			this.dice[i].results.push(...newResults);
+			this.dice[i]._number += newResults.length;
+		}
+
+		this.options.rerolled = true;
+		this._formula = this.constructor.getFormula(this.terms);
+		this._total = this._evaluateTotal();
+
+		// Return new roll so that it can be animated etc.
+		return makeupRoll;
 	}
 
 	/** @inheritDoc */

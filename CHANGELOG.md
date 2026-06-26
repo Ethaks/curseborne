@@ -53,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Senses Occluded status effect
 - Add Dot Rating types to Edges
 - Enable hover tooltips for Attributes, using Journal Entry references
+- Add Reroll context menu option for roll messages made by Accursed with Devil's Own Luck or Adversaries
 
 ### Changed
 

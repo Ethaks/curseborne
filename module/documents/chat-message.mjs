@@ -188,6 +188,8 @@ export class CurseborneChatMessage extends foundry.documents.ChatMessage {
 						view: window,
 						bubbles: true,
 						cancelable: true,
+						clientX: event.clientX,
+						clientY: event.clientY,
 					}),
 				);
 			}

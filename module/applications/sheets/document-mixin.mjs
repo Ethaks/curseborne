@@ -439,10 +439,10 @@ export function CurseborneDocumentSheetMixin(Base) {
 		 * @param {HTMLElement} target
 		 */
 		static async _onCreateDocument(event, target) {
-			const { documentClass = "Item", action, ...data } = target.dataset ?? {};
+			const { documentClass = "Item", action, parent, ...data } = target.dataset ?? {};
 			if (!documentClass) return console.error("No item type specified for creation");
 			const docCls = getDocumentClass(documentClass);
-			const parent = this.document.isEmbedded ? this.document.parent : this.document;
+			const parentDoc = parent === "parent" ? this.document.parent : this.document;
 			for (const [key, value] of Object.entries(data)) {
 				if (key.startsWith("system")) {
 					data.system ??= {};
@@ -453,10 +453,10 @@ export function CurseborneDocumentSheetMixin(Base) {
 			}
 			const createData = {
 				...foundry.utils.expandObject(data),
-				name: docCls.defaultName({ type: data.type, parent }),
+				name: docCls.defaultName({ type: data.type, parent: parentDoc }),
 			};
 			return docCls.create([createData], {
-				parent,
+				parent: parentDoc,
 				renderSheet: true,
 			});
 		}

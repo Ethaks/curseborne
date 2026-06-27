@@ -25,6 +25,8 @@
 		);
 		--color-background-90: rgba(from var(--color-background) r g b / 0.9);
 		--color-background-75: rgba(from var(--color-background) r g b / 0.75);
+		--filter-inactive: brightness(0) saturate(100%) invert(60%) sepia(8%) saturate(1298%)
+			hue-rotate(192deg) brightness(89%) contrast(88%) brightness(65%);
 
 		/* Other colors adapted to the core palette */
 

@@ -30,6 +30,7 @@ export class Equipment extends LimitedActorTypesItem(CurseborneItemBase) {
 			choices: () => toLabelObject(curseborne.config.equipmentTypes),
 			initial: () => Object.keys(curseborne.config.equipmentTypes)[0],
 		});
+		schema.equipped = new fields.BooleanField({ initial: true });
 
 		schema.enhancements = new CollectionField(new fields.EmbeddedDataField(Enhancement));
 		schema.complications = new CollectionField(new fields.EmbeddedDataField(Complication));
@@ -79,6 +80,12 @@ export class Equipment extends LimitedActorTypesItem(CurseborneItemBase) {
 				),
 			);
 		}
+	}
+
+	/** @inheritDoc */
+	get isActive() {
+		if (!this.actor) return super.isActive;
+		return this.equipped;
 	}
 
 	/** @inheritDoc */

@@ -153,6 +153,7 @@
 			},
 
 			"Equipment": {
+				"ArmorEnhancementHeader": "Armor/Enhancement Bonus",
 				"FIELDS": {
 					"type": {
 						"label": "Equipment Type",
@@ -164,6 +165,10 @@
 					"armor": {
 						"label": "Armor Value",
 						"hint": "The armor this equipment provides its wearer."
+					},
+					"equipped": {
+						"label": "Equipped",
+						"hint": "Whether this equipment is currently equipped."
 					},
 					"enhancement": {
 						"label": "Enhancement",
@@ -423,6 +428,7 @@
 		"Effect": {
 			"Source": "Source",
 			"Toggle": "Toggle Effect",
+			"SuppressedHint": "This effect is currently suppressed and will not provide modifiers or changes.",
 			"Temporary": "Temporary Effects",
 			"Passive": "Passive Effects",
 			"Inactive": "Inactive Effects"

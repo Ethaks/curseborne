@@ -39,6 +39,10 @@
 			&:hover {
 				background: var(--color-background-lighter);
 			}
+
+			&.inactive > :is(*) {
+				filter: var(--filter-inactive);
+			}
 		}
 		.effect-name {
 			flex: 1.5;

@@ -20,4 +20,9 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 	{{#if (not (eq system.type "armor"))}}
 		{{curse-formGroup systemFields.enhancement formGroupOptions}}
 	{{/if}}
+
+	{{! Equipped State, if the item is embedded in an actor}}
+	{{#if item.parent}}
+		{{curse-formGroup systemFields.equipped formGroupOptions localize=true}}
+	{{/if}}
 </section>

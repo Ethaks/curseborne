@@ -130,6 +130,16 @@ export class CurseborneActiveEffectModel extends CurseborneTypeDataModel {
 		};
 	}
 
+	/**
+	 * Whether this active effect is currently ineligible for application due to system-specific logic.
+	 *
+	 * @type {boolean|undefined}
+	 */
+	get isSuppressed() {
+		if (this.item?.system.isActive === false) return true;
+		return undefined;
+	}
+
 	/** @inheritDoc */
 	async _prepareEmbedContext(config, options) {
 		const context = await super._prepareEmbedContext(config, options);

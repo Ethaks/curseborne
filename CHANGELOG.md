@@ -29,6 +29,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Known Issues
 -->
 
+## [0.4.0]
+
+### Added
+
+- Add equipped toggle to Equipment Items, allowing them to only affect their Actor if they are equipped
+
+### Fixed
+
+- Create Active Effects in their parent Items instead of Actors when creating them through the Item Sheet
+
 ## [0.3.0]
 
 ### Added

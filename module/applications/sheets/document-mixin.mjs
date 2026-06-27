@@ -8,6 +8,7 @@ import { CurseborneActiveEffect } from "@documents/active-effect.mjs";
 import { CurseborneChatMessage } from "@documents/chat-message.mjs";
 import { CurseborneItem } from "@documents/item.mjs";
 import { SessionSetting } from "@helpers/session-setting.mjs";
+import { localize } from "@helpers/utils.mjs";
 
 /** @import { ContextMenuEntry } from "@foundry/client/applications/ux/context-menu.mjs";
 
@@ -131,6 +132,10 @@ export function CurseborneDocumentSheetMixin(Base) {
 
 				category.effects.push({
 					effect,
+					active: effect.active,
+					toggleTooltip: localize(
+						effect.isSuppressed ? "CURSEBORNE.Effect.SuppressedHint" : "CURSEBORNE.Effect.Toggle",
+					),
 					tooltip: CurseborneTooltipManager.implementation.createPlaceholder({ uuid: effect.uuid }),
 					relativeUuid: foundry.utils.buildRelativeUuid(effect, this.document),
 				});

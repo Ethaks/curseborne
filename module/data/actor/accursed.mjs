@@ -188,7 +188,7 @@ export class Accursed extends CurseborneActorBase {
 
 		// Add armor from equipment
 		for (const item of this.parent.itemTypes.equipment) {
-			if (item.system.armor) {
+			if (item.system.armor && item.system.isActive) {
 				this.armor.max += item.system.armor;
 			}
 		}

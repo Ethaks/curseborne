@@ -133,6 +133,13 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 		if (!this.parent.isEmbedded) this._prepareIdentifier();
 	}
 
+	/**
+	 * Whether this item is currently active and can affect its parent actor.
+	 */
+	get isActive() {
+		return true;
+	}
+
 	/* -------------------------------------------- */
 	/*  Sheet Rendering                             */
 	/* -------------------------------------------- */
@@ -209,7 +216,8 @@ export class CurseborneItemBase extends IdentifierMixin(CurseborneTypeDataModel)
 /**
  * Limit the actor types that can contain this item.
  *
- * @param {typeof CurseborneItemBase} Base
+ * @template {typeof CurseborneItemBase} T
+ * @param {T} Base
  * @param {string | string[]} type - Actor types that cannot contain this item; defaults to "adversary".
  */
 export function LimitedActorTypesItem(Base, type = "adversary") {

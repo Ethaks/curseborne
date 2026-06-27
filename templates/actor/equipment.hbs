@@ -7,7 +7,7 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 {{! Inline template for individual equipment item }}
 {{#*inline "equipment"}}
 	<li
-		class="item equipment flexrow"
+		class='item equipment flexrow {{ifThen (not system.equipped) "unequipped" ""}}'
 		data-item-id="{{item.id}}"
 		data-flip-id="{{@root.rootId}}-{{item.id}}"
 	>
@@ -19,18 +19,45 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 			<span>{{item.name}}</span>
 		</div>
 
-		{{! Armor }}
-		{{#if armor.enabled}}
-			<div class="armor flexrow" data-tooltip="{{armor.tooltip}}">
-				<span class="armor-value">{{armor.value}}</span>
-			</div>
-		{{/if}}
+		{{! Armor or Enhancement Bonus }}
+		<div class="bonus">
+			{{! Armor }}
+			{{#if (eq system.type "armor")}}
+				<div
+					class="armor"
+					data-tooltip
+					aria-label="{{localize 'CURSEBORNE.Item.Equipment.FIELDS.armor.label' }}"
+				>
+					<i class="fa-solid fa-shield"></i>
+					<span class="armor-value">{{system.armor}}</span>
+				</div>
+			{{/if}}
 
-		{{! Item Tags }}
-		<div class="equipment-tags flexrow" data-tooltip="{{tags}}">{{tags}}</div>
+			{{! Enhancement}}
+			{{#if (not (eq system.type "armor"))}}
+				<div
+					class="enhancement"
+					data-tooltip
+					aria-label="{{localize 'CURSEBORNE.Item.Equipment.FIELDS.enhancement.label' }}"
+				>
+					<i class="fa-solid fa-plus"></i>
+					<span class="enhancement-value">{{system.enhancement}}</span>
+				</div>
+			{{/if}}
+		</div>
 
 		{{! Controls }}
 		<div class="item-controls">
+			{{! Equipped Toggle }}
+			<button
+				class="unbutton item-control"
+				data-tooltip
+				aria-label="{{localize 'CURSEBORNE.Item.Equipment.FIELDS.equipped.label'}}"
+				data-action="toggleEquipped"
+			>
+				<i class='fa-solid fa-toggle-{{ifThen system.equipped "on" "off"}}'></i>
+			</button>
+
 			{{#if @root.editable}}
 				<a class="item-control item-delete" data-action="deleteDoc">
 					<i class="fa-solid fa-trash"></i>
@@ -65,10 +92,26 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 	{{! Equipment Sections }}
 	{{#each equipment.sections}}
 		{{#if items.length}}
-			<section class="items-section type boxed-list">
+			<section class="items-section equipment type boxed-list">
 				{{! Section Header }}
-				<div class="items-header header">
+				<div class="items-header header flexrow">
 					<h3 class="item-name">{{localize label}}</h3>
+
+					<span
+						class="bonus"
+						data-tooltip
+						aria-label="{{localize 'CURSEBORNE.Item.Equipment.ArmorEnhancementHeader'}}"
+					>
+						<sup>
+							<i class="fa-solid fa-shield"></i>
+						</sup>
+						/
+						<sub>
+							<i class="fa-solid fa-plus"></i>
+						</sub>
+					</span>
+
+					<div class="item-controls"></div>
 				</div>
 
 				<ol class="items-list unlist">

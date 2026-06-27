@@ -79,13 +79,16 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 			<ol class="effect-list unlist">
 				{{#each section.effects}}
 					<li
-						class="item effect flexrow"
+						class="item effect flexrow {{ ifThen effect.isSuppressed 'inactive' ''}}"
 						data-effect-id="{{effect.id}}"
 						data-relative-id="{{relativeUuid}}"
 						data-parent-id="{{effect.parent.id}}"
 						data-drag="true"
 					>
-						<div class="effect-name effect-name flexrow" data-tooltip-html="{{tooltip}}">
+						<div
+							class="effect-name effect-name flexrow"
+							data-tooltip-html="{{tooltip}}"
+						>
 							<div class="effect-image">
 								<img src="{{effect.img}}" height="24" width="24" />
 							</div>
@@ -98,7 +101,8 @@ SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 								type="button"
 								class="effect-control unbutton"
 								data-action="toggleEffect"
-								data-tooltip='{{localize "CURSEBORNE.Effect.Toggle"}}'
+								data-tooltip
+								aria-label="{{toggleTooltip}}"
 							>
 								<i class='fa-solid fa-toggle-{{ifThen effect.disabled "off" "on"}}'></i>
 							</button>

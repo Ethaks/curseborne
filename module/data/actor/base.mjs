@@ -325,6 +325,7 @@ export class CurseborneActorBase extends CurseborneTypeDataModel {
 	_getModifierChoices(type) {
 		const choices = {};
 		for (const item of this.actor.items.filter((i) => i.system[type])) {
+			if (!item.system.isActive) continue;
 			for (const modifier of item.system[type]) {
 				// const id = `${item.getRelativeUUID(this.actor)}.${modifier.id}`.slugify({ strict: true });
 				const id = modifier.slug;

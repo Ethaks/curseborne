@@ -26,6 +26,7 @@ export class AccursedSheet extends CurseborneActorSheet {
 			nextSession: this._onNextSession,
 			expandCover: this._onExpandCover,
 			setCover: this._onSetCover,
+			toggleEquipped: this._onToggleEquipped,
 		},
 	};
 
@@ -971,6 +972,21 @@ export class AccursedSheet extends CurseborneActorSheet {
 				current: cover,
 			},
 		});
+	}
+
+	/**
+	 * Toggle the equipped state of an embedded item.
+	 *
+	 * @this {AccursedSheet}
+	 * @param {Event} _event - The triggering event
+	 * @param {HTMLElement} target - The target element
+	 */
+	static async _onToggleEquipped(_event, target) {
+		if (!this.actor.isOwner) return;
+		const item = this.getDocument(target);
+		if (!item) return;
+
+		return item.update({ "system.equipped": !item.system.equipped });
 	}
 
 	/**

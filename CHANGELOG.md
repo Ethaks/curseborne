@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add equipped toggle to Equipment Items, allowing them to only affect their Actor if they are equipped
+- Add expanded tooltips to document links made with `@UUID`
 
 ### Fixed
 

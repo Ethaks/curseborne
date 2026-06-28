@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: LicenseRef-CopyrightEthaks
 
+import { SYSTEM_ID } from "@helpers/utils.mjs";
+
 /**
  * A class managing the display of the system's expanded tooltips, making use of core's {@link TooltipManager}.
  */
@@ -48,11 +50,14 @@ export class CurseborneTooltipManager extends foundry.helpers.interaction.Toolti
 	 * Handle the activation of a tooltip element, possibly loading the system tooltip content
 	 */
 	async _onTooltipActivate() {
-		const loading = this.tooltip.querySelector(".loading");
-		if (!loading) return;
+		if (this.element?.classList.contains("content-link")) {
+			const doc = await foundry.utils.fromUuid(this.element.dataset.uuid);
+			return this._onHoverDocument(doc);
+		}
 
-		const { uuid, ...options } = foundry.utils.expandObject(loading.dataset ?? {});
+		const loading = this.tooltip.querySelector(".loading");
 		if (loading?.dataset.uuid) {
+			const { uuid, ...options } = foundry.utils.expandObject(loading.dataset ?? {});
 			const doc = await foundry.utils.fromUuid(uuid);
 			return this._onHoverDocument(doc, options);
 		}
@@ -64,11 +69,11 @@ export class CurseborneTooltipManager extends foundry.helpers.interaction.Toolti
 	 * @param {foundry.abstract.Document} doc
 	 * @param {object} options
 	 */
-	async _onHoverDocument(doc, options) {
+	async _onHoverDocument(doc, options = {}) {
 		const el = await (doc.system?.toEmbed?.(options) ?? doc.toEmbed?.(options));
 		if (!el) return;
 		this.tooltip.replaceChildren(el);
-		this.tooltip.classList.add("curseborne", "curseborne-tooltip");
+		this.tooltip.classList.add(SYSTEM_ID, `${SYSTEM_ID}-tooltip`);
 		requestAnimationFrame(() => this._positionItemTooltip(options.tooltipDirection));
 	}
 
@@ -106,7 +111,7 @@ export class CurseborneTooltipManager extends foundry.helpers.interaction.Toolti
 
 	/**
 	 * Creates a placeholder .loading element to be used in a data-tooltip,
-	 * defering the actual tooltip content loading until the tooltip is activated.
+	 * deferring the actual tooltip content loading until the tooltip is activated.
 	 *
 	 * @param {object} data - Additional data placed in the placeholder element's dataset
 	 * @param {string} [data.uuid] - The UUID of the Document to load when the tooltip is activated
